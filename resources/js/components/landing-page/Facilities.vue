@@ -1,9 +1,11 @@
 <template>
-    <div class="bg-[#EDF3FF] py-12">
-        <div class="max-w-screen-xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-[#0A1B59] mb-8">Fasilitas Apa Saja Yang Tersedia?</h2>
+    <div class="bg-[#EDF3FF] py-12" id="facilities">
+        <div class="max-w-screen-xl mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#0A1B59] mb-8">Fasilitas Apa Saja <span class="block"> Yang
+                    Tersedia?
+                </span></h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div v-for="(card, index) in facilities" :key="index"
                     class="rounded-xl shadow-md bg-gradient-to-b from-[#90C9FF] to-white p-4">
                     <img :src="card.image" alt="Facility Image" class="w-full h-40 object-cover rounded-lg mb-4" />
@@ -17,7 +19,7 @@
 
 <script setup>
 
-import kamar1 from '../../assets/Images/Kamar1.png'
+import kamar1 from '../../../assets/Images/Kamar1.png'
 
 const facilities = [
     {

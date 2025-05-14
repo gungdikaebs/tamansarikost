@@ -1,5 +1,5 @@
 <template>
-    <div class="md:bg-gradient-to-tr from-[#557EF8] via-[#9AB3FF] to-[#EFF3FF] bg-[#557EF8] py-20">
+    <div class="md:bg-gradient-to-tr from-[#557EF8] via-[#9AB3FF] to-[#EFF3FF] bg-[#557EF8] py-20" id="hero">
         <div class="max-w-screen-xl mx-auto px-6  grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
 
             <!-- Left Content -->
@@ -78,7 +78,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import Bangunan from '../../assets/images/Bangunan.png'
+import Bangunan from '../../../assets/images/Bangunan.png'
 
 const isLaptop = ref(false)
 
