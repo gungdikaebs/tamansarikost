@@ -35,8 +35,8 @@ const testimonials = [
     <div class="bg-white py-12 pb-20" id='testimoni'>
         <div class="max-w-screen-xl mx-auto px-4 flex flex-col md:items-center">
             <div class="mb-20 text-center">
-                <h1 class="text-3xl md:text-4xl font-bold text-[#0A1B59]">What People <span
-                        class="text-[#FFC74F]">Thinks?</span></h1>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0A1B59]">What People <span
+                        class="text-[#FFC74F]">Thinks?</span></h2>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div v-for="(testimonial, index) in testimonials" :key="index"

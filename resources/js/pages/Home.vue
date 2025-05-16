@@ -4,6 +4,8 @@ import Hero from '../components/landing-page/Hero.vue';
 import Facilities from '../components/landing-page/Facilities.vue';
 import FAQ from '../components/landing-page/FAQ.vue';
 import Testimoni from '../components/landing-page/Testimoni.vue';
+import ContactUs from '../components/landing-page/ContactUs.vue';
+import Footer from '../components/landing-page/Footer.vue';
 
 </script>
 <template>
@@ -13,5 +15,7 @@ import Testimoni from '../components/landing-page/Testimoni.vue';
         <Facilities />
         <FAQ />
         <Testimoni />
+        <ContactUs />
+        <Footer />
     </div>
 </template>

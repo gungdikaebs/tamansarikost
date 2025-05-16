@@ -7,8 +7,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div v-for="(card, index) in facilities" :key="index"
-                    class="rounded-xl shadow-md bg-gradient-to-b from-[#90C9FF] to-white p-4">
-                    <img :src="card.image" alt="Facility Image" class="w-full h-40 object-cover rounded-lg mb-4" />
+                    class="rounded-xl shadow-md bg-gradient-to-b from-[#90C9FF] to-white p-4 hover:scale-105 transition-all duration-300">
+                    <img :src="card.image" alt="Facility Image" class="w-full h-40 object-cover rounded-lg mb-4 " />
                     <h3 class="font-semibold text-lg text-[#0A1B59]">{{ card.title }}</h3>
                     <p class="text-sm text-gray-700 mt-2">{{ card.description }}</p>
                 </div>
@@ -23,18 +23,18 @@ import kamar1 from '../../../assets/Images/Kamar1.png'
 
 const facilities = [
     {
-        title: 'Big Room',
-        description: 'leo. tincidunt Ut Vestibulum tincidunt placerat vitae faucibus Sed tincidunt faucibus sit tincidunt tempor Sed amet, Cras',
+        title: 'Kamar Luas',
+        description: 'Terdapat kamar tidur yang luas dan nyaman, dilengkapi dengan dapur dan kamar mandi pribadi.',
         image: kamar1, // ganti dengan URL atau file lokal sesuai kebutuhanmu
     },
     {
-        title: 'Parking Area',
-        description: 'leo. tincidunt Ut Vestibulum tincidunt placerat vitae faucibus Sed tincidunt faucibus sit tincidunt tempor Sed amet, Cras',
+        title: 'Area Parkir',
+        description: 'Tersedia area parkir yang cukup nyaman bagi kendaraan bermotor anda.',
         image: kamar1,
     },
     {
-        title: 'Free Other Cost',
-        description: 'leo. tincidunt Ut Vestibulum tincidunt placerat vitae faucibus Sed tincidunt faucibus sit tincidunt tempor Sed amet, Cras',
+        title: 'Gratis Biaya Lainnya',
+        description: 'tidak ada biaya tambahan untuk fasilitas lainnya seperti iuran sampah dan air',
         image: kamar1,
     },
 ];

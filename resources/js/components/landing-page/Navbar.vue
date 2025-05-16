@@ -1,5 +1,6 @@
 <template>
-    <nav class="bg-[#EBF0FF] border-gray-200 py-2 sticky top-0 z-50 shadow-blue-300 shadow">
+    <nav
+        class="bg-[#EBF0FF] border-gray-200 py-2 sticky top-0 z-50 shadow-blue-300 shadow md:opacity-90 md:backdrop-blur-xl">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="#" class="flex items-center space-x-3">
                 <span class="self-center text-2xl font-bold whitespace-nowrap text-[#152B6B] ">TamanSariKost.</span>
@@ -24,7 +25,7 @@
                 <ul class="font-medium items-center flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50
                       md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-[#EBF0FF] scroll-smooth">
                     <li>
-                        <a href="#hero"
+                        <a href="#"
                             class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-[#A1B9FF] transition-all duration-300 ease-in-out md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
                             aria-current="page">Home</a>
                     </li>
