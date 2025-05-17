@@ -2,8 +2,7 @@ import "./bootstrap";
 import "../css/app.css";
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
-import 'boxicons/css/boxicons.min.css';
-
+import "boxicons/css/boxicons.min.css";
 
 createInertiaApp({
     resolve: (name) => {
