@@ -19,6 +19,8 @@
 
                 <!-- CTA Button -->
                 <div class="mt-6 ">
+                    <Link href="/register">
+
                     <button
                         class="flex items-center px-6 py-3 bg-[#0A1B59] text-white font-semibold rounded-full hover:bg-[#091749] transition">
                         Book Now
@@ -30,6 +32,7 @@
                             </svg>
                         </span>
                     </button>
+                    </Link>
                 </div>
 
                 <!-- Stats -->
@@ -79,6 +82,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Bangunan from '../../../assets/images/Bangunan.png'
+import { Link } from '@inertiajs/inertia-vue3'
 
 const isLaptop = ref(false)
 
