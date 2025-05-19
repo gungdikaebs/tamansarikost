@@ -6,7 +6,7 @@ const isOpen = ref([false, false, false, false])
 
 const faqItems = [
     {
-        question: 'Rules adalah Taman Sari Kost',
+        question: 'Peraturan  di dalam Taman Sari Kost',
         answer: `
             <ul>
                 <li><strong>1.</strong> Dilarang membuat kerusuhan dan mengganggu penghuni lain!</li>

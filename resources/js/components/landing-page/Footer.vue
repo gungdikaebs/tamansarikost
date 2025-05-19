@@ -9,7 +9,7 @@
                         <a href="" class="text-3xl"><i class='bx bxl-whatsapp '></i></a>
                         <a href="" class="text-3xl"><i class='bx bxl-facebook '></i></a>
                     </div>
-                    <p class="hidden md:block">&copy; Copyright 2025. TamanSariKost.</p>
+                    <p class="hidden md:block">&copy; Copyright 2025. <span class="font-bold">TamanSariKost.</span></p>
                 </div>
                 <div class="mt-10">
                     <iframe
@@ -37,7 +37,9 @@
                         </ul>
                     </div>
                 </div>
-                <p class="text-center text-white mt-8 font-semibold md:hidden">&copy; Copyright 2025. TamanSariKost.</p>
+                <p class="text-center text-white mt-8 font-semibold md:hidden">&copy; Copyright 2025.
+                    <span class="font-bold">TamanSariKost.</span>
+                </p>
             </div>
         </div>
     </div>

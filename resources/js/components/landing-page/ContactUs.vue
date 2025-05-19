@@ -36,13 +36,14 @@ const sendMessageToWhatsapp = () => {
                         </div>
                         <div>
                             <div class="flex flex-row items-start gap-2 mt-8 ">
-                                <a href="https://g.co/kgs/KELzekp" target="_blank">
+                                <a href="https://maps.app.goo.gl/9C6DEwp5xeVRB7GW7" target="_blank">
                                     <i
                                         class='bx bx-map text-2xl text-[#787878] bg-white p-3 rounded-xl hover:bg-[#0A1B59] hover:text-white transition-all duration-500'></i>
                                 </a>
                                 <div class="flex flex-col">
                                     <p class="font-bold text-[#414141]">Address</p>
-                                    <p class="text-[#787878]">Jalan Gelogor Carik Gang Ratnasari II No.6</p>
+                                    <p class="text-[#787878]">Jl. Glogor Carik Gg. Ratna Sari II No.6, Pemogan, Denpasar
+                                        Selatan, Kota Denpasar, Bali 80221</p>
                                 </div>
                             </div>
                             <div class="flex flex-row items-start gap-2 mt-8 ">

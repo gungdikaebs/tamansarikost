@@ -19,20 +19,20 @@
 
                 <!-- CTA Button -->
                 <div class="mt-6 ">
-                    <Link href="/register">
+                    <a href="/register">
 
-                    <button
-                        class="flex items-center px-6 py-3 bg-[#0A1B59] text-white font-semibold rounded-full hover:bg-[#091749] transition">
-                        Book Now
-                        <span class="ml-3 bg-white text-[#0A1B59] rounded-full p-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 " fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </span>
-                    </button>
-                    </Link>
+                        <button type="button"
+                            class="flex items-center px-6 py-3 bg-[#0A1B59] text-white font-semibold rounded-full hover:bg-[#091749] transition hover:scale-105 cursor-pointer">
+                            Book Now
+                            <span class="ml-3 bg-white text-[#0A1B59] rounded-full p-1 ">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 " fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>
+                            </span>
+                        </button>
+                    </a>
                 </div>
 
                 <!-- Stats -->

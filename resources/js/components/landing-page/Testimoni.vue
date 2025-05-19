@@ -38,7 +38,7 @@ const testimonials = [
                 <h2 class="text-3xl md:text-4xl font-bold text-[#0A1B59]">What People <span
                         class="text-[#FFC74F]">Thinks?</span></h2>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 ">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-14 md:gap-5 ">
                 <div v-for="(testimonial, index) in testimonials" :key="index"
                     class="bg-white rounded-xl shadow-blue-200 shadow-md p-6 text-center hover:scale-105 duration-300">
                     <div class="flex justify-center -mt-16 mb-4">

@@ -47,7 +47,7 @@
                             us</a>
                     </li>
                     <li>
-                        <a href="#"
+                    <a href="/register"
                             class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-[#A1B9FF] md:hover:bg-[#2E5DE8] md:border-0 md:hover:text-blue-100 md:px-4 transition-all duration-300 ease-in-out  md:bg-[#0A1B59] md:text-cyan-50 md:rounded-full">Book
                             Now</a>
                     </li>
