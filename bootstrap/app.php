@@ -16,11 +16,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandleInertiaRequests::class,
         ]);
-        $middleware->alias(
-            ['isAdmin' => App\Http\Middleware\IsAdmin::class],
-            ['isPenghuni' => App\Http\Middleware\IsPenghuni::class],
-            ['isGuest' => App\Http\Middleware\IsGuest::class],
-        );
+        $middleware->alias([
+            'isAdmin' => App\Http\Middleware\IsAdmin::class,
+            'isPenghuni' => App\Http\Middleware\IsPenghuni::class,
+            'isGuest' => App\Http\Middleware\IsGuest::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

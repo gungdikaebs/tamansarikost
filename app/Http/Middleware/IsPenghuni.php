@@ -19,6 +19,6 @@ class IsPenghuni
         if (Auth::check() && Auth::user()->role === 'penghuni') {
             return $next($request);
         }
-        return redirect('/');
+        return redirect()->route('login');
     }
 }

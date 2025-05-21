@@ -44,13 +44,16 @@ class RegisterController extends Controller
         ]);
 
         Auth::login($user);
-        // Redirect to the dashboard or any other page
-        if (Auth::user()->role == 'admin') {
+        $request->session()->regenerate();
+        // Redirect based on role
+        if ($user->role === 'admin') {
             return redirect()->intended('/dashboard/admin');
-        } else if (Auth::user()->role == 'penghuni') {
+        } elseif ($user->role === 'penghuni') {
             return redirect()->intended('/dashboard/penghuni');
-        } else if (Auth::user()->role == 'guest') {
+        } else {
             return redirect()->intended('/dashboard/guest');
         }
+        // Redirect to the dashboard or any other page
+
     }
 }
