@@ -1,9 +1,9 @@
 <script setup>
-import { defineProps } from 'vue';
-import SidebarDashboard from './partials/SidebarDashboard.vue';
-import SmallCard from './partials/SmallCard.vue';
-import BigCard from './partials/BigCard.vue';
-import NavbarDashboard from './partials/NavbarDashboard.vue';
+import BigCard from '../../components/dashboard/partials/BigCard.vue';
+import NavbarDashboard from '../../components/dashboard/partials/NavbarDashboard.vue';
+import SidebarDashboard from '../../components/dashboard/partials/SidebarDashboard.vue';
+import SmallCard from '../../components/dashboard/partials/SmallCard.vue';
+
 const props = defineProps({
     auth: {
         type: Object,
@@ -11,8 +11,7 @@ const props = defineProps({
     }
 });
 
-const data = props.auth.user;
-console.log(data);
+console.log(props.auth.user);
 </script>
 <template>
     <div>
