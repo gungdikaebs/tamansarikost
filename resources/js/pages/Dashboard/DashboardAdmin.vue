@@ -16,7 +16,7 @@ console.log(props.auth.user);
 </script>
 <template>
     <div>
-        <NavbarDashboard />
+        <NavbarDashboard :data="props.auth" />
         <SidebarDashboard />
         <div class="p-4 sm:ml-64  bg-indigo-50/20">
             <div class="p-4 border-2 border-gray-800 border-dashed rounded-lg  mt-18">

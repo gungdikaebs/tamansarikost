@@ -1,4 +1,16 @@
 <script setup>
+import { defineProps } from 'vue';
+const $props = defineProps({
+    data: {
+        type: Object,
+        required: true
+    }
+});
+
+const $data = $props.data.user;
+
+console.log($props.data.user.username);
+
 </script>
 
 <template>
@@ -40,10 +52,10 @@
                             id="dropdown-user">
                             <div class="px-4 py-3" role="none">
                                 <p class="text-sm text-gray-900 " role="none">
-                                    Neil Sims
+                                    {{ $data.username }}
                                 </p>
                                 <p class="text-sm font-medium text-gray-900 truncate " role="none">
-                                    neil.sims@flowbite.com
+                                    {{ $data.email }}
                                 </p>
                             </div>
                             <ul class="py-1" role="none">
@@ -56,14 +68,11 @@
                                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
                                         role="menuitem">Settings</a>
                                 </li>
+
                                 <li>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
-                                        role="menuitem">Earnings</a>
-                                </li>
-                                <li>
-                                    <button route="/logout"
+                                    <a href="/logout"
                                         class="w-full block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  text-start"
-                                        role="menuitem">Sign out</button>
+                                        role="menuitem">Sign out</a>
                                 </li>
                             </ul>
                         </div>
