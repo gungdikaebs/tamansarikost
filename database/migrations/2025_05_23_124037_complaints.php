@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('complaints', function (Blueprint $table) {
             $table->id();
-            $table->string('room_number')->unique();
-            $table->integer('price');
-            $table->text('description')->nullable();
-            $table->enum('status', ['available', 'occupied', 'maintenance'])->default('available'); // available, occupied, maintenance
+            $table->foreignId('tenant_id')->constrained();
+            $table->string('title');
+            $table->text('description');
+            $table->enum('status', ['pending', 'resolved', 'closed'])->default('pending'); // pending, resolved, closed
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rooms');
+        //
     }
 };

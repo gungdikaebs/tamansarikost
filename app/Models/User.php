@@ -23,7 +23,18 @@ class User extends Authenticatable
         'phone',
         'role',
         'password',
+        'profile_photo'
     ];
+
+    public function tenant()
+    {
+        return $this->hasOne(Tenant::class);
+    }
+
+    public function roomTenants()
+    {
+        return $this->hasManyThrough(RoomTenant::class, Tenant::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone');
             $table->enum('role', ['admin', 'penghuni', 'guest'])->default('guest');
             $table->string('password');
+            $table->string('profile_picture')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
