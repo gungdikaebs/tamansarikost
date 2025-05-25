@@ -1,15 +1,5 @@
 <script setup>
 import { defineProps } from 'vue';
-const $props = defineProps({
-    data: {
-        type: Object,
-        required: true
-    }
-});
-
-const $data = $props.data.user;
-
-console.log($props.data.user.username);
 
 </script>
 
@@ -52,10 +42,10 @@ console.log($props.data.user.username);
                             id="dropdown-user">
                             <div class="px-4 py-3" role="none">
                                 <p class="text-sm text-gray-900 " role="none">
-                                    {{ $data.username }}
+                                    username
                                 </p>
                                 <p class="text-sm font-medium text-gray-900 truncate " role="none">
-                                    {{ $data.email }}
+                                    Hello@gmail.com
                                 </p>
                             </div>
                             <ul class="py-1" role="none">

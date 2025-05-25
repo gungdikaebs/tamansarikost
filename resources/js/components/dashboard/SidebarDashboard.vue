@@ -15,7 +15,8 @@
                     </a>
                 </li>
                 <li class="hover:font-medium">
-                    <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
+                    <a href="/dashboard/rooms"
+                        class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
                         <i
                             class='bx bx-buildings text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center '></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Kamar</span>

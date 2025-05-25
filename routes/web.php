@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\GuestController;
 use App\Http\Controllers\Dashboard\PenghuniController;
+use App\Http\Controllers\RoomController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,7 @@ Route::middleware(['auth', 'isGuest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/kamar')
-// })
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard/rooms', [RoomController::class, 'index'])->name('rooms.index');
+});
