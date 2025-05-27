@@ -1,19 +1,39 @@
 <script setup>
 import NavbarDashboard from '../../components/dashboard/NavbarDashboard.vue';
 import SidebarDashboard from '../../components/dashboard/SidebarDashboard.vue';
+import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
+
+import { defineProps } from 'vue';
+import { onMounted } from 'vue';
+const props = defineProps({
+    auth: {
+        type: Object,
+        required: true
+    },
+    tenant: {
+        type: Object,
+        required: true
+    },
+    rooms: {
+        type: Array,
+        required: true
+    },
+});
+onMounted(() => {
+    console.log(props.tenant);
+    console.log(props.rooms);
+    console.log(props.auth);
+});
+
 </script>
 
 <template>
     <div>
-        <NavbarDashboard />
-        <SidebarDashboard />
-        <div class="p-4 sm:ml-64  bg-indigo-50/20">
-            <div class="p-4 border-2 border-gray-800 border-dashed rounded-lg  mt-18">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-
-                </div>
-
-            </div>
-        </div>
+        <DashboardLayouts :auth="props.auth">
+            Nama Penghuni: {{ props.auth.user.username }} <br>
+            Tanggung Jawab: {{ props.tenant.payee.username }} <br>
+            Kamar : {{ props.rooms[0].room_number }} <br>
+            Biaya : Rp. {{ props.rooms[0].price.toLocaleString('id-ID') }} <br>
+        </DashboardLayouts>
     </div>
 </template>

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tenant extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'user_id',
         'fullname',
@@ -21,7 +21,7 @@ class Tenant extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function roomTenants()
+public function roomTenants()
     {
         return $this->hasMany(RoomTenant::class);
     }
@@ -29,5 +29,10 @@ class Tenant extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function payee()
+    {
+        return $this->belongsTo(User::class, 'payee_id');
     }
 }

@@ -10,22 +10,41 @@ class RoomController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        if ($user->role === 'admin') {
-            $rooms = Room::with('roomTenants')->get();
-        } elseif ($user->role === 'penghuni') {
-            $tenant = $user->tenant;
-            $rooms = Room::whereHas('roomTenants', function ($q) use ($tenant) {
-                $q->where('tenant_id', $tenant->id);
-            })->get();
-        } elseif ($user->role === 'guest') {
-            $rooms = Room::where('status', 'available')->get();
-        } else {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $rooms = Room::with('roomTenants')->get();
+
         return inertia('Rooms/Index', [
             'rooms' => $rooms,
-            'role' => $user->role,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'room_number' => 'required|string|unique:rooms',
+            'price' => 'required|numeric',
+            'description' => 'nullable|string',
+            'status' => 'required|in:available,occupied,maintenance',
+        ]);
+        Room::create($validated);
+        return redirect()->route('rooms.index')->with('success', 'Room created successfully.');
+    }
+
+    public function update(Request $request, Room $room)
+    {
+        $validated = $request->validate([
+            'room_number' => 'required|string|unique:rooms,room_number,' . $room->id,
+            'price' => 'required|numeric',
+            'description' => 'nullable|string',
+            'status' => 'required|in:available,occupied,maintenance',
+        ]);
+
+        $room->update($validated);
+        return redirect()->route('rooms.index')->with('success', 'Room updated successfully.');
+    }
+
+    public function destroy(Room $room)
+    {
+        $room->delete();
+        return redirect()->route('rooms.index')->with('success', 'Room deleted successfully.');
     }
 }

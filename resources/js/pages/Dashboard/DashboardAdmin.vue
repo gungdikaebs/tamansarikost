@@ -15,7 +15,7 @@ console.log(props.auth.user);
 </script>
 <template>
     <div>
-        <DashboardLayouts>
+        <DashboardLayouts :auth="props.auth">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                 <SmallCard />
                 <SmallCard />
