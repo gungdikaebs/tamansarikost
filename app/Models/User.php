@@ -31,10 +31,7 @@ class User extends Authenticatable
         return $this->hasOne(Tenant::class);
     }
 
-    public function roomTenants()
-    {
-        return $this->hasManyThrough(RoomTenant::class, Tenant::class);
-    }
+
 
     /**
      * The attributes that should be hidden for serialization.

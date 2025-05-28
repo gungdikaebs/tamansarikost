@@ -44,10 +44,18 @@ console.log(props.role);
                     </a>
                 </li>
                 <li class="hover:font-medium">
-                    <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
+                    <a href="/dashboard/users"
+                        class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
                         <i
                             class='bx bx-user text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center'></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
+                    </a>
+                </li>
+                <li class="hover:font-medium">
+                    <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
+                        <i
+                            class='bx bx-user-pin text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center'></i>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Penghuni</span>
                     </a>
                 </li>
                 <li class="hover:font-medium">

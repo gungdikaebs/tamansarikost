@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\GuestController;
 use App\Http\Controllers\Dashboard\PenghuniController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\UserController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 
@@ -54,4 +55,13 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::put('/dashboard/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
     // Delete Room
     Route::delete('/dashboard/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+});
+
+// === Users ===
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/dashboard/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/dashboard/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/dashboard/users', [UserController::class, 'store'])->name('users.store');
+    Route::get('/dashboard/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/dashboard/users/{user}', [UserController::class, 'update'])->name('users.update');
 });

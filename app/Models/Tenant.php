@@ -21,7 +21,7 @@ class Tenant extends Model
     {
         return $this->belongsTo(User::class);
     }
-public function roomTenants()
+    public function roomTenants()
     {
         return $this->hasMany(RoomTenant::class);
     }
