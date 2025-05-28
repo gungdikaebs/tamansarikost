@@ -17,14 +17,28 @@ class RoomController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return inertia('Rooms/AddRoom');
+    }
+
+    public function edit($id)
+    {
+        $room = Room::findOrFail($id);
+        return inertia("Rooms/EditRoom", [
+            'room' => $room,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'room_number' => 'required|string|unique:rooms',
+            'room_number' => 'required|string|unique:rooms,room_number',
             'price' => 'required|numeric',
             'description' => 'nullable|string',
             'status' => 'required|in:available,occupied,maintenance',
         ]);
+
         Room::create($validated);
         return redirect()->route('rooms.index')->with('success', 'Room created successfully.');
     }
@@ -32,7 +46,7 @@ class RoomController extends Controller
     public function update(Request $request, Room $room)
     {
         $validated = $request->validate([
-            'room_number' => 'required|string|unique:rooms,room_number,' . $room->id,
+            'room_number' => 'required|string|unique:rooms,room_number,' . $room->id . ',id',
             'price' => 'required|numeric',
             'description' => 'nullable|string',
             'status' => 'required|in:available,occupied,maintenance',

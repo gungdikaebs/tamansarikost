@@ -1,11 +1,21 @@
 <script setup>
 import { defineProps } from 'vue';
+import { router } from '@inertiajs/vue3';
 const props = defineProps({
     rooms: {
         type: Array,
         required: true
     },
 });
+
+function deleteRoom(id) {
+    console.log(id);
+    if (confirm('Are you sure you want to delete this room?')) {
+        router.delete(`/dashboard/rooms/${id}`);
+    }
+}
+
+console.log(props.rooms);
 </script>
 
 <template>
@@ -45,8 +55,10 @@ const props = defineProps({
                         {{ room.status }}
                     </td>
                     <td class="px-6 py-4 flex gap-3 mx-auto">
-                        <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
-                        <a :href="'/dashboard/room/'" class="font-medium text-blue-600 hover:underline">Delete</a>
+                        <a :href="'/dashboard/rooms/' + room.id + '/edit'"
+                            class="font-medium text-blue-600 hover:underline">Edit</a>
+                        <button @click="deleteRoom(room.id)" class="text-red-600 hover:underline">Delete</button>
+
                     </td>
 
                 </tr>

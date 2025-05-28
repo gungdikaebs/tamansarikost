@@ -44,8 +44,14 @@ Route::middleware(['auth'])->group(function () {
 
 // === Rooms ===
 Route::middleware(['auth', 'isAdmin'])->group(function () {
+    // List Room
     Route::get('/dashboard/rooms', [RoomController::class, 'index'])->name('rooms.index');
+    // Add Room
+    Route::get('/dashboard/rooms/add', [RoomController::class, 'create'])->name('rooms.create');
     Route::post('/dashboard/rooms', [RoomController::class, 'store'])->name('rooms.store');
+    // Update
+    Route::get('/dashboard/rooms/{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+    Route::put('/dashboard/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
     // Delete Room
     Route::delete('/dashboard/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
 });
