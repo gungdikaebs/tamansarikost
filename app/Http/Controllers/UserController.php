@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Users/AddUser');
     }
 
     /**
@@ -32,6 +32,29 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'username' => 'required|string|max:255|unique:users,username',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'role' => 'required|in:admin,penghuni,guest',
+            'phone' => [
+                'required',
+                'regex:/^(\+62|62|0)[0-9]{6,15}$/'
+            ],
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[0-9!@#$%^&*(),.?":{}|<>]/',
+            ]
+        ]);
+        $user = User::create([
+            'username' => $validated['username'],
+            'email' => $validated['email'],
+            'role' => $validated['role'],
+            'phone' => $validated['phone'],
+            'password' => bcrypt($validated['password']),
+        ]);
+        return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
     /**
@@ -47,7 +70,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return inertia('Users/EditUser', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -55,7 +80,31 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $validated = $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'role' => 'required|in:admin,penghuni,guest',
+            'phone' => [
+                'required',
+                'regex:/^(\+62|62|0)[0-9]{6,15}$/'
+            ],
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'regex:/[0-9!@#$%^&*(),.?":{}|<>]/',
+            ]
+        ]);
+
+        $user->update([
+            'username' => $validated['username'],
+            'email' => $validated['email'],
+            'role' => $validated['role'],
+            'phone' => $validated['phone'],
+            'password' => $validated['password'] ? bcrypt($validated['password']) : $user->password,
+        ]);
+
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 
     /**
@@ -63,6 +112,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }

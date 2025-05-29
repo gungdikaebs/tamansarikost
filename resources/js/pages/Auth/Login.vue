@@ -79,7 +79,7 @@ watch(() => [form.value.username, form.value.password], () => {
                                 <i
                                     class='bx bx-user absolute left-2 top-1/2 transform -translate-y-1/2 text-indigo-950/50'></i>
                                 <input v-model="form.username" type="text" id="username"
-                                    class="p-2 px-8 border w-full rounded-md" />
+                                    class="p-2 px-8 border w-full rounded-md" placeholder="Masukkan username" />
                             </div>
                             <p v-if="errors.username" class="text-sm text-red-500">{{ errors.username }}</p>
                         </div>
@@ -91,7 +91,7 @@ watch(() => [form.value.username, form.value.password], () => {
                                 <i
                                     class='bx bx-lock-alt absolute left-2 top-1/2 transform -translate-y-1/2 text-indigo-950/50'></i>
                                 <input v-model="form.password" :type="showPassword ? 'text' : 'password'" id="password"
-                                    class="p-2 px-8 border w-full rounded-md" />
+                                    class="p-2 px-8 border w-full rounded-md" placeholder="Masukkan password" />
                                 <i :class="showPassword ? 'bx bx-show' : 'bx bx-hide'"
                                     class="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-indigo-950/50"
                                     @click="showPassword = !showPassword" />

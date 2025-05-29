@@ -16,24 +16,20 @@ const props = defineProps({
         type: Object,
         default: () => ({})
     }
-
 });
 
-
 function deleteRoom(id) {
-    console.log(id);
     if (confirm('Are you sure you want to delete this room?')) {
         router.delete(`/dashboard/rooms/${id}`);
     }
 }
-
 </script>
 
 <template>
     <DashboardLayouts :auth="auth">
         <div class="flex justify-between my-4">
             <h1 class="text-2xl font-bold mb-4">Daftar Kamar</h1>
-            <a href="/dashboard/rooms/add"
+            <a href="/dashboard/rooms/create"
                 class="inline-flex items-center px-3 py-1 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800">
                 Tambah Kamar
                 <svg class="w-3.5 h-3.5 ms-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -44,29 +40,19 @@ function deleteRoom(id) {
         </div>
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3">
-                            Id
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Room Number
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Price
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Status
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Action
-                        </th>
+                        <th scope="col" class="px-6 py-3">Id</th>
+                        <th scope="col" class="px-6 py-3">Room Number</th>
+                        <th scope="col" class="px-6 py-3">Price</th>
+                        <th scope="col" class="px-6 py-3">Status</th>
+                        <th scope="col" class="px-6 py-3">Action</th>
                     </tr>
                 </thead>
-                <tbody v-for="room in props.rooms" :key="room.id">
-                    <tr class="odd:bg-white border-b  border-gray-200">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                <tbody>
+                    <tr v-for="room in props.rooms" :key="room.id" class="odd:bg-white border-b border-gray-200">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                             {{ room.id }}
                         </th>
                         <td class="px-6 py-4">
@@ -79,20 +65,21 @@ function deleteRoom(id) {
                             {{ room.status }}
                         </td>
                         <td class="px-6 py-4 flex gap-3 mx-auto">
-                            <a :href="'/dashboard/rooms/' + room.id + '/edit'"
-                                class="font-medium text-blue-600 hover:underline">Edit</a>
-                            <button @click="deleteRoom(room.id)" class="text-red-600 hover:underline">Delete</button>
-
+                            <a :href="`/dashboard/rooms/${room.id}`" class="font-medium text-blue-600 hover:underline">
+                                <i class="bx bx-show
+    text-2xl"></i>
+                            </a>
+                            <a :href="`/dashboard/rooms/${room.id}/edit`"
+                                class="font-medium text-blue-600 hover:underline">
+                                <i class="bx bx-edit text-2xl"></i>
+                            </a>
+                            <button @click="deleteRoom(room.id)" class="text-red-600 hover:underline cursor-pointer">
+                                <i class="bx bx-trash text-2xl"></i>
+                            </button>
                         </td>
-
                     </tr>
-
-
                 </tbody>
             </table>
         </div>
     </DashboardLayouts>
-
-    <!-- Modal Tambah Kamar -->
-
 </template>

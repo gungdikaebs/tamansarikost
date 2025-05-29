@@ -22,13 +22,13 @@ class RoomController extends Controller
         return inertia('Rooms/AddRoom');
     }
 
-    public function edit($id)
+    public function edit(Room $room)
     {
-        $room = Room::findOrFail($id);
-        return inertia("Rooms/EditRoom", [
+        return inertia('Rooms/EditRoom', [
             'room' => $room,
         ]);
     }
+
 
     public function store(Request $request)
     {
@@ -54,6 +54,14 @@ class RoomController extends Controller
 
         $room->update($validated);
         return redirect()->route('rooms.index')->with('success', 'Room updated successfully.');
+    }
+
+    public function show(Room $room)
+    {
+        $room->load('roomTenants.tenant.user');
+        return inertia('Rooms/ShowRoom', [
+            'room' => $room,
+        ]);
     }
 
     public function destroy(Room $room)

@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\GuestController;
 use App\Http\Controllers\Dashboard\PenghuniController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
@@ -45,15 +46,12 @@ Route::middleware(['auth'])->group(function () {
 
 // === Rooms ===
 Route::middleware(['auth', 'isAdmin'])->group(function () {
-    // List Room
     Route::get('/dashboard/rooms', [RoomController::class, 'index'])->name('rooms.index');
-    // Add Room
-    Route::get('/dashboard/rooms/add', [RoomController::class, 'create'])->name('rooms.create');
+    Route::get('/dashboard/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
     Route::post('/dashboard/rooms', [RoomController::class, 'store'])->name('rooms.store');
-    // Update
-    Route::get('/dashboard/rooms/{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+    Route::get('/dashboard/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
     Route::put('/dashboard/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
-    // Delete Room
+    Route::get('/dashboard/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
     Route::delete('/dashboard/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
 });
 
@@ -64,4 +62,12 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::post('/dashboard/users', [UserController::class, 'store'])->name('users.store');
     Route::get('/dashboard/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/dashboard/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/dashboard/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 });
+
+// === Tenants ===
+Route::middleware(['auth', 'isAdmin'])->group(
+    function () {
+        Route::get('/dashboard/tenants', [TenantController::class, 'index'])->name('tenants.index');
+    }
+);
