@@ -15,6 +15,7 @@ class RoomTenant extends Model
         'start_date',
         'end_date',
         'status',
+        'payee_id',
     ];
 
     public function room()
@@ -25,5 +26,10 @@ class RoomTenant extends Model
     public function tenant()
     {
         return $this->belongsTo(Tenant::class);
+    }
+
+    public function payee()
+    {
+        return $this->belongsTo(Tenant::class, 'payee_id');
     }
 }

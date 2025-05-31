@@ -181,7 +181,7 @@ function submit() {
                 </div>
             </div>
             <div class="md:flex-1 hidden md:flex items-center">
-                <img src="https://i.pinimg.com/736x/bd/6e/e2/bd6ee2241cd5a4527bbd57047e5ce4b2.jpg" alt=""
+                <img src="https://i.pinimg.com/736x/05/b8/80/05b880c6b5200ad94f953b8f2f7874d7.jpg   " alt=""
                     class="object-cover h-full rounded" />
             </div>
         </div>

@@ -13,8 +13,7 @@ class Tenant extends Model
         'user_id',
         'fullname',
         'ktp_photo',
-        'status',
-        'payee_id',
+
     ];
 
     public function user()
@@ -31,8 +30,8 @@ class Tenant extends Model
         return $this->hasMany(Payment::class);
     }
 
-    public function payee()
+    public function payees()
     {
-        return $this->belongsTo(User::class, 'payee_id');
+        return $this->hasMany(RoomTenant::class, 'payee_id');
     }
 }

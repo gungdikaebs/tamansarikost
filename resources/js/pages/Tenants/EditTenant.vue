@@ -1,50 +1,23 @@
 <script setup>
 import { defineProps } from 'vue';
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
-import { useForm } from '@inertiajs/vue3';
 const props = defineProps({
     auth: {
         type: Object,
-        required: true
+        required: false
     },
-    user: {
+    tenant: {
         type: Object,
         required: true
     }
 });
-
-const form = useForm({
-    email: props.user.email,
-    username: props.user.username,
-    password: '',
-    phone: props.user.phone,
-    role: props.user.role
-});
-
-function submit() {
-    form.put(`/dashboard/users/${props.user.id}`, {
-        onSuccess: () => {
-            form.reset();
-
-        },
-        onError: (errors) => {
-            console.error(errors);
-            for (const key in errors) {
-                form.setError(key, errors[key])
-            }
-        }
-    });
-}
-
-console.log(props.user);
-
+console.log(props.tenant);
 </script>
-
 <template>
     <DashboardLayouts :auth=props.auth>
         <div class="my-4 mx-auto">
             <h1 class="text-2xl font-bold mb-4">Edit Data Kamar</h1>
-            <form class="max-w-xl" @submit.prevent="submit">
+            <!-- <form class="max-w-xl" @submit.prevent="submit">
                 <div class="mb-5">
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                     <input v-model="form.email" type="email" id="email"
@@ -80,8 +53,9 @@ console.log(props.user);
                     class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                     Simpan Perubahan
                 </button>
-            </form>
+            </form> -->
         </div>
 
     </DashboardLayouts>
+
 </template>

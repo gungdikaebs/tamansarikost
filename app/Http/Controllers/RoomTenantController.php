@@ -2,63 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RoomTenant;
 use Illuminate\Http\Request;
 
 class RoomTenantController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'room_id' => 'required|exists:rooms,id',
+            'tenant_id' => 'required|exists:tenants,id',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'required|in:active,inactive',
+            'payee_id' => 'nullable|exists:tenants,id',
+        ]);
+
+        // Create the RoomTenant record
+        RoomTenant::create($validated);
+
+        return redirect()->route('rooms.show', $validated['room_id'])->with('success', 'Room Tenant created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $roomTenant = RoomTenant::findOrFail($id);
+        $roomId = $roomTenant->room_id;
+        $roomTenant->delete();
+
+        return redirect()->route('rooms.show', $roomId)->with('success', 'Room Tenant deleted successfully.');
     }
 }

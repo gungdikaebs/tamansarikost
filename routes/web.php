@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\GuestController;
 use App\Http\Controllers\Dashboard\PenghuniController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\RoomTenantController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
 use Inertia\Inertia;
@@ -53,6 +54,10 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::put('/dashboard/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
     Route::get('/dashboard/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
     Route::delete('/dashboard/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+
+    // Room Tenants
+    Route::post('/dashboard/room-tenants', [RoomTenantController::class, 'store'])->name('room-tenants.store');
+    Route::delete('/dashboard/room-tenants/{id}', [RoomTenantController::class, 'destroy'])->name('room-tenants.destroy');
 });
 
 // === Users ===
@@ -69,5 +74,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 Route::middleware(['auth', 'isAdmin'])->group(
     function () {
         Route::get('/dashboard/tenants', [TenantController::class, 'index'])->name('tenants.index');
+        Route::get('/dashboard/tenants/create', [TenantController::class, 'create'])->name('tenants.create');
+        Route::post('/dashboard/tenants', [TenantController::class, 'store'])->name('tenants.store');
+        Route::get('/dashboard/tenants/{tenant}/edit', [TenantController::class, 'edit'])->name('tenants.edit');
     }
 );

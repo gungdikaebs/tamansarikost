@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use App\Models\RoomTenant;
+use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -58,9 +60,14 @@ class RoomController extends Controller
 
     public function show(Room $room)
     {
-        $room->load('roomTenants.tenant.user');
+        $tenants = Tenant::with('user')->get();
+        $room->load([
+            'roomTenants.tenant.user',
+            'roomTenants.payee.user'
+        ]);
         return inertia('Rooms/ShowRoom', [
             'room' => $room,
+            'tenants' => $tenants,
         ]);
     }
 

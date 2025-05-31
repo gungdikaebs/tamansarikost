@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('room_id')->constrained()->onDelete('cascade');
             $table->foreignId('tenant_id')->constrained()->onDelete('cascade');
+            $table->foreignId('payee_id')->nullable()->constrained('tenants')->onDelete('set null');
             $table->date('start_date');
             $table->date('end_date')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active'); // active, inactive
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
     }

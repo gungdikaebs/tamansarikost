@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -16,8 +16,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('fullname')->nullable();
             $table->string('ktp_photo')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->foreignId('payee_id')->nullable()->constrained('tenants')->onDelete('set null');
             $table->timestamps();
         });
     }
