@@ -24,3 +24,6 @@ Ini adalah sistem manajemen dan pemesanan kost berbasis web yang dibangun dengan
 - 💸 Lihat dan kelola tagihan bulanan
 - 🏘️ Admin panel untuk kelola kamar, pengguna, dan pembayaran
 ---
+
+
+## ❗ UNDER CONSTRUCTION ❗
