@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TenantController extends Controller
 {
@@ -69,8 +70,11 @@ class TenantController extends Controller
      */
     public function edit(Tenant $tenant)
     {
+        $users = User::where('role', 'penghuni')
+            ->get();
         return inertia('Tenants/EditTenant', [
             'tenant' => $tenant->load('user'),
+            'users' => $users
         ]);
     }
 
@@ -79,7 +83,22 @@ class TenantController extends Controller
      */
     public function update(Request $request, Tenant $tenant)
     {
-        //
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'fullname' => 'required|string|max:255',
+            'ktp_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        if ($request->hasFile('ktp_photo')) {
+            $file = $request->file('ktp_photo');
+            $path = $file->store('ktp_photos', 'public');
+            $validated['ktp_photo'] = $path;
+        }
+
+        $tenant->update($validated);
+
+
+        return redirect()->route('tenants.index')->with('success', 'Tenant updated successfully.');
     }
 
     /**

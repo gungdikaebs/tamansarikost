@@ -77,5 +77,6 @@ Route::middleware(['auth', 'isAdmin'])->group(
         Route::get('/dashboard/tenants/create', [TenantController::class, 'create'])->name('tenants.create');
         Route::post('/dashboard/tenants', [TenantController::class, 'store'])->name('tenants.store');
         Route::get('/dashboard/tenants/{tenant}/edit', [TenantController::class, 'edit'])->name('tenants.edit');
+        Route::put('/dashboard/tenants/{tenant}', [TenantController::class, 'update'])->name('tenants.update');
     }
 );
