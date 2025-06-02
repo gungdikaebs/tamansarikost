@@ -5,7 +5,7 @@ Ini adalah sistem manajemen dan pemesanan kost berbasis web yang dibangun dengan
 ---
 
 ## 🚀 Tech Stack
-(https://skillicons.dev/icons?i=laravel,vue,tailwind,sqlite)
+https://skillicons.dev/icons?i=laravel,vue,tailwind,sqlite
 - ⚙️ Laravel 12
 - 🌐 Inertia.js
 - 🔮 Vue 3 (Composition API + Script Setup)
