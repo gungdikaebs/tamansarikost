@@ -10,6 +10,7 @@ const props = defineProps({
 });
 
 const form = useForm({
+    _method: 'put',
     user_id: props.tenant.user_id,
     fullname: props.tenant.fullname,
     ktp_photo: null,
@@ -27,7 +28,6 @@ function handleKtpChange(e) {
 
 function submit() {
     form.post(`/dashboard/tenants/${props.tenant.id}`, {
-        _method: 'put',
         forceFormData: true,
     });
 }
@@ -69,7 +69,7 @@ function submit() {
                 </div>
 
                 <!-- Submit -->
-                <button type="submit"
+                <button type="submit" :disabled="form.processing"
                     class="w-full bg-blue-700 hover:bg-blue-800 text-white font-medium rounded-lg text-sm px-5 py-2.5">
                     Simpan Perubahan
                 </button>

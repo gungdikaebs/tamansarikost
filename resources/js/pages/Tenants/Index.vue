@@ -1,6 +1,8 @@
 <script setup>
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
 import { defineProps } from 'vue';
+import { router } from '@inertiajs/vue3';
+// import { Inertia } from '@inertiajs/inertia';
 const props = defineProps({
     auth: {
         type: Object,
@@ -13,6 +15,11 @@ const props = defineProps({
 
 });
 
+function deleteTenant(id) {
+    if (confirm('Apakah Anda yakin ingin menghapus penghuni ini?')) {
+        router.delete(`/dashboard/tenants/${id}`);
+    }
+}
 
 console.log(props.tenants);
 </script>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RoomTenant;
+use App\Models\Room;
 use Illuminate\Http\Request;
 
 class RoomTenantController extends Controller
@@ -22,6 +23,13 @@ class RoomTenantController extends Controller
         // Create the RoomTenant record
         RoomTenant::create($validated);
 
+        $room = Room::findOrFail($validated['room_id']);
+        $activeTenants = $room->roomTenants()->where('status', 'active')->count();
+
+        if ($activeTenants >= 1) {
+            $room->update(['status' => 'occupied']);
+        }
+
         return redirect()->route('rooms.show', $validated['room_id'])->with('success', 'Room Tenant created successfully.');
     }
 
@@ -30,6 +38,12 @@ class RoomTenantController extends Controller
         $roomTenant = RoomTenant::findOrFail($id);
         $roomId = $roomTenant->room_id;
         $roomTenant->delete();
+
+        $room = Room::find($roomId);
+        $activeTenants = $room->roomTenants()->where('status', 'active')->count();
+        if ($activeTenants === 0) {
+            $room->update(['status' => 'available']);
+        }
 
         return redirect()->route('rooms.show', $roomId)->with('success', 'Room Tenant deleted successfully.');
     }

@@ -15,7 +15,7 @@ class PenghuniController extends Controller
         $rooms = Room::whereHas('roomTenants', function ($q) use ($tenant) {
             $q->where('tenant_id', $tenant->id);
         })->get();
-        return inertia('Dashboard/DashboardPenghuni', [
+        return inertia('Dashboard/', [
             'rooms' => $rooms,
             'tenant' => $tenant,
         ]);

@@ -6,6 +6,8 @@ use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
+use Inertia\Controller;
 
 class TenantController extends Controller
 {
@@ -89,23 +91,39 @@ class TenantController extends Controller
             'ktp_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
+        // Gunakan foto lama sebagai default
+        $ktpPath = $tenant->ktp_photo;
+
+        // Jika user mengupload file baru
         if ($request->hasFile('ktp_photo')) {
-            $file = $request->file('ktp_photo');
-            $path = $file->store('ktp_photos', 'public');
-            $validated['ktp_photo'] = $path;
+            // Hapus foto lama jika ada
+            if ($tenant->ktp_photo && \Storage::disk('public')->exists($tenant->ktp_photo)) {
+                \Storage::disk('public')->delete($tenant->ktp_photo);
+            }
+
+            // Simpan foto baru
+            $ktpPath = $request->file('ktp_photo')->store('ktp_photos', 'public');
         }
 
-        $tenant->update($validated);
+        $tenant->update([
+            'user_id' => $validated['user_id'],
+            'fullname' => $validated['fullname'],
+            'ktp_photo' => $ktpPath, // pakai yang baru, atau tetap yang lama
+        ]);
 
-
-        return redirect()->route('tenants.index')->with('success', 'Tenant updated successfully.');
+        return Inertia::location(route('tenants.index'));
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Tenant $tenant)
     {
-        //
+        if ($tenant->ktp_photo) {
+            Storage::disk('public')->delete($tenant->ktp_photo);
+        }
+        $tenant->delete();
+        return redirect()->route('tenants.index')->with('success', 'Tenant deleted successfully.');
     }
 }

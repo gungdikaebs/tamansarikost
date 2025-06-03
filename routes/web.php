@@ -78,5 +78,6 @@ Route::middleware(['auth', 'isAdmin'])->group(
         Route::post('/dashboard/tenants', [TenantController::class, 'store'])->name('tenants.store');
         Route::get('/dashboard/tenants/{tenant}/edit', [TenantController::class, 'edit'])->name('tenants.edit');
         Route::put('/dashboard/tenants/{tenant}', [TenantController::class, 'update'])->name('tenants.update');
+        Route::delete('/dashboard/tenants/{tenant}', [TenantController::class, 'destroy'])->name('tenants.destroy');
     }
 );
