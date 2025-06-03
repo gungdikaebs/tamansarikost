@@ -5,7 +5,6 @@ Ini adalah sistem manajemen dan pemesanan kost berbasis web yang dibangun dengan
 ---
 
 ## 🚀 Tech Stack
-
 - ⚙️ Laravel 12
 - 🌐 Inertia.js
 - 🔮 Vue 3 (Composition API + Script Setup)
