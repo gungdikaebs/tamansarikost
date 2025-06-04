@@ -19,7 +19,7 @@ import { defineProps } from 'vue';
                             </path>
                         </svg>
                     </button>
-                    <a href="/dashboard/admin" class="flex ms-2 md:me-24">
+                    <a href="/dashboard/" class="flex ms-2 md:me-24">
                         <img src="https://i.pinimg.com/736x/25/3c/15/253c15575735e8d0cbe1ce77a6dac3f4.jpg" alt=""
                             width="50" height="50" class=" p-2 rounded-full object-cover object-center">
                         <span

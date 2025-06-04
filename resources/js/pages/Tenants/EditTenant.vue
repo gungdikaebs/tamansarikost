@@ -10,6 +10,7 @@ const props = defineProps({
 });
 
 const form = useForm({
+    _method: 'put',
     user_id: props.tenant.user_id,
     fullname: props.tenant.fullname,
     ktp_photo: null,
@@ -27,8 +28,13 @@ function handleKtpChange(e) {
 
 function submit() {
     form.post(`/dashboard/tenants/${props.tenant.id}`, {
-        _method: 'put',
         forceFormData: true,
+        onSuccess: () => {
+            form.reset();
+        },
+        onError: (errors) => {
+            console.error(errors);
+        }
     });
 }
 </script>

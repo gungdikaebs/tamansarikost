@@ -42,7 +42,7 @@ console.log(props.auth.user);
                     <label for="user_id" class="block mb-2 text-sm font-medium text-gray-900 ">User</label>
                     <select v-model="form.user_id" id="user_id" required
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option value="" disabled selected>Pilih Status Kamar</option>
+                        <option value="" disabled selected>Pilih Username yang terkait</option>
                         <option v-for="user in props.users" :key="user.id" :value="user.id">
                             {{ user.username }}
                         </option>

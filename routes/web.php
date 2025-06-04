@@ -71,6 +71,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 });
 
 // === Tenants ===
+// Admin
 Route::middleware(['auth', 'isAdmin'])->group(
     function () {
         Route::get('/dashboard/tenants', [TenantController::class, 'index'])->name('tenants.index');
@@ -80,3 +81,11 @@ Route::middleware(['auth', 'isAdmin'])->group(
         Route::put('/dashboard/tenants/{tenant}', [TenantController::class, 'update'])->name('tenants.update');
     }
 );
+// Guest
+Route::middleware(['auth', 'isGuest'])->group(function () {
+    Route::get('/dashboard/register-tenant', [GuestController::class, 'createTenant'])->name('register.tenant');
+    Route::post('/dashboard/register-tenant', [GuestController::class, 'storeTenant'])->name('register.tenant.store');
+});
+
+
+// == Payment ==

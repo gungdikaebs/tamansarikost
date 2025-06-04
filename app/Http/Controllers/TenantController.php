@@ -6,6 +6,7 @@ use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class TenantController extends Controller
 {
@@ -29,13 +30,12 @@ class TenantController extends Controller
     public function create()
     {
         $users = User::where('role', 'penghuni')->whereDoesntHave('tenant')->get();
-        return inertia(
-            'Tenants/AddTenant',
-            [
-                'users' => $users,
-            ]
-        );
+        return inertia('Tenants/AddTenant', [
+            'users' => $users,
+        ]);
+        abort(403, 'Unauthorized action.');
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -59,6 +59,8 @@ class TenantController extends Controller
 
         return redirect()->route('tenants.index')->with('success', 'Tenant created successfully.');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -90,15 +92,20 @@ class TenantController extends Controller
         ]);
 
         if ($request->hasFile('ktp_photo')) {
-            $file = $request->file('ktp_photo');
-            $path = $file->store('ktp_photos', 'public');
-            $validated['ktp_photo'] = $path;
+            if ($tenant->ktp_photo) {
+                Storage::disk('public')->delete($tenant->ktp_photo);
+            }
+            $validated['ktp_photo'] = $request->file('ktp_photo')->store('ktp_photos', 'public');
+        } else {
+            $validated['ktp_photo'] = $tenant->ktp_photo;
         }
 
         $tenant->update($validated);
 
 
-        return redirect()->route('tenants.index')->with('success', 'Tenant updated successfully.');
+        return
+            // Redirect Inertia
+            Inertia::location('/dashboard/tenants');
     }
 
     /**

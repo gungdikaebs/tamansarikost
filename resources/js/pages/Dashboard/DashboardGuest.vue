@@ -1,8 +1,7 @@
 <script setup>
 import { defineProps } from 'vue';
-import NavbarDashboard from '../../components/dashboard/NavbarDashboard.vue';
-import SidebarDashboard from '../../components/dashboard/SidebarDashboard.vue';
-import { usePage } from '@inertiajs/inertia-vue3';
+import { router } from '@inertiajs/vue3';
+
 import { onMounted } from 'vue';
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
 
@@ -38,7 +37,7 @@ onMounted(() => {
                         </a>
                         <p class="mb-3 font-normal text-gray-700 ">Rp. {{ room.price.toLocaleString('id-ID') }}</p>
                         <p class="mb-3 font-normal text-gray-700 ">{{ room.description }}</p>
-                        <a href="#"
+                        <a :href="`/dashboard/register-tenant?room_id=${room.id}`"
                             class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 ">
                             Book Now
                             <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"

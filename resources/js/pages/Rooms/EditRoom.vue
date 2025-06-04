@@ -1,7 +1,9 @@
 <script setup>
 import { defineProps } from 'vue';
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
-import { router, useForm } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
+
 const props = defineProps({
     auth: {
         type: Object,

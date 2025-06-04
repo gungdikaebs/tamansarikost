@@ -1,10 +1,13 @@
+<!-- ADD MODAL IN TESTIMONI -->
+<!-- CONNECT THE REVIEW IN DATABASE -->
+
 <script setup>
 const testimonials = [
     {
         name: 'Bruce Hardy',
         tinggal: '2 Bulan',
         image: 'https://randomuser.me/api/portraits/women/68.jpg',
-        text: 'When, while lovely valley teems with vapour around meand meridian sun strikes the upper impenetrable.',
+        text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat mollitia illo, odio dolore eveniet eaque ullam, vitae, repellat aliquam nihil labore voluptatum esse adipisci perferendis? Sunt beatae ipsam dicta harum, distinctio modi quaerat,',
         rating: 5,
     },
     {
@@ -32,6 +35,7 @@ const testimonials = [
 </script>
 
 <template>
+
     <div class="bg-white py-12 pb-20" id='testimoni'>
         <div class="max-w-screen-xl mx-auto px-4 flex flex-col md:items-center">
             <div class="mb-20 text-center">
