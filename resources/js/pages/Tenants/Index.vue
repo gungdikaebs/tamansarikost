@@ -1,6 +1,7 @@
 <script setup>
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
 import { defineProps } from 'vue';
+import { router } from '@inertiajs/vue3';
 const props = defineProps({
     auth: {
         type: Object,
@@ -13,6 +14,19 @@ const props = defineProps({
 
 });
 
+function deleteTenant(tenantId) {
+    if (confirm('Apakah Anda yakin ingin menghapus penghuni ini?')) {
+        router.delete(`/dashboard/tenants/${tenantId}`)
+            .then(response => {
+                // Handle success, e.g., show a success message or refresh the page
+                window.location.reload();
+            })
+            .catch(error => {
+                // Handle error, e.g., show an error message
+                console.error('Error deleting tenant:', error);
+            });
+    }
+}
 
 console.log(props.tenants);
 </script>
@@ -79,8 +93,6 @@ console.log(props.tenants);
                         </td>
 
                     </tr>
-
-
                 </tbody>
             </table>
         </div>

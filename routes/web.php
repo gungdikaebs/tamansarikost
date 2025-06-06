@@ -4,7 +4,6 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\DashboardController;
-use App\Http\Controllers\Dashboard\GuestController;
 use App\Http\Controllers\Dashboard\PenghuniController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTenantController;
@@ -28,19 +27,6 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 // === Dashboard ===
-// Admin
-Route::middleware(['auth', 'isAdmin'])->group(function () {
-    Route::get('/dashboard/admin', [AdminController::class, 'index'])->name('dashboard.admin');
-});
-// Penghuni
-Route::middleware(['auth', 'isPenghuni'])->group(function () {
-    Route::get('/dashboard/penghuni', [PenghuniController::class, 'index'])->name('dashboard.penghuni');
-});
-// Guest
-Route::middleware(['auth', 'isGuest'])->group(function () {
-    Route::get('/dashboard/guest', [GuestController::class, 'index'])->name('dashboard.guest');
-});
-// Dashboard Global
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
@@ -79,13 +65,19 @@ Route::middleware(['auth', 'isAdmin'])->group(
         Route::post('/dashboard/tenants', [TenantController::class, 'store'])->name('tenants.store');
         Route::get('/dashboard/tenants/{tenant}/edit', [TenantController::class, 'edit'])->name('tenants.edit');
         Route::put('/dashboard/tenants/{tenant}', [TenantController::class, 'update'])->name('tenants.update');
+        Route::delete('/dashboard/tenants/{tenant}', [TenantController::class, 'destroy'])->name('tenants.destroy');
     }
 );
-// Guest
-Route::middleware(['auth', 'isGuest'])->group(function () {
-    Route::get('/dashboard/register-tenant', [GuestController::class, 'createTenant'])->name('register.tenant');
-    Route::post('/dashboard/register-tenant', [GuestController::class, 'storeTenant'])->name('register.tenant.store');
+
+// ===Booking And Register Tenant===
+Route::middleware(['auth'])->group(function () {
+    Route::post('/dashboard/book-room/{roomId}', [PenghuniController::class, 'bookRoom'])->name('book.room');
+    Route::get('/dashboard/register-tenant', [PenghuniController::class, 'createTenant'])->name('register.tenant');
+    Route::post('/dashboard/register-tenant', [PenghuniController::class, 'storeTenant'])->name('register.tenant.store');
+    Route::get('/dashboard/register-room-tenant', [PenghuniController::class, 'createRoomTenant'])->name('register.roomTenant');
+    Route::post('/dashboard/register-room-tenant', [PenghuniController::class, 'storeRoomTenant'])->name('register.roomTenant.store');
 });
+
 
 
 // == Payment ==

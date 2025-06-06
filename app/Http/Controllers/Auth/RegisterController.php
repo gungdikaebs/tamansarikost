@@ -44,7 +44,7 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
             'email_verified_at' => now(),
-            'role' => 'guest', // Default role
+            'role' => 'penghuni',
         ]);
 
         Auth::login($user);
@@ -54,8 +54,6 @@ class RegisterController extends Controller
             return redirect()->intended('/dashboard/admin');
         } elseif ($user->role === 'penghuni') {
             return redirect()->intended('/dashboard/penghuni');
-        } else {
-            return redirect()->intended('/dashboard/guest');
         }
         // Redirect to the dashboard or any other page
 

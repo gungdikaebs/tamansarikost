@@ -113,6 +113,10 @@ class TenantController extends Controller
      */
     public function destroy(Tenant $tenant)
     {
-        //
+        if ($tenant->ktp_photo) {
+            Storage::disk('public')->delete($tenant->ktp_photo);
+        }
+        $tenant->delete();
+        return redirect()->route('tenants.index')->with('success', 'Tenant deleted successfully.');
     }
 }

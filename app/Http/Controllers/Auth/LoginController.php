@@ -37,8 +37,6 @@ class LoginController extends Controller
             return redirect()->intended('/dashboard/admin');
         elseif ($user->role === 'penghuni') {
             return redirect()->intended('/dashboard/penghuni');
-        } else {
-            return redirect()->intended('/dashboard/guest');
         }
     }
     public function logout(Request $request)
