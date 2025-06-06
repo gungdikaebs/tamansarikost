@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, ref } from 'vue';
-import { useForm } from '@inertiajs/inertia-vue3';
+import { useForm } from '@inertiajs/vue3';
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
 
 const props = defineProps({

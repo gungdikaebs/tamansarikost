@@ -48,7 +48,6 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     // Penghuni Routes
     Route::middleware('role:penghuni')->group(function () {
         Route::get('/penghuni', [PenghuniController::class, 'index'])->name('dashboard.penghuni');
-        Route::post('book-room/{roomId}', [PenghuniController::class, 'bookRoom'])->name('book.room');
         Route::get('register-tenant', [PenghuniController::class, 'createTenant'])->name('tenant.register');
         Route::post('register-tenant', [PenghuniController::class, 'storeTenant'])->name('tenant.register.store');
         Route::get('register-room-tenant', [PenghuniController::class, 'createRoomTenant'])->name('roomTenant.register');
