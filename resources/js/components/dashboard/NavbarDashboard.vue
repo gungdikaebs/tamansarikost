@@ -1,5 +1,11 @@
 <script setup>
 import { defineProps } from 'vue';
+import { initFlowbite } from 'flowbite';
+import { onMounted } from 'vue';
+
+onMounted(() => {
+    initFlowbite();
+});
 
 </script>
 

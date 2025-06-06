@@ -9,12 +9,13 @@ class Payment extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'tenant_id',
+        'room_tenant_id',
         'amount',
         'payment_date',
         'payment_status',
         'payment_method',
         'billing_period',
+        'penalty_fee',
     ];
 
     public function tenant()

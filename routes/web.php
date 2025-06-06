@@ -9,6 +9,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTenantController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PaymentController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,8 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::resource('users', UserController::class)->except(['show']);
         // Tenant Management
         Route::resource('tenants', TenantController::class)->except(['show']);
+        // Payment Management
+        Route::resource('payments', PaymentController::class)->except(['show']);
     });
 
     // Penghuni Routes
