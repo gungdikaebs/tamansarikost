@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tenant_id')->constrained()->onDelete('cascade');
-            $table->integer('amount');
+            $table->foreignId('room_tenant_id')->constrained('room_tenants')->onDelete('cascade');
+            $table->decimal('amount', 10, 2);
             $table->date('payment_date');
             $table->enum('payment_status', ['pending', 'completed', 'failed'])->default('pending');
-            $table->string('payment_method'); // e.g., bank transfer, cash
-            $table->string('billing_period'); // e.g., '2025-05', '2025-06'
+            $table->string('payment_method'); // e.g., "bank_transfer", "cash"
+            $table->date('billing_period'); // Misal "2024-10"
+            $table->decimal('penalty_fee', 10, 2)->default(0)->comment('Denda keterlambatan pembayaran');
             $table->timestamps();
         });
     }

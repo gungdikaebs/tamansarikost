@@ -27,56 +27,36 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 // === Dashboard ===
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth'])->prefix('dashboard')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Admin Routes
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/admin', [AdminController::class, 'index'])->name('dashboard.admin');
+        // Room Management
+        Route::resource('rooms', RoomController::class)->except(['show']);
+        Route::get('rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
+        // Room Tenant Management
+        Route::post('room-tenants', [RoomTenantController::class, 'store'])->name('room-tenants.store');
+        Route::delete('room-tenants/{id}', [RoomTenantController::class, 'destroy'])->name('room-tenants.destroy');
+        // User Management
+        Route::resource('users', UserController::class)->except(['show']);
+        // Tenant Management
+        Route::resource('tenants', TenantController::class)->except(['show']);
+    });
+
+    // Penghuni Routes
+    Route::middleware('role:penghuni')->group(function () {
+        Route::get('/penghuni', [PenghuniController::class, 'index'])->name('dashboard.penghuni');
+        Route::post('book-room/{roomId}', [PenghuniController::class, 'bookRoom'])->name('book.room');
+        Route::get('register-tenant', [PenghuniController::class, 'createTenant'])->name('tenant.register');
+        Route::post('register-tenant', [PenghuniController::class, 'storeTenant'])->name('tenant.register.store');
+        Route::get('register-room-tenant', [PenghuniController::class, 'createRoomTenant'])->name('roomTenant.register');
+        Route::post('register-room-tenant', [PenghuniController::class, 'storeRoomTenant'])->name('roomTenant.register.store');
+    });
 });
 
-// === Rooms ===
-Route::middleware(['auth', 'isAdmin'])->group(function () {
-    Route::get('/dashboard/rooms', [RoomController::class, 'index'])->name('rooms.index');
-    Route::get('/dashboard/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
-    Route::post('/dashboard/rooms', [RoomController::class, 'store'])->name('rooms.store');
-    Route::get('/dashboard/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
-    Route::put('/dashboard/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
-    Route::get('/dashboard/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
-    Route::delete('/dashboard/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
 
-    // Room Tenants
-    Route::post('/dashboard/room-tenants', [RoomTenantController::class, 'store'])->name('room-tenants.store');
-    Route::delete('/dashboard/room-tenants/{id}', [RoomTenantController::class, 'destroy'])->name('room-tenants.destroy');
-});
-
-// === Users ===
-Route::middleware(['auth', 'isAdmin'])->group(function () {
-    Route::get('/dashboard/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/dashboard/users/create', [UserController::class, 'create'])->name('users.create');
-    Route::post('/dashboard/users', [UserController::class, 'store'])->name('users.store');
-    Route::get('/dashboard/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('/dashboard/users/{user}', [UserController::class, 'update'])->name('users.update');
-    Route::delete('/dashboard/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
-});
-
-// === Tenants ===
-// Admin
-Route::middleware(['auth', 'isAdmin'])->group(
-    function () {
-        Route::get('/dashboard/tenants', [TenantController::class, 'index'])->name('tenants.index');
-        Route::get('/dashboard/tenants/create', [TenantController::class, 'create'])->name('tenants.create');
-        Route::post('/dashboard/tenants', [TenantController::class, 'store'])->name('tenants.store');
-        Route::get('/dashboard/tenants/{tenant}/edit', [TenantController::class, 'edit'])->name('tenants.edit');
-        Route::put('/dashboard/tenants/{tenant}', [TenantController::class, 'update'])->name('tenants.update');
-        Route::delete('/dashboard/tenants/{tenant}', [TenantController::class, 'destroy'])->name('tenants.destroy');
-    }
-);
-
-// ===Booking And Register Tenant===
-Route::middleware(['auth'])->group(function () {
-    Route::post('/dashboard/book-room/{roomId}', [PenghuniController::class, 'bookRoom'])->name('book.room');
-    Route::get('/dashboard/register-tenant', [PenghuniController::class, 'createTenant'])->name('register.tenant');
-    Route::post('/dashboard/register-tenant', [PenghuniController::class, 'storeTenant'])->name('register.tenant.store');
-    Route::get('/dashboard/register-room-tenant', [PenghuniController::class, 'createRoomTenant'])->name('register.roomTenant');
-    Route::post('/dashboard/register-room-tenant', [PenghuniController::class, 'storeRoomTenant'])->name('register.roomTenant.store');
-});
 
 
 

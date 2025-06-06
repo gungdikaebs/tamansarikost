@@ -50,11 +50,9 @@ class RegisterController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
         // Redirect based on role
-        if ($user->role === 'admin') {
-            return redirect()->intended('/dashboard/admin');
-        } elseif ($user->role === 'penghuni') {
-            return redirect()->intended('/dashboard/penghuni');
-        }
+
+        return redirect()->intended('/dashboard/');
+
         // Redirect to the dashboard or any other page
 
     }

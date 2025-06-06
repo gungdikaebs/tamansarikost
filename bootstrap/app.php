@@ -17,9 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleInertiaRequests::class,
         ]);
         $middleware->alias([
-            'isAdmin' => App\Http\Middleware\IsAdmin::class,
-            'isPenghuni' => App\Http\Middleware\IsPenghuni::class,
-            'isGuest' => App\Http\Middleware\IsGuest::class,
+            'role' => App\Http\Middleware\Role::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
