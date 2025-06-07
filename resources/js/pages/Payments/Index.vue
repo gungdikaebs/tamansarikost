@@ -1,4 +1,5 @@
 <script setup>
+import { Inertia } from '@inertiajs/inertia';
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
 import { defineProps } from 'vue';
 
@@ -14,6 +15,20 @@ const props = defineProps({
 });
 
 console.log(props.payments);
+
+function updatePaymentStatus(paymentId, newStatus) {
+    Inertia.put(`payments/${paymentId}/status`,
+        { payment_status: newStatus },
+        {
+            preserveScroll: true,
+            onSuccess: () => {
+                console.log(`Payment ${paymentId} status updated to ${newStatus}`);
+            },
+            onError: (errors) => {
+                console.error(`Failed to update payment ${paymentId} status:`, errors);
+            }
+        });
+}
 
 
 </script>
@@ -41,9 +56,32 @@ console.log(props.payments);
                             <th scope="col" class="px-6 py-3">Nama Penghuni</th>
                             <th scope="col" class="px-6 py-3">Jumlah Pembayaran</th>
                             <th scope="col" class="px-6 py-3">Tanggal Pembayaran</th>
+                            <th scope="col" class="px-6 py-3">Status</th>
                             <th scope="col" class="px-6 py-3">Aksi</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <tr v-for="payment in props.payments" :key="payment.id"
+                            class="bg-white border-b hover:bg-gray-50">
+                            <td class="px-6 py-4">{{ payment.id }}</td>
+                            <td class="px-6 py-4">{{ payment.room_tenant?.tenant?.fullname || 'N/A' }}</td>
+                            <td class="px-6 py-4">Rp. {{ payment.amount.toLocaleString('id-ID') }}</td>
+                            <td class="px-6 py-4">{{ new Date(payment.payment_date).toLocaleString() }}</td>
+                            <td class="px-6 py-4">
+                                <select v-model="payment.payment_status"
+                                    @change="updatePaymentStatus(payment.id, payment.payment_status)"
+                                    class="border rounded px-2 py-1">
+                                    <option value="pending">Pending</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="failed">Failed</option>
+                                </select>
+
+                            </td>
+                            <td class="px-6 py-4">
+
+                            </td>
+                        </tr>
+                    </tbody>
 
                 </table>
             </div>

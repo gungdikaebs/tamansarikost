@@ -18,8 +18,8 @@ class Payment extends Model
         'penalty_fee',
     ];
 
-    public function tenant()
+    public function roomTenant()
     {
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsTo(RoomTenant::class);
     }
 }

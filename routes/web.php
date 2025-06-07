@@ -46,6 +46,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::resource('tenants', TenantController::class)->except(['show']);
         // Payment Management
         Route::resource('payments', PaymentController::class)->except(['show']);
+        Route::put(('payments/{payment}/status'), [PaymentController::class, 'updateStatus'])->name('payments.updateStatus');
     });
 
     // Penghuni Routes

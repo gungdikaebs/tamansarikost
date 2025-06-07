@@ -45,7 +45,7 @@ console.log(props.tenant);
                     <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-3 ">
 
                         <div v-for="room in props.rooms" :key="room.id"
-                            class="bg-white rounded-lg shadow-lg/50 shadow-blue-100 p-4">
+                            class="bg-white rounded-lg shadow-lg/20 shadow-gray-600 p-4">
                             <a :href="`/dashboard/register-tenant?room_id=${room.id}`">
                                 <img src="https://i.pinimg.com/736x/09/1f/6b/091f6b9e8ae59b382144f53d80564965.jpg"
                                     alt="Room Image" class="w-full h-48 object-cover mb-4 rounded">

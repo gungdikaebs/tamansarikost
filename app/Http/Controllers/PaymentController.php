@@ -65,4 +65,16 @@ class PaymentController extends Controller
     {
         //
     }
+
+    public function updateStatus(Request $request, Payment $payment)
+    {
+        $validated = $request->validate([
+            'payment_status' => 'required|in:pending,completed,failed',
+        ]);
+
+        $payment->payment_status = $validated['payment_status'];
+        $payment->save();
+
+        return redirect()->route('payments.index')->with('success', 'Payment status updated successfully.');
+    }
 }
