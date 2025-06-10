@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\RoomTenant;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class RoomTenantController extends Controller
     {
         $roomTenant = RoomTenant::findOrFail($id);
         $roomId = $roomTenant->room_id;
-        
+
         if ($roomTenant->status === 'active') {
             $room = Room::findOrFail($roomId);
             $room->status = 'available';

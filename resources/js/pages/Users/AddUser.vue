@@ -18,7 +18,7 @@ const form = useForm({
     username: '',
     password: '',
     phone: '',
-    role: 'guest'
+    role: 'penghuni'
 });
 
 function submit() {
@@ -78,14 +78,9 @@ function submit() {
                     <p v-if="form.errors.phone" class="text-red-500 text-sm mt-1">{{ form.errors.phone }}</p>
 
                 </div>
-                <div class="mb-5">
+                <div class="mb-5" hidden>
                     <label for="role" class="block mb-2 text-sm font-medium text-gray-900 ">Role</label>
-                    <select v-model="form.role" id="role" required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option value="" disabled selected>Pilih Role</option>
-                        <option value="guest">Guest</option>
-                        <option value="penghuni">Penghuni</option>
-                    </select>
+                    <input type="text" v-model="form.role">
                     <p v-if="form.errors.role" class="text-red-500 text-sm mt-1">{{ form.errors.role }}</p>
 
                 </div>

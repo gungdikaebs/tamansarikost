@@ -25,11 +25,6 @@ class Tenant extends Model
         return $this->hasMany(RoomTenant::class);
     }
 
-    public function payments()
-    {
-        return $this->hasMany(Payment::class);
-    }
-
     public function payees()
     {
         return $this->hasMany(RoomTenant::class, 'payee_id');

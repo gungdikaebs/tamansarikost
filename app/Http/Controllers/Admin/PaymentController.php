@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use App\Models\RoomTenant;
 
 class PaymentController extends Controller
 {
@@ -23,7 +25,10 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        //
+        $roomTenants = RoomTenant::with('tenant', 'room')->get();
+        return inertia('Payments/AddPayment', [
+            'roomTenants' => $roomTenants,
+        ]);
     }
 
     /**

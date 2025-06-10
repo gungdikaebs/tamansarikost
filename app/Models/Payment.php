@@ -16,6 +16,7 @@ class Payment extends Model
         'payment_method',
         'billing_period',
         'penalty_fee',
+        'payment_photo',
     ];
 
     public function roomTenant()

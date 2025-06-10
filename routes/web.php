@@ -5,11 +5,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\PenghuniController;
-use App\Http\Controllers\RoomController;
-use App\Http\Controllers\RoomTenantController;
-use App\Http\Controllers\TenantController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\RoomTenantController;
+use App\Http\Controllers\Admin\TenantController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PaymentController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 
@@ -52,10 +52,10 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     // Penghuni Routes
     Route::middleware('role:penghuni')->group(function () {
         Route::get('/penghuni', [PenghuniController::class, 'index'])->name('dashboard.penghuni');
-        Route::get('register-tenant', [PenghuniController::class, 'createTenant'])->name('tenant.register');
-        Route::post('register-tenant', [PenghuniController::class, 'storeTenant'])->name('tenant.register.store');
-        Route::get('register-room-tenant', [PenghuniController::class, 'createRoomTenant'])->name('roomTenant.register');
-        Route::post('register-room-tenant', [PenghuniController::class, 'storeRoomTenant'])->name('roomTenant.register.store');
+        Route::get('register-tenant', [PenghuniController::class, 'showRegisterFormTenant'])->name('penghuni.register');
+        Route::post('register-tenant', [PenghuniController::class, 'storeTenant'])->name('penghuni.register.store');
+        Route::get('register-payment', [PenghuniController::class, 'showRegisterFormPayment'])->name('penghuni.register-payment');
+        Route::post('register-payment', [PenghuniController::class, 'storeRegisterPayment'])->name('penghuni.register-payment.store');
     });
 });
 
