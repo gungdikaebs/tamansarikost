@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('room_tenant_id')->constrained('room_tenants')->onDelete('cascade');
             $table->decimal('amount', 10, 2);
             $table->string('payment_photo')->nullable()->comment('Foto bukti pembayaran');
-            $table->date('payment_date');
-            $table->enum('payment_status', ['pending', 'confirmed', 'failed'])->default('pending');
-            $table->string('payment_method'); // e.g., "bank_transfer", "cash"
+            $table->date('payment_date')->nullable();
+            $table->enum('payment_status', ['pending', 'confirmed', 'failed'])->default('pending')->nullable();
+            $table->string('payment_method')->nullable(); // e.g., "bank_transfer", "cash"
             $table->date('billing_period'); // Misal "2024-10"          a
             $table->decimal('penalty_fee', 10, 2)->default(0)->comment('Denda keterlambatan pembayaran');
             $table->timestamps();

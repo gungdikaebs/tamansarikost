@@ -3,14 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Payment;
 use App\Models\Room;
-use App\Models\RoomTenant;
 use App\Models\Tenant;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
 
 class PenghuniController extends Controller
 {
@@ -18,25 +13,13 @@ class PenghuniController extends Controller
     {
         $user = Auth::user();
 
-        $tenant = Tenant::with('roomTenants.room', 'roomTenants.payee')->where('user_id', $user->id)->first();
+        // Ambil tenant yang terkait dengan user
+        $tenant = Tenant::with('roomTenants.room', 'roomTenants.payee')
+            ->where('user_id', $user->id)
+            ->first();
 
-        if ($tenant) {
-            $roomTenantsWithPayment = $tenant->roomTenants->first()->load('payments');
-            if ($roomTenantsWithPayment->payments->isEmpty()) {
-                return redirect()->route('penghuni.register-payment', ['roomTenant' => $roomTenantsWithPayment->id])
-                    ->with('info', 'Please complete your payment registration.');
-            } else {
-                // Jika tenant ada, kirim tenant lengkap dengan relasi roomTenants dan kamar
-                return inertia('Dashboard/DashboardPenghuni', [
-                    'tenant' => $tenant,
-                    'roomTenants' => $tenant->roomTenants,
-                    'rooms' => $tenant->roomTenants->map(function ($rt) {
-                        return $rt->room; // mengirim kamar yang terkait
-                    }),
-                ]);
-            }
-        } else {
-            // Belum ada tenant, kirim daftar kamar yang tersedia
+        if (!$tenant) {
+            // User belum punya tenant, tampilkan kamar tersedia
             $availableRooms = Room::where('status', 'available')->get();
             return inertia('Dashboard/DashboardPenghuni', [
                 'tenant' => null,
@@ -44,133 +27,37 @@ class PenghuniController extends Controller
                 'rooms' => $availableRooms,
             ]);
         }
-    }
 
-    public function showRegisterFormTenant()
-    {
-        $roomId = request()->query('room_id');
+        // Filter roomTenants yang punya payee_id == tenant id user
+        $roomTenantsAsPayee = $tenant->roomTenants->filter(function ($roomTenant) use ($tenant) {
+            return $roomTenant->payee_id == $tenant->id;
+        });
 
-        if (!$roomId) {
-            return redirect()->route('dashboard.penghuni')->with('error', 'Room ID is required for booking.');
+        if ($roomTenantsAsPayee->isEmpty()) {
+            // Tenant tidak bertanggung jawab bayar di room mana pun, tampilkan dashboard biasa
+            return inertia('Dashboard/DashboardPenghuni', [
+                'tenant' => $tenant,
+                'roomTenants' => $tenant->roomTenants,
+                'rooms' => $tenant->roomTenants->map(fn($rt) => $rt->room),
+            ]);
         }
 
-        // Simpan room id ke session untuk dipakai di storeTenant dan createRoomTenant
-        session(['selected_room_id' => $roomId]);
+        // Cek apakah ada roomTenant dengan payment kosong untuk tenant sebagai payee
+        foreach ($roomTenantsAsPayee as $roomTenant) {
+            $roomTenant->load('payments');
 
-        return inertia('Penghuni/RegisterTenant', [
-            'room_id' => $roomId,
-            'user' => Auth::user(),
-            'breadcrumbs' => [
-                ['label' => 'Dashboard', 'url' => route('dashboard')],
-                ['label' => 'Registerasi'],
-                ['label' => 'Pembayaran'],
-                ['label' => 'Menunggu Konfirmasi']
-            ],
+            if ($roomTenant->payments->isEmpty()) {
+                // Ada roomTenant belum bayar, redirect ke halaman register payment untuk roomTenant tersebut
+                return redirect()->route('penghuni.register-payment', ['roomTenant' => $roomTenant->id])
+                    ->with('info', 'Please complete your payment registration.');
+            }
+        }
+
+        // Semua sudah bayar, tampilkan dashboard biasa
+        return inertia('Dashboard/DashboardPenghuni', [
+            'tenant' => $tenant,
+            'roomTenants' => $tenant->roomTenants,
+            'rooms' => $tenant->roomTenants->map(fn($rt) => $rt->room),
         ]);
-    }
-
-
-    public function storeTenant(Request $request)
-    {
-        $roomId = session('selected_room_id');
-        if (!$roomId) {
-            return redirect()->route('dashboard.penghuni')->with('error', 'Room ID is missing in the session.');
-        }
-
-        $validatedData = $request->validate([
-            'fullname' => 'required|string|max:255',
-            'ktp_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
-        $userId = Auth::id(); // Ambil user_id dari user yang login
-
-        // Cek tenant sudah ada berdasarkan user_id
-        $existingTenant = Tenant::where('user_id', $userId)->first();
-        if ($existingTenant) {
-            return redirect()->back()->with('error', 'You already have a tenant registered.');
-        }
-
-        if ($request->hasFile('ktp_photo')) {
-            $filePath = $request->file('ktp_photo')->store('ktp_photos', 'public');
-        } else {
-            return back()->withErrors(['ktp_photo' => 'KTP photo is required']);
-        }
-
-        // Simpan tenant baru
-        $tenant = new Tenant();
-        $tenant->user_id = $userId;
-        $tenant->fullname = $validatedData['fullname'];
-        $tenant->ktp_photo = $filePath;
-        $tenant->save();
-
-        // Data untuk insert ke pivot room_tenant
-        $roomTenant = new RoomTenant();
-        $roomTenant->room_id = $roomId;
-        $roomTenant->tenant_id = $tenant->id;
-        $roomTenant->start_date = Carbon::now()->toDateString();
-        $roomTenant->end_date = null;
-        $roomTenant->status = 'active';
-        $roomTenant->payee_id = $tenant->id;
-        $roomTenant->save();
-
-        // Update status kamar menjadi 'occupied'
-        $room = Room::findOrFail($roomId);
-        $room->status = 'occupied';
-        $room->save();
-
-        // Bersihkan session
-        session()->forget('selected_room_id');
-
-        return redirect()->route('penghuni.register.payment', ['roomTenant' => $roomTenant->id])->with('success', 'Tenant registered successfully and room booked. Please proceed to payment.');
-    }
-    public function showRegisterFormPayment(Request $request)
-    {
-        $roomTenant = RoomTenant::with('tenant', 'room')->find($request->roomTenant);
-        return inertia('Penghuni/RegisterPayment', [
-            'roomTenant' => $roomTenant,
-
-            'breadcrumbs' => [
-                ['label' => 'Dashboard', 'url' => route('dashboard')],
-                ['label' => 'Registerasi', 'url' => route('penghuni.register')],
-                ['label' => 'Pembayaran'],
-                ['label' => 'Menunggu Konfirmasi']
-            ],
-        ]);
-    }
-
-    public function storeRegisterPayment(Request $request)
-    {
-        $validated = $request->validate([
-            'room_tenant_id' => 'required|exists:room_tenants,id',
-            'amount' => 'required|numeric|min:0',
-            'payment_date' => 'required|date',
-            'payment_status' => 'required|in:pending,completed,failed',
-            'payment_method' => 'required|string|max:255',
-            'penalty_fee' => 'nullable|numeric|min:0',
-            'payment_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
-        // Generate billing_period otomatis berdasarkan payment_date + 1 bulan
-        $paymentDate = Carbon::parse($validated['payment_date']);
-        $billingPeriod = $paymentDate->copy()->addMonth()->format('d-m-Y'); // format: 12-01-2025
-
-        if ($request->hasFile('payment_photo')) {
-            $filePath = $request->file('payment_photo')->store('payment_photos', 'public');
-        } else {
-            return back()->withErrors(['payment_photo' => 'Payment photo is required']);
-        }
-
-        $payment = new Payment();
-        $payment->room_tenant_id = $validated['room_tenant_id'];
-        $payment->amount = $validated['amount'];
-        $payment->payment_date = $validated['payment_date'];
-        $payment->payment_status = $validated['payment_status'];
-        $payment->payment_method = $validated['payment_method'];
-        $payment->billing_period = $billingPeriod;
-        $payment->penalty_fee = $validated['penalty_fee'] ?? 0; // Default to 0 if not provided
-        $payment->payment_photo = $filePath;
-        $payment->save();
-
-        return redirect()->route('dashboard.penghuni')->with('success', 'Payment registered successfully. Please wait for confirmation.');
     }
 }

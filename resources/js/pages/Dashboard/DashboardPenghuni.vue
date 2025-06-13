@@ -23,18 +23,24 @@ const props = defineProps({
 });
 
 console.log(props.tenant);
+console.log(props.roomTenants);
+console.log(props.rooms);
 </script>
 
 <template>
     <div>
         <DashboardLayouts :auth="props.auth">
             <div v-if="props.tenant">
-                <!-- Tenant Ada -->
-                <p>Halo, {{ auth.user.username }}!</p>
-                <div v-for="roomTenants in props.roomTenants" :key="roomTenants.id">
-                    <p>Kamar yang kamu sewa: {{ roomTenants.room.room_number }}</p>
-                    <p>Harga: Rp. {{ roomTenants.room.price.toLocaleString('id-ID') }}</p>
-                    <p>Penanggung Jawab Kamar: {{ roomTenants.payee_name }}</p>
+                <div class="bg-white rounded-lg shadow-lg/20 shadow-gray-600 p-4">
+                    <h1 class="text-2xl font-bold   text-center md:text-start">Selamat Datang, {{
+                        props.auth.user.username }}
+                    </h1>
+
+                    <div v-for="roomTenants in props.roomTenants" :key="roomTenants.id">
+                        <p>Kamar yang kamu sewa: {{ roomTenants.room.room_number }}</p>
+                        <p>Harga: Rp. {{ roomTenants.room.price.toLocaleString('id-ID') }}</p>
+                        <p>Penanggung Jawab Kamar: {{ roomTenants.payee_name }}</p>
+                    </div>
                 </div>
             </div>
 
@@ -54,7 +60,7 @@ console.log(props.tenant);
                                 <p class="mb-4">{{ room.description }}</p>
                                 <div class="flex justify-between items-center">
                                     <p class="text-sm rounded">Rp. {{ room.price.toLocaleString('id-ID')
-                                        }}</p>
+                                    }}</p>
                                     <a class="bg-blue-500 py-1 px-3 rounded text-white font "
                                         :href="`/dashboard/register-tenant?room_id=${room.id}`">
                                         Book Now

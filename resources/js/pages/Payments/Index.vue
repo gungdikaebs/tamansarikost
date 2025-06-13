@@ -16,6 +16,17 @@ const props = defineProps({
 
 console.log(props.payments);
 
+function formatDateToDayMonthYear(dateInput) {
+    if (!dateInput) return 'Invalid Date';
+    const date = new Date(dateInput);
+    if (isNaN(date)) return 'Invalid Date';
+
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', { month: 'short' });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+}
+
 function updatePaymentStatus(paymentId, newStatus) {
     Inertia.put(`payments/${paymentId}/status`,
         { payment_status: newStatus },
@@ -54,8 +65,11 @@ function updatePaymentStatus(paymentId, newStatus) {
                         <tr>
                             <th scope="col" class="px-6 py-3">Id</th>
                             <th scope="col" class="px-6 py-3">Nama Penghuni</th>
+                            <th scope="col" class="px-6 py-3">Kamar</th>
                             <th scope="col" class="px-6 py-3">Jumlah Pembayaran</th>
                             <th scope="col" class="px-6 py-3">Tanggal Pembayaran</th>
+                            <th scope="col" class="px-6 py-3">Jatuh Tempo Pembayaran</th>
+
                             <th scope="col" class="px-6 py-3">Status</th>
                             <th scope="col" class="px-6 py-3">Aksi</th>
                         </tr>
@@ -65,14 +79,18 @@ function updatePaymentStatus(paymentId, newStatus) {
                             class="bg-white border-b hover:bg-gray-50">
                             <td class="px-6 py-4">{{ payment.id }}</td>
                             <td class="px-6 py-4">{{ payment.room_tenant?.tenant?.fullname || 'N/A' }}</td>
-                            <td class="px-6 py-4">Rp. {{ payment.amount.toLocaleString('id-ID') }}</td>
-                            <td class="px-6 py-4">{{ new Date(payment.payment_date).toLocaleString() }}</td>
+                            <td class="px-6 py-4">{{ payment.room_tenant?.room?.room_number || 'N/A' }}</td>
+                            <td class="px-6 py-4 ">Rp. {{ payment.amount.toLocaleString('id-ID') }}</td>
+                            <td class="px-6 py-4" v-if="payment.payment_date !== null">{{
+                                formatDateToDayMonthYear(payment.payment_date) }}</td>
+                            <td class="px-6 py-4" v-else>Belum Membayar</td>
+                            <td class="px-6 py-4">{{ formatDateToDayMonthYear(payment.billing_period) }}</td>
                             <td class="px-6 py-4">
                                 <select v-model="payment.payment_status"
                                     @change="updatePaymentStatus(payment.id, payment.payment_status)"
                                     class="border rounded px-2 py-1">
                                     <option value="pending">Pending</option>
-                                    <option value="completed">Completed</option>
+                                    <option value="confirmed">Confirmed</option>
                                     <option value="failed">Failed</option>
                                 </select>
 

@@ -14,7 +14,11 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::with('roomTenant.tenant', 'roomTenant.payee.user')->get();
+        $payments = Payment::with([
+            'roomTenant.tenant',
+            'roomTenant.payee.user',
+            'roomTenant.room'
+        ])->get();
         return inertia('Payments/Index', [
             'payments' => $payments,
         ]);
@@ -25,7 +29,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        $roomTenants = RoomTenant::with('tenant', 'room')->get();
+        $roomTenants = RoomTenant::with('tenant', 'room', 'payment')->get();
         return inertia('Payments/AddPayment', [
             'roomTenants' => $roomTenants,
         ]);
@@ -73,13 +77,36 @@ class PaymentController extends Controller
 
     public function updateStatus(Request $request, Payment $payment)
     {
+        // Validasi input di awal
         $validated = $request->validate([
-            'payment_status' => 'required|in:pending,completed,failed',
+            'payment_status' => 'required|in:pending,confirmed,failed',
+            'payment_id' => 'nullable|integer', // jika ingin menerima payment_id dari frontend
         ]);
 
+        // Update status pembayaran
         $payment->payment_status = $validated['payment_status'];
         $payment->save();
 
-        return redirect()->route('payments.index')->with('success', 'Payment status updated successfully.');
+        // Jika status menjadi 'confirmed', buat pembayaran baru untuk periode berikutnya
+        if ($validated['payment_status'] === 'confirmed') {
+            $roomTenant = RoomTenant::with('tenant', 'room')->findOrFail($payment->room_tenant_id);
+
+            $currentBillingPeriod = \Carbon\Carbon::parse($payment->billing_period);
+            $newPayment = new Payment();
+            $newPayment->room_tenant_id = $roomTenant->id;
+            $newPayment->amount = $roomTenant->room->price;
+            $newPayment->payment_date = null;
+            $newPayment->payment_status = null;
+            $newPayment->payment_method = null;
+            $newPayment->billing_period = $currentBillingPeriod->addMonth()->format('d-m-Y');
+            $newPayment->penalty_fee = 0;
+            $newPayment->payment_photo = null;
+            $newPayment->save();
+
+            return redirect()->back()
+                ->with('success', 'Payment confirmed and new payment created for next billing period.');
+        }
+        return redirect()->route('payments.index')
+            ->with('success', 'Payment status updated successfully.');
     }
 }
