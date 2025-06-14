@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Payment;
 use App\Models\RoomTenant;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class PaymentController extends Controller
 {
@@ -29,9 +31,12 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        $roomTenants = RoomTenant::with('tenant', 'room', 'payment')->get();
+        $roomTenants = RoomTenant::with('tenant', 'payee', 'room',)->get();
+        $uniqueRoomTenants = $roomTenants->unique('payee_id')->values();
+
+
         return inertia('Payments/AddPayment', [
-            'roomTenants' => $roomTenants,
+            'roomTenants' => $uniqueRoomTenants,
         ]);
     }
 
@@ -40,7 +45,25 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'room_tenant_id' => 'required|exists:room_tenants,id',
+            'amount' => 'required|numeric|min:0',
+            'payment_date' => 'nullable|date',
+            'payment_status' => 'nullable|in:pending,confirmed,failed',
+            'payment_method' => 'nullable|string|max:255',
+            'billing_period' => 'required|date',
+            'penalty_fee' => 'nullable|numeric|min:0',
+            'payment_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $payment = new Payment($validated);
+        if ($request->hasFile('payment_photo')) {
+            $payment->payment_photo = $request->file('payment_photo')->store('payments', 'public');
+        }
+        $payment->save();
+
+        return redirect()->route('payments.index')
+            ->with('success', 'Payment created successfully.');
     }
 
     /**
@@ -48,7 +71,15 @@ class PaymentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $payment = Payment::with([
+            'roomTenant.tenant',
+            'roomTenant.payee.user',
+            'roomTenant.room'
+        ])->findOrFail($id);
+
+        return inertia('Payments/ShowPayment', [
+            'payment' => $payment,
+        ]);
     }
 
     /**
@@ -56,7 +87,15 @@ class PaymentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $payment = Payment::with([
+            'roomTenant.tenant',
+            'roomTenant.payee.user',
+            'roomTenant.room'
+        ])->findOrFail($id);
+
+        return inertia('Payments/EditPayment', [
+            'payment' => $payment,
+        ]);
     }
 
     /**
@@ -64,7 +103,27 @@ class PaymentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $payment = Payment::findOrFail($id);
+
+        $validated = $request->validate([
+            'room_tenant_id' => 'required|exists:room_tenants,id',
+            'amount' => 'required|numeric|min:0',
+            'payment_date' => 'nullable|date',
+            'payment_status' => 'nullable|in:pending,confirmed,failed',
+            'payment_method' => 'nullable|string|max:255',
+            'billing_period' => 'required|date',
+            'penalty_fee' => 'nullable|numeric|min:0',
+            'payment_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+        $payment->fill($validated);
+
+        if ($request->hasFile('payment_photo')) {
+            $payment->payment_photo = $request->file('payment_photo')->store('payments', 'public');
+        }
+        $payment->save();
+
+        return redirect()->route('payments.index')
+            ->with('success', 'Payment updated successfully.');
     }
 
     /**
@@ -72,7 +131,14 @@ class PaymentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $payment = Payment::findOrFail($id);
+        if ($payment->payment_photo) {
+            Storage::disk('public')->delete($payment->payment_photo);
+        }
+        $payment->delete();
+
+        return inertia('Payments/Index')
+            ->with('success', 'Payment deleted successfully.');
     }
 
     public function updateStatus(Request $request, Payment $payment)
@@ -91,14 +157,14 @@ class PaymentController extends Controller
         if ($validated['payment_status'] === 'confirmed') {
             $roomTenant = RoomTenant::with('tenant', 'room')->findOrFail($payment->room_tenant_id);
 
-            $currentBillingPeriod = \Carbon\Carbon::parse($payment->billing_period);
+            $currentBillingPeriod = Carbon::parse($payment->billing_period);
             $newPayment = new Payment();
             $newPayment->room_tenant_id = $roomTenant->id;
             $newPayment->amount = $roomTenant->room->price;
             $newPayment->payment_date = null;
             $newPayment->payment_status = null;
             $newPayment->payment_method = null;
-            $newPayment->billing_period = $currentBillingPeriod->addMonth()->format('d-m-Y');
+            $newPayment->billing_period = $currentBillingPeriod->addMonth();
             $newPayment->penalty_fee = 0;
             $newPayment->payment_photo = null;
             $newPayment->save();
@@ -106,7 +172,7 @@ class PaymentController extends Controller
             return redirect()->back()
                 ->with('success', 'Payment confirmed and new payment created for next billing period.');
         }
-        return redirect()->route('payments.index')
+        return inertia('Payments/Index')
             ->with('success', 'Payment status updated successfully.');
     }
 }

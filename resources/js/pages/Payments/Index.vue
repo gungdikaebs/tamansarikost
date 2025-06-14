@@ -1,7 +1,7 @@
 <script setup>
 import { Inertia } from '@inertiajs/inertia';
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
-import { defineProps } from 'vue';
+import { defineProps, ref, watch } from 'vue';
 
 const props = defineProps({
     auth: {
@@ -14,7 +14,10 @@ const props = defineProps({
     }
 });
 
-console.log(props.payments);
+const localPayments = ref([...props.payments]);
+watch(() => props.payments, (newPayments) => {
+    localPayments.value = [...newPayments];
+});
 
 function formatDateToDayMonthYear(dateInput) {
     if (!dateInput) return 'Invalid Date';
@@ -33,6 +36,10 @@ function updatePaymentStatus(paymentId, newStatus) {
         {
             preserveScroll: true,
             onSuccess: () => {
+                const payment = localPayments.value.find(p => p.id === paymentId);
+                if (payment) {
+                    payment.payment_status = newStatus;
+                }
                 console.log(`Payment ${paymentId} status updated to ${newStatus}`);
             },
             onError: (errors) => {
@@ -69,13 +76,12 @@ function updatePaymentStatus(paymentId, newStatus) {
                             <th scope="col" class="px-6 py-3">Jumlah Pembayaran</th>
                             <th scope="col" class="px-6 py-3">Tanggal Pembayaran</th>
                             <th scope="col" class="px-6 py-3">Jatuh Tempo Pembayaran</th>
-
                             <th scope="col" class="px-6 py-3">Status</th>
                             <th scope="col" class="px-6 py-3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="payment in props.payments" :key="payment.id"
+                        <tr v-for="payment in localPayments" :key="payment.id"
                             class="bg-white border-b hover:bg-gray-50">
                             <td class="px-6 py-4">{{ payment.id }}</td>
                             <td class="px-6 py-4">{{ payment.room_tenant?.tenant?.fullname || 'N/A' }}</td>
@@ -93,10 +99,16 @@ function updatePaymentStatus(paymentId, newStatus) {
                                     <option value="confirmed">Confirmed</option>
                                     <option value="failed">Failed</option>
                                 </select>
-
                             </td>
                             <td class="px-6 py-4">
-
+                                <a :href="`/dashboard/payments/${payment.id}`"
+                                    class="text-blue-600 hover:text-blue-900">Detail</a>
+                                <span class="mx-2">|</span>
+                                <a :href="`/dashboard/payments/${payment.id}/edit`"
+                                    class="text-blue-600 hover:text-blue-900">Edit</a>
+                                <span class="mx-2">|</span>
+                                <button @click="Inertia.delete(`/dashboard/payments/${payment.id}`)"
+                                    class="text-red-600 hover:text-red-900">Hapus</button>
                             </td>
                         </tr>
                     </tbody>

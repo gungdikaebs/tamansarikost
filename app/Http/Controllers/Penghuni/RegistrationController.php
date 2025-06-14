@@ -116,6 +116,7 @@ class RegistrationController extends Controller
             'payment_method' => 'required|string|max:255',
             'penalty_fee' => 'nullable|numeric|min:0',
             'payment_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+
         ]);
 
         if ($request->hasFile('payment_photo')) {
@@ -133,7 +134,7 @@ class RegistrationController extends Controller
         $payment->payment_method = $validated['payment_method'];
         $payment->penalty_fee = $validated['penalty_fee'] ?? 0;
         $payment->payment_photo = $filePath;
-        $payment->billing_period = Carbon::now()->format('d-m-Y'); // Set billing period to current date in dd-mm-yyyy format
+        $payment->billing_period = Carbon::now()->toDateString(); // Set billing period to current date in dd-mm-yyyy format
 
         $payment->save();
 
