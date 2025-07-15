@@ -11,12 +11,19 @@ use Illuminate\Support\Facades\Auth;
 
 class RoomController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $rooms = Room::with('roomTenants')->get();
+        $search = $request->input('search', '');
+
+        $rooms = Room::with('roomTenants')
+            ->when($search, function ($query, $search) {
+                $query->where('room_number', 'like', '%' . $search . '%');
+            })
+            ->get();
 
         return inertia('Rooms/Index', [
             'rooms' => $rooms,
+            'search' => $search,
         ]);
     }
 

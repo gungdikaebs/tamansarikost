@@ -84,6 +84,10 @@ console.log(props.tenants);
                         </td>
 
                         <td class="px-6 py-4 flex gap-3 mx-auto">
+                            <a :href="`/dashboard/users/${tenant.user_id}`"
+                                class="font-medium text-blue-600 hover:underline">
+                                <i class="bx bx-show text-2xl"></i>
+                            </a>
                             <a :href="'/dashboard/tenants/' + tenant.id + '/edit'"
                                 class="font-medium text-blue-600 hover:underline"><i
                                     class='bx bx-edit text-2xl'></i></a>

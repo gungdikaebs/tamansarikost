@@ -19,10 +19,10 @@ console.log(props.auth.user);
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                 <SmallCard />
                 <SmallCard />
-                <SmallCard />
-                <SmallCard />
             </div>
-            <BigCard />
+            <div class="grid ">
+                <BigCard />
+            </div>
         </DashboardLayouts>
     </div>
 </template>

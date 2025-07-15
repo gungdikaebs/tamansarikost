@@ -3,14 +3,8 @@ import { Inertia } from '@inertiajs/inertia';
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
 import { defineProps, ref, watch } from 'vue';
 const props = defineProps({
-    auth: {
-        type: Object,
-        required: true
-    },
-    payment: {
-        type: Object,
-        required: true
-    }
+    auth: Object,
+    payment: Object
 });
 
 // console.log(props.payment);

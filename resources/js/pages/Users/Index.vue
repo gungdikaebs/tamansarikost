@@ -1,30 +1,57 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
-
+import Search from '../../components/dashboard/Search.vue';
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
 
 const props = defineProps({
-    users: {
-        type: Object,
-        required: true
+    users: Object,
+    auth: Object,
+    flash: Object,
+    search: {
+        type: String,
+        default: '',
     },
-    auth: {
-        type: Object,
-        required: true
+    sort_by: String,
+    sort_order: {
+        type: String,
+        default: 'asc',
     },
-    flash: {
-        type: Object,
-        default: () => ({})
-    }
-
 });
-function deleteUser(id) {
-    console.log(id);
-    if (confirm('Apakah Anda yakin ingin menghapus user ini?')) {
-        router.delete(`/dashboard/users/${id}`);
+
+
+
+const search = ref(props.search);
+
+watch(search, (newSearch) => {
+    router.get(
+        '/dashboard/users',
+        { search: newSearch, sort_by: sortBy.value, sort_order: sortOrder.value },
+        { preserveState: true, replace: true }
+    );
+});
+let sortBy = ref('');
+let sortOrder = ref('');
+
+console.log(props.sort_by, props.sort_order);
+
+function toggleSortRole() {
+    if (sortBy.value !== 'role') {
+        sortBy.value = 'role';
+        sortOrder.value = 'asc';
+    } else if (sortOrder.value === 'asc') {
+        sortOrder.value = 'desc';
+    } else {
+        // Anda bisa reset sorting atau loop kembali asc
+        sortOrder.value = 'asc';
     }
 }
+
+watch([search, sortBy, sortOrder], ([newSearch, newSortBy, newSortOrder]) => {
+    router.get('/dashboard/users',
+        { search: newSearch, sort_by: newSortBy, sort_order: newSortOrder },
+        { preserveState: true, replace: true });
+});
 
 </script>
 
@@ -42,24 +69,22 @@ function deleteUser(id) {
             </a>
         </div>
 
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+        <div class="relative overflow-x-auto sm:rounded-lg p-4">
+            <Search v-model:search="search" placeholder="Cari user..." />
+
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 mt-4">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3">
-                            Id
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Email
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Username
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Phone
-                        </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3">Id</th>
+                        <th scope="col" class="px-6 py-3">Email</th>
+                        <th scope="col" class="px-6 py-3">Username</th>
+                        <th scope="col" class="px-6 py-3">Phone</th>
+                        <th scope="col" class="px-6 py-3 cursor-pointer" @click="toggleSortRole">
                             Role
+                            <span v-if="sortBy === 'role'">
+                                <i v-if="sortOrder === 'asc'" class="bx bx-up-arrow-alt"></i>
+                                <i v-else class="bx bx-down-arrow-alt"></i>
+                            </span>
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Action
@@ -84,11 +109,16 @@ function deleteUser(id) {
                             {{ user.role }}
                         </td>
                         <td class="px-6 py-4 flex gap-3 mx-auto">
+                            <a :href="`/dashboard/users/${user.id}`" class="font-medium text-blue-600 hover:underline">
+                                <i class="bx bx-show text-2xl"></i>
+                            </a>
                             <a :href="'/dashboard/users/' + user.id + '/edit'"
-                                class="font-medium text-blue-600 hover:underline"><i
-                                    class='bx bx-edit text-2xl'></i></a>
+                                class="font-medium text-blue-600 hover:underline"><i class='bx bx-edit text-2xl'></i>
+                            </a>
+
                             <button @click="deleteUser(user.id)" class="cursor-pointer text-red-600 hover:underline"><i
-                                    class='bx bx-trash text-2xl'></i></button>
+                                    class='bx bx-trash text-2xl'></i>
+                            </button>
 
                         </td>
 

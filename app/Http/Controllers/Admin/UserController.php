@@ -11,13 +11,33 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('tenant')->get();
+        $search = $request->input('search', '');
+        $sortBy = $request->input('sort_by', '');
+        $sortOrder = $request->input('sort_order', 'asc');
+
+        $users = User::when($search, function ($query, $search) {
+            $query->where('username', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
+        })
+            ->when($sortBy, function ($query, $sortBy) use ($sortOrder) {
+                // Validasi kolom yg boleh di sort, untuk keamanan
+                $allowedSorts = ['role', 'username', 'email'];
+                if (in_array($sortBy, $allowedSorts)) {
+                    $query->orderBy($sortBy, $sortOrder);
+                }
+            })
+            ->get();
+
         return inertia('Users/Index', [
             'users' => $users,
+            'search' => $search,
+            'sort_by' => $sortBy,
+            'sort_order' => $sortOrder,
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -63,7 +83,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $user->load('tenant.roomTenants.room');
+        return inertia('Users/ShowUser', [
+            'user' => $user,
+        ]);
     }
 
     /**

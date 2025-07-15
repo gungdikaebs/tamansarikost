@@ -1,22 +1,23 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, watch, ref } from 'vue';
 import { router } from '@inertiajs/vue3';
+import Search from '../../components/dashboard/Search.vue';
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
 
 const props = defineProps({
-    rooms: {
-        type: Array,
-        required: true
-    },
-    auth: {
-        type: Object,
-        required: true
-    },
-    flash: {
-        type: Object,
-        default: () => ({})
-    }
+    rooms: Array,
+    auth: Object,
+    flash: Object,
+    search: String,
+
 });
+
+const search = ref(props.search);
+watch(search, (newSearch) => {
+    router.get('/dashboard/rooms', { search: newSearch }, { preserveState: true, replace: true });
+});
+
+
 
 function deleteRoom(id) {
     if (confirm('Are you sure you want to delete this room?')) {
@@ -39,9 +40,11 @@ function deleteRoom(id) {
             </a>
         </div>
 
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <div class="relative overflow-x-auto sm:rounded-lg p-4">
+            <Search v-model:search="search" placeholder="Cari kamar..." />
+
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 mt-4">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                     <tr>
                         <th scope="col" class="px-6 py-3">Id</th>
                         <th scope="col" class="px-6 py-3">Room Number</th>

@@ -46,6 +46,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::delete('room-tenants/{id}', [RoomTenantController::class, 'destroy'])->name('room-tenants.destroy');
         // User Management
         Route::resource('users', UserController::class)->except(['show']);
+        Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
         // Tenant Management
         Route::resource('tenants', TenantController::class)->except(['show']);
         // Payment Management

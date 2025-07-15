@@ -20,7 +20,7 @@ const sendMessageToWhatsapp = () => {
         <div class="max-w-screen-xl mx-auto px-6">
             <div class="flex items-center justify-center pb-2">
                 <h3 class="text-4xl font-bold text-[#152B6B]">
-                    Get It Touch
+                    Contact Us
                 </h3>
 
             </div>

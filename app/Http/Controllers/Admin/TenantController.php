@@ -66,7 +66,7 @@ class TenantController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tenant $tenant) {}
+
 
     /**
      * Show the form for editing the specified resource.
@@ -108,6 +108,7 @@ class TenantController extends Controller
             // Redirect Inertia
             Inertia::location('/dashboard/tenants');
     }
+
 
     /**
      * Remove the specified resource from storage.
