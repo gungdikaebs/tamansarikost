@@ -109,7 +109,7 @@ watch([search, sortBy, sortOrder], ([newSearch, newSortBy, newSortOrder]) => {
                             {{ user.role }}
                         </td>
                         <td class="px-6 py-4 flex gap-3 mx-auto">
-                            <a :href="`/dashboard/users/${user.id}`" class="font-medium text-blue-600 hover:underline">
+                            <a :href="`/dashboard/users/${user.id}`" class="font-medium text-gray-600 hover:underline">
                                 <i class="bx bx-show text-2xl"></i>
                             </a>
                             <a :href="'/dashboard/users/' + user.id + '/edit'"

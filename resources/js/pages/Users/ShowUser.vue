@@ -1,12 +1,16 @@
 <script setup>
 import { usePage } from '@inertiajs/vue3';
+import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
 
 const page = usePage();
 console.log(page.props.user);
+
 </script>
 
 <template>
     <div>
-        test
+        <DashboardLayouts :auth="page.props.auth">
+
+        </DashboardLayouts>
     </div>
 </template>

@@ -14,15 +14,26 @@ class PaymentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search', '');
+
         $payments = Payment::with([
             'roomTenant.tenant',
             'roomTenant.payee.user',
             'roomTenant.room'
-        ])->get();
+        ])
+            ->when($search, function ($query, $search) {
+                $query->whereHas('roomTenant.tenant', function ($q) use ($search) {
+                    $q->where('fullname', 'like', '%' . $search . '%');
+                })
+                    ->orWhere('amount', 'like', '%' . $search . '%')
+                    ->orWhere('payment_status', 'like', '%' . $search . '%');
+            })->paginate(5) // langsung paginate tanpa get
+            ->withQueryString();
         return inertia('Payments/Index', [
             'payments' => $payments,
+            'search' => $search,
         ]);
     }
 
@@ -75,7 +86,11 @@ class PaymentController extends Controller
             'roomTenant.tenant',
             'roomTenant.payee.user',
             'roomTenant.room'
-        ])->findOrFail($id);
+        ])->find($id);
+
+        if (!$payment) {
+            return redirect()->route('payments.index')->with('error', 'Payment not found.');
+        }
 
         return inertia('Payments/ShowPayment', [
             'payment' => $payment,
@@ -137,7 +152,8 @@ class PaymentController extends Controller
         }
         $payment->delete();
 
-        return inertia('Payments/Index')
+        // Redirect ke halaman index dengan pesan sukses dan refresh data
+        return redirect()->route('payments.index')
             ->with('success', 'Payment deleted successfully.');
     }
 
@@ -158,13 +174,14 @@ class PaymentController extends Controller
             $roomTenant = RoomTenant::with('tenant', 'room')->findOrFail($payment->room_tenant_id);
 
             $currentBillingPeriod = Carbon::parse($payment->billing_period);
+            $nextBillingPeriod = $currentBillingPeriod->copy()->addMonth();
             $newPayment = new Payment();
             $newPayment->room_tenant_id = $roomTenant->id;
             $newPayment->amount = $roomTenant->room->price;
             $newPayment->payment_date = null;
-            $newPayment->payment_status = null;
+            $newPayment->payment_status = 'pending';
             $newPayment->payment_method = null;
-            $newPayment->billing_period = $currentBillingPeriod->addMonth();
+            $newPayment->billing_period = $nextBillingPeriod;
             $newPayment->penalty_fee = 0;
             $newPayment->payment_photo = null;
             $newPayment->save();

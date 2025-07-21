@@ -14,14 +14,32 @@ class TenantController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tenants = Tenant::with(['roomTenants', 'user'])->get()->map(function ($tenant) {
+        $search = $request->input('search');
+
+        $tenantsQuery = Tenant::with(['roomTenants', 'user']);
+
+        if ($search) {
+            $tenantsQuery->where(function ($query) use ($search) {
+                $query->where('fullname', 'like', '%' . $search . '%')
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('email', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        $tenants = $tenantsQuery->get()->map(function ($tenant) {
             $tenant->ktp_photo_url = $tenant->ktp_photo ? asset('storage/' . $tenant->ktp_photo) : null;
             return $tenant;
         });
+
         return inertia('Tenants/Index', [
             'tenants' => $tenants,
+            'filters' => [
+                'search' => $search,
+            ],
         ]);
     }
 

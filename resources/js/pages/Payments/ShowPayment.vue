@@ -1,5 +1,5 @@
-<script>
-import { Inertia } from '@inertiajs/inertia';
+<script setup>
+// import { Inertia } from '@inertiajs/inertia';
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
 import { defineProps, ref, watch } from 'vue';
 const props = defineProps({
@@ -7,7 +7,7 @@ const props = defineProps({
     payment: Object
 });
 
-// console.log(props.payment);
+console.log(props.payment);     
 </script>
 
 <template>
@@ -18,9 +18,9 @@ const props = defineProps({
                 <div class="mb-4">
                     <strong>ID Pembayaran:</strong> {{ payment.id }}
                 </div>
-                <div class="mb-4">
+                <!-- <div class="mb-4">
                     <strong>Nama Penghuni:</strong> {{ payment.room_tenant.user.fullname }}
-                </div>
+                </div> -->
                 <div class="mb-4">
                     <strong>Jumlah Bayar:</strong> Rp. {{ payment.amount.toLocaleString() }}
                 </div>

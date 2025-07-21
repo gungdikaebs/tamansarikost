@@ -63,6 +63,10 @@ console.log(props.auth.user);
                     <label for="ktp_photo" class="block mb-1 font-medium">Foto KTP</label>
                     <input id="ktp_photo" name="ktp_photo" type="file" @change="handleFileUpload" accept="image/*"
                         class="border p-2 rounded w-full" />
+                    <div v-if="form.ktp_photo" class="mt-2">
+                        <progress max="100" :value="form.uploadProgress" class="w-full"></progress>
+                        <div class="text-sm mt-1">{{ form.uploadProgress || 0 }}%</div>
+                    </div>
                     <div v-if="form.errors.ktp_photo">{{ form.errors.ktp_photo }}</div>
 
                 </div>
