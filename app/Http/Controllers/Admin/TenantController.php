@@ -35,7 +35,7 @@ class TenantController extends Controller
             return $tenant;
         });
 
-        return inertia('Tenants/Index', [
+        return inertia('Admin/Tenants/Index', [
             'tenants' => $tenants,
             'filters' => [
                 'search' => $search,
@@ -49,7 +49,7 @@ class TenantController extends Controller
     public function create()
     {
         $users = User::where('role', 'penghuni')->whereDoesntHave('tenant')->get();
-        return inertia('Tenants/AddTenant', [
+        return inertia('Admin/Tenants/AddTenant', [
             'users' => $users,
         ]);
         abort(403, 'Unauthorized action.');
@@ -93,7 +93,7 @@ class TenantController extends Controller
     {
         $users = User::where('role', 'penghuni')
             ->get();
-        return inertia('Tenants/EditTenant', [
+        return inertia('Admin/Tenants/EditTenant', [
             'tenant' => $tenant->load('user'),
             'users' => $users
         ]);

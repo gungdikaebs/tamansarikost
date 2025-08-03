@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps } from 'vue';
-import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
+import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 import { useForm } from '@inertiajs/vue3';
 const props = defineProps({
     auth: {
@@ -43,33 +43,33 @@ console.log(props.user);
 <template>
     <DashboardLayouts :auth=props.auth>
         <div class="my-4 mx-auto">
-            <h1 class="text-2xl font-bold mb-4">Edit Data Kamar</h1>
-            <form class="max-w-xl" @submit.prevent="submit">
+            <h1 class="text-2xl font-bold mb-4 text-center">Edit Data Kamar</h1>
+            <form class="max-w-xl mx-auto" @submit.prevent="submit">
                 <div class="mb-5">
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                     <input v-model="form.email" type="email" id="email"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5 "
                         placeholder="Masukkan Email Disini!" required />
                     <p v-if="form.errors.email" class="text-red-500 text-sm mt-1">{{ form.errors.email }}</p>
                 </div>
                 <div class="mb-5">
                     <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Username</label>
                     <input v-model="form.username" type="text" id="username" placeholder="Masukkan Username Disini!"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5 "
                         required />
                     <p v-if="form.errors.username" class="text-red-500 text-sm mt-1">{{ form.errors.username }}</p>
                 </div>
                 <div class="mb-5">
                     <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Phone</label>
                     <input v-model="form.phone" type="text" id="phone" placeholder="Masukkan Phone Disini!"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5 "
                         required />
                     <p v-if="form.errors.phone" class="text-red-500 text-sm mt-1">{{ form.errors.phone }}</p>
                 </div>
                 <div class="mb-5">
                     <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Role</label>
                     <select v-model="form.role" id="role"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5 ">
                         <option value="" disabled selected>Pilih Role!</option>
                         <option value="penghuni">Penghuni</option>
                         <option value="guest">guest</option>

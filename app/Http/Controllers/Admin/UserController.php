@@ -30,7 +30,7 @@ class UserController extends Controller
             })
             ->get();
 
-        return inertia('Users/Index', [
+        return inertia('Admin/Users/Index', [
             'users' => $users,
             'search' => $search,
             'sort_by' => $sortBy,
@@ -44,7 +44,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return inertia('Users/AddUser');
+        return inertia('Admin/Users/AddUser');
     }
 
     /**
@@ -84,7 +84,11 @@ class UserController extends Controller
     public function show(User $user)
     {
         $user->load('tenant.roomTenants.room');
-        return inertia('Users/ShowUser', [
+        // get tenant's KTP photo URL
+        $user->tenant->ktp_photo = $user->tenant->ktp_photo ? asset('storage/' . $user->tenant->ktp_photo) : null;
+        // get profile picture URL
+        // $user->profile_picture = $user->profile_picture ? asset('storage/' . $user->profile_picture) : asset('images/default-profile.png');
+        return inertia('Admin/Users/ShowUser', [
             'user' => $user,
         ]);
     }
@@ -94,7 +98,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return inertia('Users/EditUser', [
+        return inertia('Admin/Users/EditUser', [
             'user' => $user,
         ]);
     }

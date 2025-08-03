@@ -1,8 +1,8 @@
 <script setup>
 import { defineProps, watch, ref } from 'vue';
 import { router } from '@inertiajs/vue3';
-import Search from '../../components/dashboard/Search.vue';
-import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
+import Search from '../../../components/dashboard/Search.vue';
+import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 
 const props = defineProps({
     rooms: Array,
@@ -53,8 +53,8 @@ function deleteRoom(id) {
                         <th scope="col" class="px-6 py-3">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr v-for="room in props.rooms" :key="room.id" class="odd:bg-white border-b border-gray-200">
+                <tbody v-for="room in props.rooms" :key="room.id">
+                    <tr class="odd:bg-white border-b border-gray-200">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                             {{ room.id }}
                         </th>

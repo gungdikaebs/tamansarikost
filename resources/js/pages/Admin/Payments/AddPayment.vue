@@ -1,5 +1,5 @@
 <script setup>
-import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue'
+import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue'
 import { useForm } from '@inertiajs/vue3'
 import { ref, computed, watch } from 'vue'
 
@@ -40,13 +40,11 @@ watch(() => form.room_tenant_id, (newVal) => {
         form.amount = 0
     }
 })
-
 function submit() {
     // Ambil file dari input manual dan masukkan ke form data sebelum kirim
     if (fileInput.value && fileInput.value.files.length > 0) {
         form.payment_photo = fileInput.value.files[0]
     }
-
     form.post('/dashboard/payments', {
         onError: () => {
             console.log('validation errors:', props.errors)
@@ -57,13 +55,15 @@ function submit() {
 
 <template>
     <DashboardLayouts :auth="props.auth">
-        <div class="p-6">
-            <h1 class="text-2xl font-bold mb-4">Tambah Pembayaran Baru</h1>
-            <form @submit.prevent="submit" class="space-y-4 max-w-lg" enctype="multipart/form-data">
+        <div class="p-6 mx-auto bg-white rounded-lg">
+            <h1 class="text-2xl font-bold mb-4 text-center">Tambah Pembayaran Baru</h1>
+            <form @submit.prevent="submit" class="space-y-4 max-w-lg mx-auto" enctype="multipart/form-data">
                 <!-- Dropdown Select Room Tenant -->
-                <div>
-                    <label for="room_tenant_id" class="block mb-1 font-medium">Pilih Penghuni (Tenant)</label>
-                    <select v-model="form.room_tenant_id" id="room_tenant_id" class="w-full border rounded p-2">
+                <div class="mb-5">
+                    <label for="room_tenant_id" class="block mb-2 text-sm font-medium text-gray-900 ">Pilih Penghuni
+                        (Tenant)</label>
+                    <select v-model="form.room_tenant_id" id="room_tenant_id"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                         <option value="" disabled>Pilih Tenant</option>
                         <option v-for="rt in props.roomTenants" :key="rt.id" :value="rt.id">
                             {{ rt.payee.fullname }} - {{ rt.room.room_number }}
@@ -74,34 +74,39 @@ function submit() {
                 </div>
 
                 <!-- Input Jumlah Pembayaran (auto terisi, bisa diedit) -->
-                <div>
-                    <label for="amount" class="block mb-1 font-medium">Jumlah Pembayaran</label>
-                    <input v-model="form.amount" id="amount" type="number" class="w-full border rounded p-2" />
+                <div class="mb-5">
+                    <label for="amount" class="block mb-2 text-sm font-medium text-gray-900 ">Jumlah Pembayaran</label>
+                    <input v-model="form.amount" id="amount" type="number"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
                     <p v-if="props.errors.amount" class="text-red-600 text-sm mt-1">{{ props.errors.amount }}</p>
                 </div>
 
                 <!-- Input Tanggal Pembayaran -->
-                <div>
-                    <label for="payment_date" class="block mb-1 font-medium">Tanggal Pembayaran</label>
+                <div class="mb-5">
+                    <label for="payment_date" class="block mb-2 text-sm font-medium text-gray-900 ">Tanggal
+                        Pembayaran</label>
                     <input v-model="form.payment_date" id="payment_date" type="date"
-                        class="w-full border rounded p-2" />
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
                     <p v-if="props.errors.payment_date" class="text-red-600 text-sm mt-1">{{ props.errors.payment_date
-                    }}</p>
+                        }}</p>
                 </div>
 
                 <!-- Input Jatuh Tempo Pembayaran -->
-                <div>
-                    <label for="billing_period" class="block mb-1 font-medium">Jatuh Tempo Pembayaran</label>
+                <div class="mb-5">
+                    <label for="billing_period" class="block mb-2 text-sm font-medium text-gray-900 ">Jatuh Tempo
+                        Pembayaran</label>
                     <input v-model="form.billing_period" id="billing_period" type="date"
-                        class="w-full border rounded p-2" />
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
                     <p v-if="props.errors.billing_period" class="text-red-600 text-sm mt-1">{{
                         props.errors.billing_period }}</p>
                 </div>
 
                 <!-- payment method -->
-                <div>
-                    <label for="payment_method" class="block mb-1 font-medium">Metode Pembayaran</label>
-                    <select v-model="form.payment_method" id="payment_method" class="w-full border rounded p-2">
+                <div class="mb-5">
+                    <label for="payment_method" class="block mb-2 text-sm font-medium text-gray-900 ">Metode
+                        Pembayaran</label>
+                    <select v-model="form.payment_method" id="payment_method"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                         <option value="cash">Cash</option>
                         <option value="transfer">Transfer</option>
                     </select>
@@ -110,9 +115,11 @@ function submit() {
                 </div>
 
                 <!-- Select Status Pembayaran -->
-                <div>
-                    <label for="payment_status" class="block mb-1 font-medium">Status Pembayaran</label>
-                    <select v-model="form.payment_status" id="payment_status" class="w-full border rounded p-2">
+                <div class="mb-5">
+                    <label for="payment_status" class="block mb-2 text-sm font-medium text-gray-900 ">Status
+                        Pembayaran</label>
+                    <select v-model="form.payment_status" id="payment_status"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                         <option value="pending">Pending</option>
                         <option value="confirmed">Confirmed</option>
                         <option value="failed">Failed</option>
@@ -122,20 +129,22 @@ function submit() {
                 </div>
 
                 <!-- Input Penalty Fee -->
-                <div>
-                    <label for="penalty_fee" class="block mb-1 font-medium">Penalty Fee (Denda)</label>
+                <div class="mb-5">
+                    <label for="penalty_fee" class="block mb-2 text-sm font-medium text-gray-900 ">Penalty Fee
+                        (Denda)</label>
                     <input v-model="form.penalty_fee" id="penalty_fee" type="number"
-                        class="w-full border rounded p-2" />
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
                     <p v-if="props.errors.penalty_fee" class="text-red-600 text-sm mt-1">{{ props.errors.penalty_fee }}
                     </p>
                 </div>
 
                 <!-- Payment Photo (input file) -->
-                <div>
-                    <label for="payment_photo" class="block mb-1 font-medium">Foto Pembayaran</label>
+                <div class="mb-5">
+                    <label for="payment_photo" class="block mb-2 text-sm font-medium text-gray-900 ">Foto
+                        Pembayaran</label>
                     <input ref="fileInput" type="file" id="payment_photo" accept="image/*"
-                        class="w-full border rounded p-2" />
-                    <p class="text-gray-500 text-sm mt-1">Opsional, upload bukti pembayaran jika ada.</p>
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
+                    <p class="text-gray-500 text-sm mt-1 ml-1">Opsional, upload bukti pembayaran jika ada.</p>
                 </div>
 
                 <!-- Submit button -->

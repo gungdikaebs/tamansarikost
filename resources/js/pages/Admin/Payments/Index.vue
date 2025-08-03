@@ -1,8 +1,8 @@
 <script setup>
-import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
+import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 import { defineProps, ref, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
-import Search from '../../components/dashboard/Search.vue';
+import Search from '../../../components/dashboard/Search.vue';
 
 const props = defineProps({
     auth: {
@@ -157,7 +157,9 @@ function deletePayment(paymentId) {
                             <td class="px-6 py-4">{{ payment.id }}</td>
                             <td class="px-6 py-4">{{ payment.room_tenant?.tenant?.fullname || 'N/A' }}</td>
                             <td class="px-6 py-4">{{ payment.room_tenant?.room?.room_number || 'N/A' }}</td>
-                            <td class="px-6 py-4 ">Rp. {{ payment.amount.toLocaleString('id-ID') }}</td>
+                            <td class="px-6 py-4">
+                                Rp. {{ (payment.amount + payment.penalty_fee).toLocaleString('id-ID') }}
+                            </td>
                             <td class="px-6 py-4" v-if="payment.payment_date !== null">{{
                                 formatDateToDayMonthYear(payment.payment_date) }}</td>
                             <td class="px-6 py-4" v-else>Belum Membayar</td>

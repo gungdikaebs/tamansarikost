@@ -15,4 +15,9 @@ class Complaint extends Model
         'description',
         'status',
     ];
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class);
+    }
 }

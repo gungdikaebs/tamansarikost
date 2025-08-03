@@ -66,7 +66,7 @@ function submit() {
 </script>
 
 <template>
-    <div class="max-w-screen-lg min-h-screen m-auto">
+    <div class="rounded max-w-screen-lg min-h-screen m-auto">
         <div class="p-6 mt-10">
             <Breadcrumb :breadcrumbs="breadcrumbs" />
             <form @submit.prevent="submit" enctype="multipart/form-data" class="max-w-xl mx-auto my-10">

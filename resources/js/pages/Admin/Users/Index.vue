@@ -1,8 +1,8 @@
 <script setup>
 import { defineProps, ref, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
-import Search from '../../components/dashboard/Search.vue';
-import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
+import Search from '../../../components/dashboard/Search.vue';
+import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 
 const props = defineProps({
     users: Object,
@@ -52,6 +52,20 @@ watch([search, sortBy, sortOrder], ([newSearch, newSortBy, newSortOrder]) => {
         { search: newSearch, sort_by: newSortBy, sort_order: newSortOrder },
         { preserveState: true, replace: true });
 });
+
+function deleteUser(userId) {
+    if (confirm('Apakah Anda yakin ingin menghapus user ini?')) {
+        router.delete(`/dashboard/users/${userId}`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                console.log('User deleted successfully');
+            },
+            onError: (error) => {
+                console.error('Error deleting user:', error);
+            }
+        });
+    }
+}
 
 </script>
 
@@ -119,12 +133,8 @@ watch([search, sortBy, sortOrder], ([newSearch, newSortBy, newSortOrder]) => {
                             <button @click="deleteUser(user.id)" class="cursor-pointer text-red-600 hover:underline"><i
                                     class='bx bx-trash text-2xl'></i>
                             </button>
-
                         </td>
-
                     </tr>
-
-
                 </tbody>
             </table>
         </div>

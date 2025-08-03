@@ -31,7 +31,7 @@ class PaymentController extends Controller
                     ->orWhere('payment_status', 'like', '%' . $search . '%');
             })->paginate(5) // langsung paginate tanpa get
             ->withQueryString();
-        return inertia('Payments/Index', [
+        return inertia('Admin/Payments/Index', [
             'payments' => $payments,
             'search' => $search,
         ]);
@@ -42,18 +42,14 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        $roomTenants = RoomTenant::with('tenant', 'payee', 'room',)->get();
+        $roomTenants = RoomTenant::with('tenant', 'payee', 'room',)->where('status', 'active')->get();
         $uniqueRoomTenants = $roomTenants->unique('payee_id')->values();
 
-
-        return inertia('Payments/AddPayment', [
+        return inertia('Admin/Payments/AddPayment', [
             'roomTenants' => $uniqueRoomTenants,
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -69,7 +65,7 @@ class PaymentController extends Controller
 
         $payment = new Payment($validated);
         if ($request->hasFile('payment_photo')) {
-            $payment->payment_photo = $request->file('payment_photo')->store('payments', 'public');
+            $payment->payment_photo = $request->file('payment_photo')->store('payment_photos', 'public');
         }
         $payment->save();
 
@@ -77,9 +73,6 @@ class PaymentController extends Controller
             ->with('success', 'Payment created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $payment = Payment::with([
@@ -92,7 +85,7 @@ class PaymentController extends Controller
             return redirect()->route('payments.index')->with('error', 'Payment not found.');
         }
 
-        return inertia('Payments/ShowPayment', [
+        return inertia('Admin/Payments/ShowPayment', [
             'payment' => $payment,
         ]);
     }
@@ -108,7 +101,7 @@ class PaymentController extends Controller
             'roomTenant.room'
         ])->findOrFail($id);
 
-        return inertia('Payments/EditPayment', [
+        return inertia('Admin/Payments/EditPayment', [
             'payment' => $payment,
         ]);
     }
@@ -133,7 +126,7 @@ class PaymentController extends Controller
         $payment->fill($validated);
 
         if ($request->hasFile('payment_photo')) {
-            $payment->payment_photo = $request->file('payment_photo')->store('payments', 'public');
+            $payment->payment_photo = $request->file('payment_photo')->store('payment_photos', 'public');
         }
         $payment->save();
 
@@ -189,7 +182,7 @@ class PaymentController extends Controller
             return redirect()->back()
                 ->with('success', 'Payment confirmed and new payment created for next billing period.');
         }
-        return inertia('Payments/Index')
+        return inertia('Admin/Payments/Index')
             ->with('success', 'Payment status updated successfully.');
     }
 }

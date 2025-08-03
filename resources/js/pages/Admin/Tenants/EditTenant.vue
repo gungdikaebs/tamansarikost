@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
+import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 
 const props = defineProps({
     auth: Object,
@@ -42,13 +42,13 @@ function submit() {
 <template>
     <DashboardLayouts :auth="auth">
         <div class="my-4 mx-auto max-w-xl">
-            <h1 class="text-2xl font-bold mb-4">Edit Data Penghuni</h1>
+            <h1 class="text-2xl font-bold mb-4 text-center">Edit Data Penghuni</h1>
             <form @submit.prevent="submit" enctype="multipart/form-data">
                 <!-- User Select -->
                 <div class="mb-5">
                     <label for="user_id" class="block mb-2 text-sm font-medium">User</label>
                     <select v-model="form.user_id" id="user_id"
-                        class="bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5">
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5 ">
                         <option value="" disabled>Pilih User</option>
                         <option v-for="user in users" :key="user.id" :value="user.id">{{ user.username }}</option>
                     </select>
@@ -59,7 +59,7 @@ function submit() {
                 <div class="mb-5">
                     <label for="fullname" class="block mb-2 text-sm font-medium">Nama Lengkap</label>
                     <input v-model="form.fullname" type="text" id="fullname"
-                        class="bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" />
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5 " />
                     <p v-if="form.errors.fullname" class="text-red-500 text-sm">{{ form.errors.fullname }}</p>
                 </div>
 

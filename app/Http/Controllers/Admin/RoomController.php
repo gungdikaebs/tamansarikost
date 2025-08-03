@@ -21,7 +21,7 @@ class RoomController extends Controller
             })
             ->get();
 
-        return inertia('Rooms/Index', [
+        return inertia('Admin/Rooms/Index', [
             'rooms' => $rooms,
             'search' => $search,
         ]);
@@ -29,12 +29,12 @@ class RoomController extends Controller
 
     public function create()
     {
-        return inertia('Rooms/AddRoom');
+        return inertia('Admin/Rooms/AddRoom');
     }
 
     public function edit(Room $room)
     {
-        return inertia('Rooms/EditRoom', [
+        return inertia('Admin/Rooms/EditRoom', [
             'room' => $room,
         ]);
     }
@@ -68,14 +68,15 @@ class RoomController extends Controller
 
     public function show(Room $room)
     {
-        $tenants = Tenant::with('user')->get();
+        $tenantsWithoutRoom = Tenant::whereDoesntHave('roomTenants')->with('user')->get();
+
         $room->load([
             'roomTenants.tenant.user',
             'roomTenants.payee.user'
         ]);
-        return inertia('Rooms/ShowRoom', [
+        return inertia('Admin/Rooms/ShowRoom', [
             'room' => $room,
-            'tenants' => $tenants,
+            'tenants' => $tenantsWithoutRoom,
         ]);
     }
 

@@ -1,8 +1,8 @@
 <script setup>
-import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
+import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 import { defineProps, ref, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
-import Search from '../../components/dashboard/Search.vue';
+import Search from '../../../components/dashboard/Search.vue';
 
 const props = defineProps({
     auth: {
@@ -117,8 +117,8 @@ console.log(props.tenants);
                                 <i class="bx bx-show text-2xl"></i>
                             </a>
                             <a :href="'/dashboard/tenants/' + tenant.id + '/edit'"
-                                class="font-medium text-blue-600 hover:underline"><i
-                                    class='bx bx-edit text-2xl'></i></a>
+                                class="font-medium text-blue-600 hover:underline">
+                                <i class='bx bx-edit text-2xl'></i></a>
                             <button @click="deleteTenant(tenant.id)"
                                 class="cursor-pointer text-red-600 hover:underline"><i
                                     class='bx bx-trash text-2xl'></i></button>

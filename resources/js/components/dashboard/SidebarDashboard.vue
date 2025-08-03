@@ -30,17 +30,22 @@ console.log(props.role);
                         <i
                             class='bx bx-buildings text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center '></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Kamar</span>
-                        <span
-                            class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full">Pro</span>
+                        <!-- <span
+                            class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full">
+                            Pro
+                        </span> -->
                     </a>
                 </li>
                 <li class="hover:font-medium">
-                    <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
+                    <a href="/dashboard/announcements"
+                        class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
                         <i
                             class='bx bx-message-rounded-error text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center'></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Informasi</span>
-                        <span
-                            class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full ">3</span>
+                        <!-- <span
+                            class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full ">
+                            3
+                        </span> -->
                     </a>
                 </li>
                 <li class="hover:font-medium">
@@ -68,7 +73,8 @@ console.log(props.role);
                     </a>
                 </li>
                 <li class="hover:font-medium">
-                    <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
+                    <a href="/dashboard/complaints"
+                        class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
                         <i
                             class='bx bx-message-alt-error text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center'></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Complain</span>

@@ -1,6 +1,6 @@
 <script setup>
 // import { Inertia } from '@inertiajs/inertia';
-import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
+import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 import { defineProps, ref, watch } from 'vue';
 const props = defineProps({
     auth: Object,

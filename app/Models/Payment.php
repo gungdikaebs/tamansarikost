@@ -23,4 +23,9 @@ class Payment extends Model
     {
         return $this->belongsTo(RoomTenant::class);
     }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }

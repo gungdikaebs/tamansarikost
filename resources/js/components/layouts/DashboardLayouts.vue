@@ -18,8 +18,8 @@ const role = props.auth.user.role;
     <div>
         <NavbarDashboard />
         <SidebarDashboard :role="role" />
-        <div class="p-4 sm:ml-64  bg-indigo-50/20">
-            <div class="p-4 mt-18 bg-white rounded-lg ">
+        <div class="p-4 sm:ml-64 bg-indigo-50/20">
+            <div class="p-4 mt-18 rounded-lg bg-white ">
                 <slot />
             </div>
         </div>

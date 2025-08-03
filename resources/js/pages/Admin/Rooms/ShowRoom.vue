@@ -1,8 +1,8 @@
 <script setup>
 import { defineProps, ref } from 'vue'
-import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
+import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 
-import ModalInput from '../../components/dashboard/RoomTenants/ModalInput.vue';
+import ModalInput from '../../../components/dashboard/RoomTenants/ModalInput.vue';
 import { usePage } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
 
@@ -16,6 +16,16 @@ const props = defineProps({
 })
 
 console.log(props.tenants);
+const updateStatus = (roomTenantId, newStatus) => {
+    router.put(`/dashboard/room-tenants/${roomTenantId}`, { status: newStatus })
+        .then(() => {
+            console.log('Status updated');
+        })
+        .catch(err => {
+            console.error('Failed to update status', err);
+        });
+};
+
 
 const deleteRoomTenant = (id) => {
     if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
@@ -57,7 +67,12 @@ const deleteRoomTenant = (id) => {
                         <p><strong>Username:</strong> {{ rt.tenant.user.username }}</p>
                         <p><strong>Mulai Sewa:</strong> {{ rt.start_date }}</p>
                         <p><strong>Selesai Sewa:</strong> {{ rt.end_date ?? '-' }}</p>
-                        <p><strong>Status:</strong> {{ rt.status }}</p>
+                        <p><strong>Status:</strong>
+                            <select v-model="rt.status" @change="updateStatus(rt.id, rt.status)">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </p>
                         <p><strong>Penanggung Jawab:</strong> {{ rt.payee.fullname }}</p>
                         <button @click="deleteRoomTenant(rt.id)"
                             class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">

@@ -2,7 +2,7 @@
 import { defineProps } from 'vue';
 import { router, useForm } from '@inertiajs/vue3';
 
-import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
+import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 
 const props = defineProps({
     auth: {
@@ -10,8 +10,6 @@ const props = defineProps({
         required: false,
     }
 });
-
-
 
 const form = useForm({
     email: '',
@@ -43,12 +41,12 @@ function submit() {
 <template>
     <DashboardLayouts :auth="props.auth">
         <div class="my-4 mx-auto bg-white shadow-md p-6">
-            <h1 class="text-2xl font-bold mb-4 text-center">Insert Data User </h1>
+            <h1 class="text-2xl font-bold mb-4 text-center">Insert Data User</h1>
             <form class="max-w-xl mx-auto">
                 <div class="mb-5">
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Email</label>
                     <input v-model="form.email" type="email" id="email"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5 "
                         placeholder="Masukkan Email Disini!" required />
                     <p v-if="form.errors.email" class="text-red-500 text-sm mt-1">{{ form.errors.email }}</p>
 
@@ -56,7 +54,7 @@ function submit() {
                 <div class="mb-5">
                     <label for="username" class="block mb-2 text-sm font-medium text-gray-900 ">Username</label>
                     <input v-model="form.username" type="text" id="username" placeholder="Masukkan Username Disini!"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5  "
                         required />
                     <p v-if="form.errors.username" class="text-red-500 text-sm mt-1">{{ form.errors.username }}</p>
 
@@ -65,7 +63,7 @@ function submit() {
                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
                     <input v-model="form.password" type="password" id="password"
                         placeholder="Masukkan Deskripsi Kamar Disini!"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5  "
                         required />
                     <p v-if="form.errors.password" class="text-red-500 text-sm mt-1">{{ form.errors.password }}</p>
 
@@ -73,7 +71,7 @@ function submit() {
                 <div class="mb-5">
                     <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 ">Phone</label>
                     <input v-model="form.phone" type="text" id="phone" placeholder="Masukkan Deskripsi Kamar Disini!"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5  "
                         required />
                     <p v-if="form.errors.phone" class="text-red-500 text-sm mt-1">{{ form.errors.phone }}</p>
 

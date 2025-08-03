@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AnnouncementController;
+use App\Http\Controllers\Admin\ComplaintController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 
@@ -42,8 +44,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::resource('rooms', RoomController::class)->except(['show']);
         Route::get('rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
         // Room Tenant Management
-        Route::post('room-tenants', [RoomTenantController::class, 'store'])->name('room-tenants.store');
-        Route::delete('room-tenants/{id}', [RoomTenantController::class, 'destroy'])->name('room-tenants.destroy');
+        Route::resource('room-tenants', RoomTenantController::class)->except(['show']);
         // User Management
         Route::resource('users', UserController::class)->except(['show']);
         Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
@@ -53,6 +54,12 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::resource('payments', PaymentController::class)->except(['show']);
         Route::get('payments/{payment}', [PaymentController::class, 'show'])->name('payments.show');
         Route::put('payments/{payment}/status', [PaymentController::class, 'updateStatus'])->name('payments.updateStatus');
+        // Complaint Management
+        Route::resource('complaints', ComplaintController::class)->except(['show]']);
+        Route::get('complaints/{complaint}', [ComplaintController::class, 'show'])->name('complaints.show');
+        Route::put('complaints/{complaint}/status', [ComplaintController::class, 'updateStatus'])->name('complaints.updateStatus');
+        // Announcements Management
+        Route::resource('announcements', AnnouncementController::class)->except(['show']);
     });
 
     // Penghuni Routes

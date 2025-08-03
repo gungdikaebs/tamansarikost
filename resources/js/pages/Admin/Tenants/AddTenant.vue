@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
-import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
+import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 import { defineProps } from 'vue';
 
 const props = defineProps({
@@ -36,12 +36,12 @@ console.log(props.auth.user);
 <template>
     <DashboardLayouts :auth="props.auth">
         <div class="my-4 mx-auto">
-            <h1 class="text-2xl font-bold mb-4">Insert Data Penghuni </h1>
-            <form @submit.prevent="submit" enctype="multipart/form-data" class="max-w-xl">
+            <h1 class="text-2xl font-bold mb-4 text-center">Insert Data Penghuni </h1>
+            <form @submit.prevent="submit" enctype="multipart/form-data" class="max-w-xl mx-auto">
                 <div class="mb-5">
                     <label for="user_id" class="block mb-2 text-sm font-medium text-gray-900 ">User</label>
                     <select v-model="form.user_id" id="user_id" required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5">
                         <option value="" disabled selected>Pilih Username yang terkait</option>
                         <option v-for="user in props.users" :key="user.id" :value="user.id">
                             {{ user.username }}
@@ -53,7 +53,7 @@ console.log(props.auth.user);
                 <div class="mb-5">
                     <label for="fullname" class="block mb-2 text-sm font-medium text-gray-900 ">Nama Lengkap</label>
                     <input v-model="form.fullname" type="text" id="fullname"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5 "
                         placeholder="Masukkan nama lengkap!" required />
                     <div v-if="form.errors.user_id">{{ form.errors.user_id }}</div>
 
@@ -62,11 +62,7 @@ console.log(props.auth.user);
                 <div class="mb-5">
                     <label for="ktp_photo" class="block mb-1 font-medium">Foto KTP</label>
                     <input id="ktp_photo" name="ktp_photo" type="file" @change="handleFileUpload" accept="image/*"
-                        class="border p-2 rounded w-full" />
-                    <div v-if="form.ktp_photo" class="mt-2">
-                        <progress max="100" :value="form.uploadProgress" class="w-full"></progress>
-                        <div class="text-sm mt-1">{{ form.uploadProgress || 0 }}%</div>
-                    </div>
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5" />
                     <div v-if="form.errors.ktp_photo">{{ form.errors.ktp_photo }}</div>
 
                 </div>

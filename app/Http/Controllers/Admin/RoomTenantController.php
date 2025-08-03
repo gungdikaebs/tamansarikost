@@ -31,6 +31,24 @@ class RoomTenantController extends Controller
 
         return redirect()->route('rooms.show', $validated['room_id'])->with('success', 'Room Tenant created successfully.');
     }
+    public function update(Request $request, RoomTenant $roomTenant)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:active,inactive',
+        ]);
+
+        // Update the RoomTenant record
+        $roomTenant->update($validated);
+
+        // If status is active, ensure the room is marked as occupied
+        if ($validated['status'] === 'active') {
+            $room = Room::findOrFail($roomTenant->room_id);
+            $room->status = 'occupied';
+            $room->save();
+        }
+
+        return redirect()->route('rooms.show', $roomTenant->room_id)->with('success', 'Room Tenant updated successfully.');
+    }
 
     public function destroy(string $id)
     {
