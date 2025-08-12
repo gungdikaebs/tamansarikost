@@ -2,6 +2,7 @@
 import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 import { defineProps, ref, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
 import Search from '../../../components/dashboard/Search.vue';
 
 const props = defineProps({
@@ -17,7 +18,26 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    flash: {
+        type: Object,
+        default: () => ({})
+    }
 });
+
+// Tampilkan Flash message dengan Sweetalert
+if (props.flash.success) {
+    Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: props.flash.success,
+    });
+} else if (props.flash.error) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: props.flash.error,
+    });
+}
 
 const localPayments = ref([...props.payments.data]);
 
@@ -90,26 +110,54 @@ function updatePaymentStatus(paymentId, newStatus) {
                 if (payment) {
                     payment.payment_status = newStatus;
                 }
-                console.log(`Payment ${paymentId} status updated to ${newStatus}`);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: `Status pembayaran berhasil diubah menjadi ${newStatus}.`,
+                });
             },
             onError: (errors) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: `Gagal mengubah status pembayaran.`,
+                });
                 console.error(`Failed to update payment ${paymentId} status:`, errors);
             }
         });
 }
 
 function deletePayment(paymentId) {
-    if (confirm('Are you sure you want to delete this payment?')) {
-        router.delete(`/dashboard/payments/${paymentId}`, {
-            onSuccess: () => {
-                localPayments.value = localPayments.value.filter(p => p.id !== paymentId);
-                console.log(`Payment ${paymentId} deleted successfully.`);
-            },
-            onError: (errors) => {
-                console.error(`Failed to delete payment ${paymentId}:`, errors);
-            }
-        });
-    }
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: 'Pembayaran yang dihapus tidak dapat dikembalikan!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(`/dashboard/payments/${paymentId}`, {
+                onSuccess: () => {
+                    localPayments.value = localPayments.value.filter(p => p.id !== paymentId);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil', text: 'Pembayaran berhasil dihapus.',
+                    });
+                },
+                onError: (errors) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Gagal menghapus pembayaran.',
+                    });
+                    console.error(`Failed to delete payment ${paymentId}:`, errors);
+                }
+            });
+        }
+    });
 }
 </script>
 
@@ -147,13 +195,16 @@ function deletePayment(paymentId) {
                                 <i v-if="sortKey === 'billing_period'"
                                     :class="sortOrder === 'asc' ? 'bx bx-chevron-up' : 'bx bx-chevron-down'"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3">Status</th>
+                            <th @click="sortPayments('payment_status')" class="cursor-pointer px-6 py-3">
+                                Status
+                                <i v-if="sortKey === 'payment_status'"
+                                    :class="sortOrder === 'asc' ? 'bx bx-chevron-up' : 'bx bx-chevron-down'"></i>
+                            </th>
                             <th scope="col" class="px-6 py-3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="payment in localPayments" :key="payment.id"
-                            class="bg-white border-b hover:bg-gray-50">
+                        <tr v-for="payment in localPayments" :key="payment.id" class="bg-white  hover:bg-gray-50">
                             <td class="px-6 py-4">{{ payment.id }}</td>
                             <td class="px-6 py-4">{{ payment.room_tenant?.tenant?.fullname || 'N/A' }}</td>
                             <td class="px-6 py-4">{{ payment.room_tenant?.room?.room_number || 'N/A' }}</td>

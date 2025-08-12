@@ -2,6 +2,7 @@
 import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 import { defineProps, ref, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
 import Search from '../../../components/dashboard/Search.vue';
 
 const props = defineProps({
@@ -40,18 +41,39 @@ function closeModal() {
     selectedPhoto.value = null;
 }
 
+
 function deleteTenant(tenantId) {
-    if (confirm('Apakah Anda yakin ingin menghapus penghuni ini?')) {
-        router.delete(`/dashboard/tenants/${tenantId}`)
-            .then(response => {
-                // Handle success, e.g., show a success message or refresh the page
-                window.location.reload();
-            })
-            .catch(error => {
-                // Handle error, e.g., show an error message
-                console.error('Error deleting tenant:', error);
-            });
-    }
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Penghuni akan dihapus secara permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(`/dashboard/tenants/${tenantId}`)
+                .then(() => {
+                    Swal.fire(
+                        'Terhapus!',
+                        'Penghuni berhasil dihapus.',
+                        'success'
+                    ).then(() => {
+                        window.location.reload();
+                    });
+                })
+                .catch(error => {
+                    Swal.fire(
+                        'Gagal!',
+                        'Terjadi kesalahan saat menghapus penghuni.',
+                        'error'
+                    );
+                    console.error('Error deleting tenant:', error);
+                });
+        }
+    });
 }
 
 console.log(props.tenants);

@@ -21,7 +21,6 @@
 
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
-
     @vite('resources/js/app.js') {{-- Or mix() if using Laravel Mix --}}
     @inertiaHead
 </head>

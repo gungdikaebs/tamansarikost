@@ -1,24 +1,58 @@
 <script setup>
 import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
+import Swal from 'sweetalert2';
 import { router, usePage } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
+
 const page = usePage();
+const alertMessage = page.props.flash?.success || null;
+
+onMounted(() => {
+    if (alertMessage) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: alertMessage,
+            confirmButtonText: 'OK'
+        });
+    }
+});
 
 console.log(page.props.announcements);
 
 function deleteAnnouncement(id) {
-    if (confirm('Are you sure you want to delete this announcement?')) {
-        // Use Inertia to send a DELETE request
-        router.delete(`/dashboard/announcements/${id}`, {
-            preserveScroll: true,
-            onSuccess: () => {
-                console.log('Announcement deleted successfully');
-            },
-            onError: (error) => {
-                console.error('Error deleting announcement:', error);
-            }
-        });
-    }
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Pengumuman ini akan dihapus secara permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(`/dashboard/announcements/${id}`, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    Swal.fire(
+                        'Terhapus!',
+                        'Pengumuman berhasil dihapus.',
+                        'success'
+                    );
+                },
+                onError: () => {
+                    Swal.fire(
+                        'Gagal!',
+                        'Terjadi kesalahan saat menghapus pengumuman.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
 }
+
 function truncateHtml(html, maxLength) {
     const div = document.createElement('div');
     div.innerHTML = html;
@@ -67,6 +101,10 @@ function truncateHtml(html, maxLength) {
                             <td class="px-6 py-4">{{ announcement.title }}</td>
                             <td class="px-6 py-4" v-html="truncateHtml(announcement.content, 20)"></td>
                             <td class="px-6 py-4 flex gap-3 mx-auto">
+                                <a :href="`/dashboard/announcements/${announcement.id}`"
+                                    class="font-medium text-gray-600 hover:underline">
+                                    <i class="bx bx-show text-2xl"></i>
+                                </a>
                                 <a :href="`/dashboard/announcements/${announcement.id}/edit`"
                                     class="font-medium text-blue-600 hover:underline">
                                     <i class='bx bx-edit text-2xl'></i>

@@ -34,6 +34,7 @@ class PaymentController extends Controller
         return inertia('Admin/Payments/Index', [
             'payments' => $payments,
             'search' => $search,
+            'flash' => $request->session()->get('flash', []),
         ]);
     }
 
@@ -113,22 +114,70 @@ class PaymentController extends Controller
     {
         $payment = Payment::findOrFail($id);
 
+        // Ambil status lama sebelum di‑update
+        $oldStatus = $payment->payment_status;
+
+        // Validasi input
         $validated = $request->validate([
             'room_tenant_id' => 'required|exists:room_tenants,id',
-            'amount' => 'required|numeric|min:0',
-            'payment_date' => 'nullable|date',
+            'amount'         => 'required|numeric|min:0',
+            'payment_date'   => 'nullable|date',
             'payment_status' => 'nullable|in:pending,confirmed,failed',
             'payment_method' => 'nullable|string|max:255',
             'billing_period' => 'required|date',
-            'penalty_fee' => 'nullable|numeric|min:0',
-            'payment_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'penalty_fee'    => 'nullable|numeric|min:0',
+            'payment_photo'  => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+
+        // Isi atribut model dengan data yang divalidasi
         $payment->fill($validated);
 
+        // Simpan foto bila ada
         if ($request->hasFile('payment_photo')) {
-            $payment->payment_photo = $request->file('payment_photo')->store('payment_photos', 'public');
+            // Hapus foto lama (opsional)
+            if ($payment->payment_photo) {
+                Storage::disk('public')->delete($payment->payment_photo);
+            }
+            $payment->payment_photo = $request->file('payment_photo')
+                ->store('payment_photos', 'public');
         }
+
+        // Simpan perubahan utama dulu
         $payment->save();
+
+        // -------------------------------------------------
+        // 1️⃣ Cek apakah status berubah menjadi confirmed (atau success)
+        // -------------------------------------------------
+        $newStatus = $payment->payment_status;
+        $triggerStatus = 'confirmed'; // ganti ke 'success' bila memang ingin memakai kata itu
+
+        if ($oldStatus !== $newStatus && $newStatus === $triggerStatus) {
+            // -------------------------------------------------
+            // 2️⃣ Buat pembayaran baru untuk periode berikutnya
+            // -------------------------------------------------
+            $roomTenant = RoomTenant::with('tenant', 'room')
+                ->findOrFail($payment->room_tenant_id);
+
+            // Billing period saat ini
+            $currentBillingPeriod = Carbon::parse($payment->billing_period);
+            // Tambah satu bulan untuk periode berikutnya
+            $nextBillingPeriod = $currentBillingPeriod->copy()->addMonth();
+
+            $newPayment = new Payment();
+            $newPayment->room_tenant_id = $roomTenant->id;
+            $newPayment->amount        = $roomTenant->room->price;
+            $newPayment->payment_date  = null;
+            $newPayment->payment_status = 'pending';
+            $newPayment->payment_method = null;
+            $newPayment->billing_period = $nextBillingPeriod;
+            $newPayment->penalty_fee    = 0;
+            $newPayment->payment_photo  = null;
+            $newPayment->save();
+            // -------------------------------------------------
+            // Opsional: beri notifikasi bahwa data baru sudah dibuat
+            // -------------------------------------------------
+            $request->session()->flash('info', 'Pembayaran berhasil dikonfirmasi, pembayaran baru untuk periode berikutnya sudah dibuat.');
+        }
 
         return redirect()->route('payments.index')
             ->with('success', 'Payment updated successfully.');

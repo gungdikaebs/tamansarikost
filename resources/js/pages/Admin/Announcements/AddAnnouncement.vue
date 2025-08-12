@@ -11,6 +11,8 @@ const form = useForm({
     image: null
 });
 
+
+
 const fileInput = ref(null);
 function submit() {
     if (fileInput.value && fileInput.value.files.length > 0) {
@@ -26,10 +28,6 @@ function submit() {
         },
     });
 }
-
-
-
-
 </script>
 
 <template>

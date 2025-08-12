@@ -14,7 +14,10 @@ use App\Http\Controllers\Admin\RoomTenantController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PaymentController;
+
 use App\Http\Controllers\Penghuni\RegistrationController;
+use App\Http\Controllers\Penghuni\PaymentHistory;
+
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +63,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::put('complaints/{complaint}/status', [ComplaintController::class, 'updateStatus'])->name('complaints.updateStatus');
         // Announcements Management
         Route::resource('announcements', AnnouncementController::class)->except(['show']);
+        Route::get('announcements/{announcement}', [AnnouncementController::class, 'show'])->name('announcements.show');
     });
 
     // Penghuni Routes
@@ -69,6 +73,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::post('register-tenant', [RegistrationController::class, 'storeTenant'])->name('penghuni.register.store');
         Route::get('register-payment', [RegistrationController::class, 'showRegisterFormPayment'])->name('penghuni.register-payment');
         Route::post('register-payment', [RegistrationController::class, 'storeRegisterPayment'])->name('penghuni.register-payment.store');
+        Route::get('payment', [PaymentHistory::class, 'index'])->name('penghuni.payment');
     });
 });
 

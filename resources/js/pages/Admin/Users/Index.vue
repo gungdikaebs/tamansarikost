@@ -1,5 +1,6 @@
 <script setup>
-import { defineProps, ref, watch } from 'vue';
+import Swal from 'sweetalert2';
+import { defineProps, onMounted, ref, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
 import Search from '../../../components/dashboard/Search.vue';
 import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
@@ -18,7 +19,6 @@ const props = defineProps({
         default: 'asc',
     },
 });
-
 
 
 const search = ref(props.search);
@@ -53,18 +53,48 @@ watch([search, sortBy, sortOrder], ([newSearch, newSortBy, newSortOrder]) => {
         { preserveState: true, replace: true });
 });
 
-function deleteUser(userId) {
-    if (confirm('Apakah Anda yakin ingin menghapus user ini?')) {
-        router.delete(`/dashboard/users/${userId}`, {
-            preserveScroll: true,
-            onSuccess: () => {
-                console.log('User deleted successfully');
-            },
-            onError: (error) => {
-                console.error('Error deleting user:', error);
-            }
+onMounted(() => {
+    if (alertMessage) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: alertMessage,
+            confirmButtonText: 'OK'
         });
     }
+});
+
+function deleteUser(userId) {
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Pengumuman ini akan dihapus secara permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(`/dashboard/users/${userId}`, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    Swal.fire(
+                        'Terhapus!',
+                        'Pengumuman berhasil dihapus.',
+                        'success'
+                    );
+                },
+                onError: () => {
+                    Swal.fire(
+                        'Gagal!',
+                        'Terjadi kesalahan saat menghapus pengumuman.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
 }
 
 </script>

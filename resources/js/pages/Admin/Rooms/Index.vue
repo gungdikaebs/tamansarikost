@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps, watch, ref } from 'vue';
 import { router } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
 import Search from '../../../components/dashboard/Search.vue';
 import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 
@@ -19,10 +20,22 @@ watch(search, (newSearch) => {
 
 
 
+
 function deleteRoom(id) {
-    if (confirm('Are you sure you want to delete this room?')) {
-        router.delete(`/dashboard/rooms/${id}`);
-    }
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Kamar akan dihapus secara permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(`/dashboard/rooms/${id}`);
+        }
+    });
 }
 </script>
 

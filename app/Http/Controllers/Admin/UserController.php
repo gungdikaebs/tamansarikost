@@ -27,14 +27,14 @@ class UserController extends Controller
                 if (in_array($sortBy, $allowedSorts)) {
                     $query->orderBy($sortBy, $sortOrder);
                 }
-            })
-            ->get();
+            })->get();
 
         return inertia('Admin/Users/Index', [
             'users' => $users,
             'search' => $search,
             'sort_by' => $sortBy,
             'sort_order' => $sortOrder,
+            'flash' => $request->session()->get('flash', []),
         ]);
     }
 

@@ -77,12 +77,6 @@ watch(() => props.modelValue, (value) => {
                     <UnderlineIcon class="w-5 h-5" />
                 </button>
 
-                <button type="button" @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-                    :class="['p-2 rounded transition-colors duration-150', editor.isActive('heading', { level: 1 }) ? 'bg-blue-600 text-white' : 'hover:bg-gray-200']"
-                    title="Heading 1">
-                    <Header1 class="w-5 h-5" />
-                </button>
-
                 <button type="button" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
                     :class="['p-2 rounded transition-colors duration-150', editor.isActive('heading', { level: 2 }) ? 'bg-blue-600 text-white' : 'hover:bg-gray-200']"
                     title="Heading 2">
