@@ -112,7 +112,7 @@ class RegistrationController extends Controller
             'room_tenant_id' => 'required|exists:room_tenants,id',
             'amount' => 'required|numeric|min:0',
             'payment_date' => 'required|date',
-            'payment_status' => 'required|in:pending,completed,failed',
+            'payment_status' => 'required|in:unpaid,pending,completed,failed',
             'payment_method' => 'required|string|max:255',
             'penalty_fee' => 'nullable|numeric|min:0',
             'payment_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',

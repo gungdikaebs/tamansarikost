@@ -5,9 +5,9 @@ const props = defineProps({
     role: {
         type: String,
         required: true
-    }
+    },
+
 });
-console.log(props.role);
 </script>
 
 <template>
@@ -16,75 +16,85 @@ console.log(props.role);
         aria-label="Sidebar">
         <div class="h-full px-3 pb-4 overflow-y-auto bg-white ">
             <!-- Admin Sidebar -->
-            <ul v-if="props.role === 'admin'" class="space-y-2 ">
-                <li class="hover:font-medium">
-                    <a href="/dashboard" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100  ">
-                        <i
-                            class='bx bx-home-smile text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center '></i>
-                        <span class="ms-3">Dashboard</span>
+            <ul v-if="props.role === 'admin'" class="space-y-2">
+                <li>
+                    <a href="/dashboard" class="flex items-center p-2 rounded-lg transition group `hover:bg-blue-50">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full group-hover:bg-blue-200">
+                            <i class='bx bx-home-smile text-2xl text-blue-500 group-hover:text-blue-700'></i>
+                        </div>
+                        <span class="ms-4 text-gray-900 font-semibold group-hover:text-blue-700">Dashboard</span>
                     </a>
                 </li>
-                <li class="hover:font-medium">
+                <li>
                     <a href="/dashboard/rooms"
-                        class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
-                        <i
-                            class='bx bx-buildings text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center '></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Kamar</span>
-                        <!-- <span
-                            class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full">
-                            Pro
-                        </span> -->
+                        class="flex items-center p-2 rounded-lg transition group hover:bg-blue-50">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full group-hover:bg-blue-200">
+                            <i class='bx bx-buildings text-2xl text-blue-500 group-hover:text-blue-700'></i>
+                        </div>
+                        <span class="ms-4 text-gray-900 font-semibold group-hover:text-blue-700">Kamar</span>
                     </a>
                 </li>
-                <li class="hover:font-medium">
+                <li>
                     <a href="/dashboard/announcements"
-                        class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
-                        <i
-                            class='bx bx-message-rounded-error text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center'></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Informasi</span>
-                        <!-- <span
-                            class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full ">
-                            3
-                        </span> -->
+                        class="flex items-center p-2 rounded-lg transition group hover:bg-blue-50">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full group-hover:bg-blue-200">
+                            <i class='bx bx-message-rounded-error text-2xl text-blue-500 group-hover:text-blue-700'></i>
+                        </div>
+                        <span class="ms-4 text-gray-900 font-semibold group-hover:text-blue-700">Informasi</span>
+                        <span
+                            class="ml-auto inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-white bg-blue-500 rounded-full group-hover:bg-blue-700">3</span>
                     </a>
                 </li>
-                <li class="hover:font-medium">
+                <li>
                     <a href="/dashboard/users"
-                        class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
-                        <i
-                            class='bx bx-user text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center'></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
+                        class="flex items-center p-2 rounded-lg transition group hover:bg-blue-50">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full group-hover:bg-blue-200">
+                            <i class='bx bx-user text-2xl text-blue-500 group-hover:text-blue-700'></i>
+                        </div>
+                        <span class="ms-4 text-gray-900 font-semibold group-hover:text-blue-700">Users</span>
                     </a>
                 </li>
-                <li class="hover:font-medium">
+                <li>
                     <a href="/dashboard/tenants"
-                        class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
-                        <i
-                            class='bx bx-user-pin text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center'></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Penghuni</span>
+                        class="flex items-center p-2 rounded-lg transition group hover:bg-blue-50">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full group-hover:bg-blue-200">
+                            <i class='bx bx-user-pin text-2xl text-blue-500 group-hover:text-blue-700'></i>
+                        </div>
+                        <span class="ms-4 text-gray-900 font-semibold group-hover:text-blue-700">Penghuni</span>
                     </a>
                 </li>
-                <li class="hover:font-medium">
+                <li>
                     <a href="/dashboard/payments"
-                        class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
-                        <i
-                            class='bx bx-wallet text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center'></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Pembayaran</span>
+                        class="flex items-center p-2 rounded-lg transition group hover:bg-blue-50">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full group-hover:bg-blue-200">
+                            <i class='bx bx-wallet text-2xl text-blue-500 group-hover:text-blue-700'></i>
+                        </div>
+                        <span class="ms-4 text-gray-900 font-semibold group-hover:text-blue-700">Pembayaran</span>
                     </a>
                 </li>
-                <li class="hover:font-medium">
+                <li>
                     <a href="/dashboard/complaints"
-                        class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
-                        <i
-                            class='bx bx-message-alt-error text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center'></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Complain</span>
+                        class="flex items-center p-2 rounded-lg transition group hover:bg-blue-50">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full group-hover:bg-blue-200">
+                            <i class='bx bx-message-alt-error text-2xl text-blue-500 group-hover:text-blue-700'></i>
+                        </div>
+                        <span class="ms-4 text-gray-900 font-semibold group-hover:text-blue-700">Complain</span>
                     </a>
                 </li>
-                <li class="hover:font-medium">
-                    <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  ">
-                        <i
-                            class='bx bx-file text-2xl py-2 text-gray-500 transition duration-75  hover:text-gray-900 text-center'></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Laporan</span>
+                <li>
+                    <a href="#" class="flex items-center p-2 rounded-lg transition group hover:bg-blue-50">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full group-hover:bg-blue-200">
+                            <i class='bx bx-file text-2xl text-blue-500 group-hover:text-blue-700'></i>
+                        </div>
+                        <span class="ms-4 text-gray-900 font-semibold group-hover:text-blue-700">Laporan</span>
                     </a>
                 </li>
             </ul>
@@ -112,7 +122,8 @@ console.log(props.role);
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center p-2 rounded-lg transition group hover:bg-blue-50">
+                    <a href="/dashboard/payment"
+                        class="flex items-center p-2 rounded-lg transition group hover:bg-blue-50">
                         <div
                             class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full group-hover:bg-blue-200">
                             <i class='bx bx-wallet text-2xl text-blue-500 group-hover:text-blue-700'></i>

@@ -16,7 +16,7 @@ const role = props.auth.user.role;
 
 <template>
     <div>
-        <NavbarDashboard />
+        <NavbarDashboard :auth="auth" />
         <SidebarDashboard :role="role" />
         <div class="p-4 sm:ml-64 bg-indigo-50/20">
             <div class="p-4 mt-18 rounded-lg bg-white ">

@@ -16,9 +16,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PaymentController;
 
 use App\Http\Controllers\Penghuni\RegistrationController;
-use App\Http\Controllers\Penghuni\PaymentHistory;
-
-
+use App\Http\Controllers\Penghuni\PaymentPenghuniController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 
@@ -68,12 +66,18 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
 
     // Penghuni Routes
     Route::middleware('role:penghuni')->group(function () {
+        // Dashboard
         Route::get('/penghuni', [PenghuniController::class, 'index'])->name('dashboard.penghuni');
+        // Register for First Time
         Route::get('register-tenant', [RegistrationController::class, 'showRegisterFormTenant'])->name('penghuni.register');
         Route::post('register-tenant', [RegistrationController::class, 'storeTenant'])->name('penghuni.register.store');
         Route::get('register-payment', [RegistrationController::class, 'showRegisterFormPayment'])->name('penghuni.register-payment');
         Route::post('register-payment', [RegistrationController::class, 'storeRegisterPayment'])->name('penghuni.register-payment.store');
-        Route::get('payment', [PaymentHistory::class, 'index'])->name('penghuni.payment');
+        // Payment Page
+        Route::get('payment', [PaymentPenghuniController::class, 'index'])->name('penghuni.payment');
+        Route::get('payment/bayar/{id}', [PaymentPenghuniController::class, 'submitPayment'])->name('penghuni.payment.submit');
+        Route::post('payment', [PaymentPenghuniController::class, 'updatePayment'])->name('penghuni.payment.store');
+        Route::get('payment/detail/{id}', [PaymentPenghuniController::class, 'showPaymentForm'])->name('penghuni.payment.detail');
     });
 });
 

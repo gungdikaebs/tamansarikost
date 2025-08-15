@@ -5,6 +5,13 @@ import { initFlowbite } from 'flowbite';
 onMounted(() => {
     initFlowbite();
 });
+
+const props = defineProps({
+    auth: {
+        type: Object,
+        required: true
+    }
+});
 </script>
 
 <template>
@@ -23,7 +30,7 @@ onMounted(() => {
                 <a href="/dashboard/" class="flex items-center gap-2 group">
                     <img src="https://i.pinimg.com/736x/25/3c/15/253c15575735e8d0cbe1ce77a6dac3f4.jpg" alt="Logo"
                         width="48" height="48" class="rounded-full object-cover group-hover:scale-105 transition" />
-                    <span class="text-2xl font-bold tracking-tight transition">
+                    <span class="text-xl md:text-2xl text-gray-600 font-bold tracking-tight transition">
                         TamanSariKost
                     </span>
                 </a>
@@ -33,9 +40,13 @@ onMounted(() => {
                 <button type="button"
                     class="flex items-center gap-2 bg-gray-100 hover:bg-blue-50 rounded-full px-3 py-1 transition focus:ring-2 focus:ring-blue-200"
                     aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                    <img class="w-9 h-9 rounded-full border-2 border-blue-300"
-                        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo" />
-                    <span class="hidden sm:block font-medium text-gray-800">username</span>
+                    <img v-if="props.auth && props.auth.user && props.auth.user.photo"
+                        class="w-9 h-9 rounded-full border-2 border-blue-300" :src="`storage/${props.auth.user.photo}`"
+                        alt="user photo" />
+                    <img v-else class="w-9 h-9 rounded-full border-2 border-blue-300"
+                        :src="`https://ui-avatars.com/api/?name=${props.auth.user.username}`"
+                        alt="default user photo" />
+                    <span class="hidden sm:block font-medium text-gray-800">{{ props.auth.user.username }}</span>
                     <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -44,8 +55,8 @@ onMounted(() => {
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-md shadow-lg min-w-[200px]"
                     id="dropdown-user">
                     <div class="px-4 py-3">
-                        <p class="text-sm font-semibold text-gray-900">username</p>
-                        <p class="text-xs text-gray-500 truncate">Hello@gmail.com</p>
+                        <p class="text-sm font-semibold text-gray-900">{{ props.auth.user.username }}</p>
+                        <p class="text-xs text-gray-500 truncate">{{ props.auth.user.email }}</p>
                     </div>
                     <ul class="py-1">
                         <li>

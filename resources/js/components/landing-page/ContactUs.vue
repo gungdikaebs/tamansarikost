@@ -6,7 +6,7 @@ const pesan = ref('')
 
 const sendMessageToWhatsapp = () => {
     const phoneNumber = '6281237397984' // Ganti dengan nomor WhatsApp tujuan
-    const message = `Username: ${username.value}\nPesan: ${pesan.value}`
+    const message = `*Username:* ${username.value} \n *Pesan:* ${pesan.value}`
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
     window.open(url, '_blank')
     username.value = ''
@@ -60,34 +60,34 @@ const sendMessageToWhatsapp = () => {
                     </div>
                 </div>
                 <div class="flex-1">
-                    <div class=" flex flex-col gap-6 w-full rounded-xl p-8 bg-white  shadow-lg border-black/30">
-                        <div class="flex flex-col gap-2">
-                            <h3 class="text-xl font-bold text-[#414141] ">Send Us Message</h3>
+                    <div class="bg-white/90 rounded-2xl shadow-xl p-10 border border-[#dbeafe]">
+                        <div class="flex flex-col gap-2 mb-6">
+                            <h3 class="text-2xl font-bold text-[#414141]">Send Us Message</h3>
                             <p class="text-[#414141]/90">Silahkan tinggalkan pesan jika ingin bertanya, jika pertanyaan
-                                anda belum menemukan
-                                jawaban
-                                pada halaman FAQ</p>
+                                anda belum menemukan jawaban pada halaman FAQ.</p>
                         </div>
-                        <div class="flex flex-col gap-4 ">
-                            <div class="flex flex-col gap-1">
-                                <label for="username" class="font-semibold">Username</label>
+                        <form @submit.prevent="sendMessageToWhatsapp" class="flex flex-col gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label for="username" class="font-semibold text-[#152B6B]">Username</label>
                                 <input type="text" name="username" id="username" v-model="username"
                                     placeholder="Enter Your Username"
-                                    class="border-1 px-5 py-1 rounded border-black/30 focus:outline-black/40">
+                                    class="border px-5 py-2 rounded-lg border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2E5DE8] transition"
+                                    required>
                             </div>
-                            <div class="flex flex-col gap-1">
-                                <label for="username" class="font-semibold">Pesan</label>
-                                <input type="text" name="Pesan" id="Pesan" v-model="pesan"
-                                    placeholder="Enter Your Message"
-                                    class="border-1 px-5 py-1 rounded border-black/30 focus:outline-black/40">
+                            <div class="flex flex-col gap-2">
+                                <label for="Pesan" class="font-semibold text-[#152B6B]">Pesan</label>
+                                <textarea name="Pesan" id="Pesan" v-model="pesan" placeholder="Enter Your Message"
+                                    rows="4"
+                                    class="border px-5 py-2 rounded-lg border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2E5DE8] transition resize-none"
+                                    required></textarea>
                             </div>
-                        </div>
-                        <div class="flex  justify-center m-2">
-                            <button @click="sendMessageToWhatsapp"
-                                class="border-1 w-[50%] py-2 md:py-3 bg-[#0A1B59] text-white hover:bg-[#2E5DE8] hover:text-blue-100 text-center rounded-lg duration-500">
-                                Kirim Pesan <i class='bx bx-send mx-1'></i>
-                            </button>
-                        </div>
+                            <div class="flex justify-center mt-4">
+                                <button type="submit"
+                                    class="w-[60%] py-3 bg-gradient-to-tr from-[#0A1B59] to-[#2E5DE8] text-white font-bold hover:from-[#2E5DE8] hover:to-[#0A1B59] hover:scale-105 transition rounded-lg shadow-lg flex items-center justify-center gap-2">
+                                    Kirim Pesan <i class='bx bx-send text-xl'></i>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

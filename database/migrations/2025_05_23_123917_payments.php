@@ -17,7 +17,7 @@ return new class extends Migration
             $table->decimal('amount', 10, 2);
             $table->string('payment_photo')->nullable()->comment('Foto bukti pembayaran');
             $table->date('payment_date')->nullable();
-            $table->enum('payment_status', ['pending', 'confirmed', 'failed'])->default('pending')->nullable();
+            $table->enum('payment_status', ['unpaid', 'pending', 'confirmed', 'failed'])->default('unpaid')->nullable();
             $table->string('payment_method')->nullable(); // e.g., "bank_transfer", "cash"
             $table->date('billing_period'); // Misal "2024-10"          a
             $table->decimal('penalty_fee', 10, 2)->default(0)->comment('Denda keterlambatan pembayaran');

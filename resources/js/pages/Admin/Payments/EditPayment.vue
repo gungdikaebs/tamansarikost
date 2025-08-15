@@ -100,6 +100,7 @@ function submit() {
                         Pembayaran</label>
                     <select v-model="form.payment_status" id="payment_status"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:outline-1 block w-full p-2.5 ">
+                        <option value="unpaid">Unpaid</option>
                         <option value="pending">Pending</option>
                         <option value="confirmed">Confirmed</option>
                         <option value="failed">Failed</option>

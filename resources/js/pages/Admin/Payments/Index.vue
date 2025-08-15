@@ -221,8 +221,10 @@ function deletePayment(paymentId) {
                                         'border rounded px-2 py-1',
                                         payment.payment_status === 'confirmed' ? 'bg-green-100 text-green-700 border-green-400' :
                                             payment.payment_status === 'pending' ? 'bg-blue-100 text-blue-700 border-blue-400' :
-                                                payment.payment_status === 'failed' ? 'bg-red-100 text-red-700 border-red-400' : ''
+                                                payment.payment_status === 'unpaid' ? 'bg-yellow-100 text-yellow-700 border-yellow-400' :
+                                                    payment.payment_status === 'failed' ? 'bg-red-100 text-red-700 border-red-400' : ''
                                     ]">
+                                    <option value="unpaid">Unpaid</option>
                                     <option value="pending">Pending</option>
                                     <option value="confirmed">Confirmed</option>
                                     <option value="failed">Failed</option>

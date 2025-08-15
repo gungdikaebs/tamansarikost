@@ -2,6 +2,7 @@
 import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue'
 import { useForm } from '@inertiajs/vue3'
 import { ref, computed, watch } from 'vue'
+import Swal from 'sweetalert2'
 
 const props = defineProps({
     auth: Object,
@@ -88,7 +89,7 @@ function submit() {
                     <input v-model="form.payment_date" id="payment_date" type="date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
                     <p v-if="props.errors.payment_date" class="text-red-600 text-sm mt-1">{{ props.errors.payment_date
-                        }}</p>
+                    }}</p>
                 </div>
 
                 <!-- Input Jatuh Tempo Pembayaran -->
@@ -120,6 +121,7 @@ function submit() {
                         Pembayaran</label>
                     <select v-model="form.payment_status" id="payment_status"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                        <option value="unpaid">Unpaid</option>
                         <option value="pending">Pending</option>
                         <option value="confirmed">Confirmed</option>
                         <option value="failed">Failed</option>

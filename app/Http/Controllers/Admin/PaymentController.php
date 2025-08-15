@@ -29,8 +29,11 @@ class PaymentController extends Controller
                 })
                     ->orWhere('amount', 'like', '%' . $search . '%')
                     ->orWhere('payment_status', 'like', '%' . $search . '%');
-            })->paginate(5) // langsung paginate tanpa get
+            })
+            ->orderBy('created_at', 'desc') // urutkan berdasarkan data terbaru
+            ->paginate(10)
             ->withQueryString();
+
         return inertia('Admin/Payments/Index', [
             'payments' => $payments,
             'search' => $search,
@@ -57,7 +60,7 @@ class PaymentController extends Controller
             'room_tenant_id' => 'required|exists:room_tenants,id',
             'amount' => 'required|numeric|min:0',
             'payment_date' => 'nullable|date',
-            'payment_status' => 'nullable|in:pending,confirmed,failed',
+            'payment_status' => 'nullable|in:unpaid,pending,confirmed,failed',
             'payment_method' => 'nullable|string|max:255',
             'billing_period' => 'required|date',
             'penalty_fee' => 'nullable|numeric|min:0',
@@ -122,7 +125,7 @@ class PaymentController extends Controller
             'room_tenant_id' => 'required|exists:room_tenants,id',
             'amount'         => 'required|numeric|min:0',
             'payment_date'   => 'nullable|date',
-            'payment_status' => 'nullable|in:pending,confirmed,failed',
+            'payment_status' => 'nullable|in:unpaid,pending,confirmed,failed',
             'payment_method' => 'nullable|string|max:255',
             'billing_period' => 'required|date',
             'penalty_fee'    => 'nullable|numeric|min:0',
@@ -160,14 +163,13 @@ class PaymentController extends Controller
 
             // Billing period saat ini
             $currentBillingPeriod = Carbon::parse($payment->billing_period);
-            // Tambah satu bulan untuk periode berikutnya
-            $nextBillingPeriod = $currentBillingPeriod->copy()->addMonth();
-
+            // Tambah satu bulan untuk periode berikutnya (hanya tanggal, bulan, tahun)
+            $nextBillingPeriod = $currentBillingPeriod->copy()->addMonth()->startOfDay()->format('Y-m-d');
             $newPayment = new Payment();
             $newPayment->room_tenant_id = $roomTenant->id;
             $newPayment->amount        = $roomTenant->room->price;
             $newPayment->payment_date  = null;
-            $newPayment->payment_status = 'pending';
+            $newPayment->payment_status = 'unpaid';
             $newPayment->payment_method = null;
             $newPayment->billing_period = $nextBillingPeriod;
             $newPayment->penalty_fee    = 0;
@@ -203,7 +205,7 @@ class PaymentController extends Controller
     {
         // Validasi input di awal
         $validated = $request->validate([
-            'payment_status' => 'required|in:pending,confirmed,failed',
+            'payment_status' => 'required|in:unpaid,pending,confirmed,failed',
             'payment_id' => 'nullable|integer', // jika ingin menerima payment_id dari frontend
         ]);
 
@@ -221,7 +223,7 @@ class PaymentController extends Controller
             $newPayment->room_tenant_id = $roomTenant->id;
             $newPayment->amount = $roomTenant->room->price;
             $newPayment->payment_date = null;
-            $newPayment->payment_status = 'pending';
+            $newPayment->payment_status = 'unpaid';
             $newPayment->payment_method = null;
             $newPayment->billing_period = $nextBillingPeriod;
             $newPayment->penalty_fee = 0;

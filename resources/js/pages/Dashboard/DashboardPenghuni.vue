@@ -25,6 +25,15 @@ const props = defineProps({
         required: true
     }
 });
+
+function dateStr(date) {
+    if (!date) return '';
+    return new Date(date).toLocaleDateString('id-ID', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+    });
+}
 </script>
 
 <template>
@@ -43,14 +52,13 @@ const props = defineProps({
                         <p class="text-lg text-gray-700 tracking-wide text-center md:text-left mb-2">
                             Selamat datang di <span class="font-semibold text-blue-600">Taman Sari Kost</span>!
                         </p>
-
                     </div>
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-4 relative">
-                    <!-- Left content -->
+                    <!-- Card History Payment (Left on desktop, Bottom on mobile) -->
                     <div
-                        class="w-full md:flex-1 p-4 bg-gradient-to-br from-blue-50 via-white to-green-50 rounded-xl shadow-lg mt-5 md:overflow-auto">
+                        class="order-2 md:order-1 w-full md:flex-1 p-4 bg-gradient-to-br from-blue-50 via-white to-green-50 rounded-xl shadow-lg mt-5 md:overflow-auto">
                         <div class="flex items-center justify-between mb-4 px-2 md:px-5">
                             <h2 class="text-xl md:text-2xl font-extrabold text-gray-600 flex items-center gap-2">
                                 <i class="bx bx-credit-card text-2xl bg-green-600 text-white rounded-full p-2"></i>
@@ -73,8 +81,10 @@ const props = defineProps({
                                     <span class="text-xs text-gray-400 font-mono">#{{ idx + 1 }}</span>
                                     <span :class="[
                                         'px-3 py-1 text-xs font-bold rounded-full capitalize tracking-wide shadow',
+                                        pay.payment_status === 'unpaid' ? 'bg-yellow-100 text-yellow-700' : '',
                                         pay.payment_status === 'pending' ? 'bg-gray-200 text-gray-700' : '',
-                                        pay.payment_status === 'confirmed' ? 'bg-green-100 text-green-700' : ''
+                                        pay.payment_status === 'confirmed' ? 'bg-green-100 text-green-700' : '',
+                                        pay.payment_status === 'failed' ? 'bg-red-100 text-red-700' : ''
                                     ]">
                                         {{ pay.payment_status }}
                                     </span>
@@ -84,14 +94,14 @@ const props = defineProps({
                                         pay.amount.toLocaleString('id-ID') }}</div>
                                     <div class="text-sm text-gray-600 flex items-center gap-2">
                                         <i class="bx bx-calendar"></i>
-                                        {{ pay.payment_date }}
+                                        {{ dateStr(pay.payment_date) }}
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-2 mt-2">
-                                    <i class="bx bx-home text-blue-600"></i>
-                                    <span class="text-sm text-gray-500">Kamar: <span
-                                            class="font-semibold text-blue-700">{{ pay.room_number || '-'
-                                            }}</span></span>
+                                    <!-- <i class="bx bx-home text-blue-600"></i> -->
+                                    <span class="text-sm text-gray-500">Jatuh Tempo : <span
+                                            class="font-semibold text-gray-800">{{ dateStr(pay.billing_period) }}</span>
+                                    </span>
                                 </div>
                             </div>
                             <div v-if="paymentHistory.length === 0"
@@ -104,9 +114,9 @@ const props = defineProps({
                         </div>
                     </div>
 
-                    <!-- Right sidebar -->
+                    <!-- Info Kamar (Right on desktop, Top on mobile) -->
                     <div
-                        class="w-full md:w-96 mt-1 bg-gradient-to-br from-blue-50 via-white to-green-50 p-6 rounded-xl shadow-lg md:sticky md:top-24 md:self-start">
+                        class="order-1 md:order-2 w-full md:w-96 mt-1 bg-gradient-to-br from-blue-50 via-white to-green-50 p-6 rounded-xl shadow-lg md:sticky md:top-24 md:self-start">
                         <h2 class="text-xl font-extrabold text-blue-900 mb-4 flex items-center gap-2">
                             <i class="bx bx-door-open text-2xl bg-blue-600 text-white rounded-full p-2"></i>
                             Info Kamar Anda
@@ -150,21 +160,31 @@ const props = defineProps({
             <div v-else>
                 <!-- Tenant Tidak Ada -->
                 <div v-if="props.rooms && props.rooms.length > 0">
-                    <h1 class="text-2xl font-bold mb-4 md:px-3 text-center md:text-start">Daftar Kamar</h1>
-                    <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-3 ">
+                    <h1 class="text-3xl font-extrabold mb-6 md:px-3 text-center md:text-start text-blue-700">
+                        Pilih Kamar Anda
+                    </h1>
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                         <div v-for="room in props.rooms" :key="room.id"
-                            class="bg-white rounded-lg shadow-lg/20 shadow-gray-600 p-4">
-                            <a :href="`/dashboard/register-tenant?room_id=${room.id}`">
-                                <img src="https://i.pinimg.com/736x/09/1f/6b/091f6b9e8ae59b382144f53d80564965.jpg"
-                                    alt="Room Image" class="w-full h-48 object-cover mb-4 rounded" />
-
-                                <h2 class="text-xl font-bold">{{ room.room_number }}</h2>
-                                <p class="mb-4">{{ room.description }}</p>
-                                <div class="flex justify-between items-center">
-                                    <p class="text-sm rounded">
+                            class="bg-gradient-to-br from-blue-50 via-white to-green-50 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-5 flex flex-col justify-between border border-blue-100 hover:border-blue-400">
+                            <a :href="`/dashboard/register-tenant?room_id=${room.id}`" class="block group">
+                                <div class="relative mb-4">
+                                    <img src="https://i.pinimg.com/736x/09/1f/6b/091f6b9e8ae59b382144f53d80564965.jpg"
+                                        alt="Room Image"
+                                        class="w-full h-48 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
+                                    <span
+                                        class="absolute top-3 left-3 bg-blue-600 text-white text-xs px-3 py-1 rounded-full shadow font-bold">
+                                        {{ room.status }}
+                                    </span>
+                                </div>
+                                <div class="mb-3">
+                                    <h2 class="text-xl font-bold text-blue-800 mb-1">{{ room.room_number }}</h2>
+                                    <p class="text-gray-600 text-sm mb-2">{{ room.description }}</p>
+                                </div>
+                                <div class="flex justify-between items-center mt-auto">
+                                    <p class="text-lg font-semibold text-green-700">
                                         Rp. {{ room.price.toLocaleString('id-ID') }}
                                     </p>
-                                    <a class="bg-blue-500 py-1 px-3 rounded text-white font"
+                                    <a class="bg-blue-500 py-2 px-5 rounded-lg text-white font-bold shadow hover:scale-105 transition-transform duration-200"
                                         :href="`/dashboard/register-tenant?room_id=${room.id}`">
                                         Book Now
                                     </a>
@@ -173,8 +193,11 @@ const props = defineProps({
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center justify-center h-48 mb-4 rounded-sm bg-gray-50">
-                    <h1 class="text-2xl text-gray-400">Tidak Ada Kamar Yang Tersedia!</h1>
+                <div v-else
+                    class="flex flex-col items-center justify-center h-64 mb-4 rounded-2xl bg-gradient-to-br from-gray-100 via-white to-gray-200 shadow-inner">
+                    <i class="bx bx-bed text-6xl text-gray-400 mb-4"></i>
+                    <h1 class="text-2xl text-gray-400 font-semibold">Tidak Ada Kamar Yang Tersedia!</h1>
+                    <p class="text-gray-500 mt-2">Silakan hubungi admin untuk informasi lebih lanjut.</p>
                 </div>
             </div>
         </DashboardLayouts>
