@@ -13,6 +13,7 @@ class PenghuniController extends Controller
 {
     public function index()
     {
+<<<<<<< HEAD
         $user = Auth::user();
 
         // 1️⃣ Ambil tenant berserta roomTenants, room, payee, dan payments
@@ -63,6 +64,15 @@ class PenghuniController extends Controller
             'roomTenants'    => $tenant->roomTenants,
             'rooms'          => $tenant->roomTenants->map(fn($rt) => $rt->room),
             'paymentHistory' => $paymentHistory,   // ← baru
+=======
+        $tenant = Auth::user()->tenant->with('payee')->first();
+        $rooms = Room::whereHas('roomTenants', function ($q) use ($tenant) {
+            $q->where('tenant_id', $tenant->id);
+        })->get();
+        return inertia('Dashboard/', [
+            'rooms' => $rooms,
+            'tenant' => $tenant,
+>>>>>>> main
         ]);
     }
 }

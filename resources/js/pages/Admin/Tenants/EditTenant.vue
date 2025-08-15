@@ -75,7 +75,7 @@ function submit() {
                 </div>
 
                 <!-- Submit -->
-                <button type="submit"
+                <button type="submit" :disabled="form.processing"
                     class="w-full bg-blue-700 hover:bg-blue-800 text-white font-medium rounded-lg text-sm px-5 py-2.5">
                     Simpan Perubahan
                 </button>

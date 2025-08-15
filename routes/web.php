@@ -80,9 +80,3 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::get('payment/detail/{id}', [PaymentPenghuniController::class, 'showPaymentForm'])->name('penghuni.payment.detail');
     });
 });
-
-
-
-
-
-// == Payment ==
