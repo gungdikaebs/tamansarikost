@@ -31,15 +31,8 @@ class LoginController extends Controller
         $request->session()->regenerate();
 
         // Redirect berdasarkan role
-        $user = Auth::user();
 
-        if ($user->role === 'admin')
-            return redirect()->intended('/dashboard/admin');
-        elseif ($user->role === 'penghuni') {
-            return redirect()->intended('/dashboard/penghuni');
-        } else {
-            return redirect()->intended('/dashboard/guest');
-        }
+        return redirect()->intended('/dashboard/');
     }
     public function logout(Request $request)
     {

@@ -9,16 +9,23 @@ class Payment extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'tenant_id',
+        'room_tenant_id',
         'amount',
         'payment_date',
         'payment_status',
         'payment_method',
         'billing_period',
+        'penalty_fee',
+        'payment_photo',
     ];
 
-    public function tenant()
+    public function roomTenant()
     {
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsTo(RoomTenant::class);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
     }
 }

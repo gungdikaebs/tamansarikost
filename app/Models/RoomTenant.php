@@ -32,4 +32,8 @@ class RoomTenant extends Model
     {
         return $this->belongsTo(Tenant::class, 'payee_id');
     }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

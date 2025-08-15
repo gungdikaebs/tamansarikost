@@ -15,9 +15,6 @@ class DashboardController extends Controller
             return redirect()->route('dashboard.admin');
         } elseif ($user->role === 'penghuni')
             return redirect()->route('dashboard.penghuni');
-        elseif ($user->role === 'guest') {
-            return redirect()->route('dashboard.guest');
-        }
         return redirect()->route('login')->with('error', 'Please login to access this page.');
     }
 }

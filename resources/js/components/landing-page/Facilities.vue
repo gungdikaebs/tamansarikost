@@ -5,7 +5,7 @@
                     Tersedia?
                 </span></h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 <div v-for="(card, index) in facilities" :key="index"
                     class="rounded-xl shadow-md bg-gradient-to-b from-[#90C9FF] to-white p-4 hover:scale-105 transition-all duration-300">
                     <img :src="card.image" alt="Facility Image" class="w-full h-40 object-cover rounded-lg mb-4 " />
@@ -37,5 +37,6 @@ const facilities = [
         description: 'tidak ada biaya tambahan untuk fasilitas lainnya seperti iuran sampah dan air',
         image: kamar1,
     },
+
 ];
 </script>

@@ -82,7 +82,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Bangunan from '../../../assets/images/Bangunan.png'
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 
 const isLaptop = ref(false)
 
