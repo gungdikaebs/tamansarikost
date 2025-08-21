@@ -117,11 +117,11 @@ class PaymentController extends Controller
     {
         $payment = Payment::findOrFail($id);
 
-        // Ambil status lama sebelum di‑update
-        $oldStatus = $payment->payment_status;
+        // Tidak perlu mengambil oldStatus di sini lagi jika logika akan di Observer
+        // $oldStatus = $payment->payment_status;
 
-        // Validasi input
         $validated = $request->validate([
+            // ... validasi seperti sebelumnya
             'room_tenant_id' => 'required|exists:room_tenants,id',
             'amount'         => 'required|numeric|min:0',
             'payment_date'   => 'nullable|date',
@@ -132,12 +132,9 @@ class PaymentController extends Controller
             'payment_photo'  => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Isi atribut model dengan data yang divalidasi
         $payment->fill($validated);
 
-        // Simpan foto bila ada
         if ($request->hasFile('payment_photo')) {
-            // Hapus foto lama (opsional)
             if ($payment->payment_photo) {
                 Storage::disk('public')->delete($payment->payment_photo);
             }
@@ -145,44 +142,12 @@ class PaymentController extends Controller
                 ->store('payment_photos', 'public');
         }
 
-        // Simpan perubahan utama dulu
-        $payment->save();
+        $payment->save(); // Observer akan terpicu di sini!
 
-        // -------------------------------------------------
-        // 1️⃣ Cek apakah status berubah menjadi confirmed (atau success)
-        // -------------------------------------------------
-        $newStatus = $payment->payment_status;
-        $triggerStatus = 'confirmed'; // ganti ke 'success' bila memang ingin memakai kata itu
-
-        if ($oldStatus !== $newStatus && $newStatus === $triggerStatus) {
-            // -------------------------------------------------
-            // 2️⃣ Buat pembayaran baru untuk periode berikutnya
-            // -------------------------------------------------
-            $roomTenant = RoomTenant::with('tenant', 'room')
-                ->findOrFail($payment->room_tenant_id);
-
-            // Billing period saat ini
-            $currentBillingPeriod = Carbon::parse($payment->billing_period);
-            // Tambah satu bulan untuk periode berikutnya (hanya tanggal, bulan, tahun)
-            $nextBillingPeriod = $currentBillingPeriod->copy()->addMonth()->startOfDay()->format('Y-m-d');
-            $newPayment = new Payment();
-            $newPayment->room_tenant_id = $roomTenant->id;
-            $newPayment->amount        = $roomTenant->room->price;
-            $newPayment->payment_date  = null;
-            $newPayment->payment_status = 'unpaid';
-            $newPayment->payment_method = null;
-            $newPayment->billing_period = $nextBillingPeriod;
-            $newPayment->penalty_fee    = 0;
-            $newPayment->payment_photo  = null;
-            $newPayment->save();
-            // -------------------------------------------------
-            // Opsional: beri notifikasi bahwa data baru sudah dibuat
-            // -------------------------------------------------
-            $request->session()->flash('info', 'Pembayaran berhasil dikonfirmasi, pembayaran baru untuk periode berikutnya sudah dibuat.');
-        }
-
+        // Notifikasi flash message terkait pembuatan pembayaran baru bisa juga dipindahkan ke Observer
+        // atau disesuaikan jika notifikasi ingin muncul di controller (tapi Observer akan lebih "benar")
         return redirect()->route('payments.index')
-            ->with('success', 'Payment updated successfully.');
+            ->with('success', 'Payment updated successfully.'); // Atau sesuaikan pesan
     }
 
     /**
@@ -203,37 +168,17 @@ class PaymentController extends Controller
 
     public function updateStatus(Request $request, Payment $payment)
     {
-        // Validasi input di awal
         $validated = $request->validate([
             'payment_status' => 'required|in:unpaid,pending,confirmed,failed',
-            'payment_id' => 'nullable|integer', // jika ingin menerima payment_id dari frontend
+            // 'payment_id' => 'nullable|integer', // Jika ini tidak digunakan, bisa dihapus
         ]);
 
-        // Update status pembayaran
         $payment->payment_status = $validated['payment_status'];
-        $payment->save();
+        $payment->save(); // Observer akan terpicu di sini!
 
-        // Jika status menjadi 'confirmed', buat pembayaran baru untuk periode berikutnya
-        if ($validated['payment_status'] === 'confirmed') {
-            $roomTenant = RoomTenant::with('tenant', 'room')->findOrFail($payment->room_tenant_id);
-
-            $currentBillingPeriod = Carbon::parse($payment->billing_period);
-            $nextBillingPeriod = $currentBillingPeriod->copy()->addMonth();
-            $newPayment = new Payment();
-            $newPayment->room_tenant_id = $roomTenant->id;
-            $newPayment->amount = $roomTenant->room->price;
-            $newPayment->payment_date = null;
-            $newPayment->payment_status = 'unpaid';
-            $newPayment->payment_method = null;
-            $newPayment->billing_period = $nextBillingPeriod;
-            $newPayment->penalty_fee = 0;
-            $newPayment->payment_photo = null;
-            $newPayment->save();
-
-            return redirect()->back()
-                ->with('success', 'Payment confirmed and new payment created for next billing period.');
-        }
-        return inertia('Admin/Payments/Index')
-            ->with('success', 'Payment status updated successfully.');
+        // Logika pembuatan pembayaran baru akan ditangani oleh Observer setelah 'confirmed'
+        // Jadi bagian if ($validated['payment_status'] === 'confirmed') bisa dihapus
+        return redirect()->route('payments.index')
+            ->with('success', 'Status pembayaran berhasil diperbarui.');
     }
 }
