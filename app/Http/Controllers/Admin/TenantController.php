@@ -8,10 +8,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-<<<<<<< HEAD:app/Http/Controllers/Admin/TenantController.php
-=======
-use Inertia\Controller;
->>>>>>> main:app/Http/Controllers/TenantController.php
 
 class TenantController extends Controller
 {
@@ -119,22 +115,12 @@ class TenantController extends Controller
 
         // Jika user mengupload file baru
         if ($request->hasFile('ktp_photo')) {
-<<<<<<< HEAD:app/Http/Controllers/Admin/TenantController.php
             if ($tenant->ktp_photo) {
                 Storage::disk('public')->delete($tenant->ktp_photo);
             }
             $validated['ktp_photo'] = $request->file('ktp_photo')->store('ktp_photos', 'public');
         } else {
             $validated['ktp_photo'] = $tenant->ktp_photo;
-=======
-            // Hapus foto lama jika ada
-            if ($tenant->ktp_photo && \Storage::disk('public')->exists($tenant->ktp_photo)) {
-                \Storage::disk('public')->delete($tenant->ktp_photo);
-            }
-
-            // Simpan foto baru
-            $ktpPath = $request->file('ktp_photo')->store('ktp_photos', 'public');
->>>>>>> main:app/Http/Controllers/TenantController.php
         }
 
         $tenant->update([
@@ -143,14 +129,10 @@ class TenantController extends Controller
             'ktp_photo' => $ktpPath, // pakai yang baru, atau tetap yang lama
         ]);
 
-<<<<<<< HEAD:app/Http/Controllers/Admin/TenantController.php
 
         return
             // Redirect Inertia
             Inertia::location('/dashboard/tenants');
-=======
-        return Inertia::location(route('tenants.index'));
->>>>>>> main:app/Http/Controllers/TenantController.php
     }
 
 

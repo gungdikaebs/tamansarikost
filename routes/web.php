@@ -14,7 +14,8 @@ use App\Http\Controllers\Admin\RoomTenantController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PaymentController;
-
+use App\Http\Controllers\Penghuni\AnnouncementPenghuniController;
+use App\Http\Controllers\Penghuni\ComplaintPenghuniController;
 use App\Http\Controllers\Penghuni\RegistrationController;
 use App\Http\Controllers\Penghuni\PaymentPenghuniController;
 use Inertia\Inertia;
@@ -78,5 +79,12 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::get('payment/bayar/{id}', [PaymentPenghuniController::class, 'submitPayment'])->name('penghuni.payment.submit');
         Route::post('payment', [PaymentPenghuniController::class, 'updatePayment'])->name('penghuni.payment.store');
         Route::get('payment/detail/{id}', [PaymentPenghuniController::class, 'showPaymentForm'])->name('penghuni.payment.detail');
+        // Information
+        Route::get('informations', [AnnouncementPenghuniController::class, 'index'])->name('penghuni.informations');
+        Route::get('informations/detail/{id}', [AnnouncementPenghuniController::class, 'show'])->name('penghuni.informations.detail');
+        // Complaint
+        Route::get('complaint', [ComplaintPenghuniController::class, 'index'])->name('penghuni.complaint');
+        Route::get('complaint/create', [ComplaintPenghuniController::class, 'create'])->name('penghuni.complaint.create');
+        Route::get('complaint/detail/{id}', [ComplaintPenghuniController::class, 'show'])->name('penghuni.complaint.show');
     });
 });
