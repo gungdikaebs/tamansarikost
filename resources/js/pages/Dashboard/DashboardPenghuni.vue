@@ -86,7 +86,10 @@ function dateStr(date) {
                                         pay.payment_status === 'confirmed' ? 'bg-green-100 text-green-700' : '',
                                         pay.payment_status === 'failed' ? 'bg-red-100 text-red-700' : ''
                                     ]">
-                                        {{ pay.payment_status }}
+                                        {{ pay.payment_status === 'unpaid' ? 'Belum Dibayar' : '' }}
+                                        {{ pay.payment_status === 'pending' ? 'Menunggu' : '' }}
+                                        {{ pay.payment_status === 'confirmed' ? 'Dikonfirmasi' : '' }}
+                                        {{ pay.payment_status === 'failed' ? 'Gagal' : '' }}
                                     </span>
                                 </div>
                                 <div class="mb-3">

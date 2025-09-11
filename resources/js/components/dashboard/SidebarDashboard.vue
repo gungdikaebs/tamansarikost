@@ -89,7 +89,8 @@ const props = defineProps({
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center p-2 rounded-lg transition group hover:bg-blue-50">
+                    <a href="/dashboard/reports"
+                        class="flex items-center p-2 rounded-lg transition group hover:bg-blue-50">
                         <div
                             class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full group-hover:bg-blue-200">
                             <i class='bx bx-file text-2xl text-blue-500 group-hover:text-blue-700'></i>

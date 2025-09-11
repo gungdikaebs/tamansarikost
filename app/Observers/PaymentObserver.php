@@ -44,8 +44,7 @@ class PaymentObserver
 
             // Tambahkan data ke reports
             Report::create([
-                'payment_id' => $payment->id,
-                'amount' => $payment->amount,
+                'amount' => $payment->amount + $payment->penalty_fee,
                 'type' => 'income',
                 'description' => 'Pembayaran telah dikonfirmasi untuk periode ' . $payment->billing_period,
                 'date' => Carbon::now(),

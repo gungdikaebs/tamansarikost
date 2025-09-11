@@ -1,6 +1,8 @@
 <script setup>
 import { usePage } from '@inertiajs/vue3';
 import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
+import { Head } from '@inertiajs/vue3';
+
 
 const page = usePage();
 
@@ -18,11 +20,15 @@ function dateStr(date) {
 
 </script>
 <template>
+
+    <Head>
+        <title>Daftar Pembayaran</title>
+    </Head>
     <div>
         <DashboardLayouts :auth="page.props.auth">
 
             <div class="pt-10 px-4 lg:px-8">
-                <h1 class="text-2xl text-gray-500 font-bold mb-4 text-center md:text-left">Payment Page</h1>
+                <h1 class="text-3xl font-extrabold text-indigo-700  mb-10">📋 Daftar Pembayaran</h1>
                 <!-- Payment History Content Goes Here -->
                 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     <div v-for="payment in page.props.payments" :key="payment.id"
@@ -54,7 +60,10 @@ function dateStr(date) {
                                 'bg-yellow-100 text-yellow-700 px-2 py-1 rounded font-semibold': payment.payment_status === 'unpaid',
                                 'bg-red-100 text-red-700 px-2 py-1 rounded font-semibold': payment.payment_status === 'failed'
                             }">
-                                {{ payment.payment_status }}
+                                {{ payment.payment_status === 'unpaid' ? 'Belum Dibayar' : '' }}
+                                {{ payment.payment_status === 'pending' ? 'Menunggu' : '' }}
+                                {{ payment.payment_status === 'confirmed' ? 'Dikonfirmasi' : '' }}
+                                {{ payment.payment_status === 'failed' ? 'gagal' : '' }}
                             </span>
                         </div>
                         <a :href="`payment/bayar/${payment.id}`" v-if="payment.payment_status === 'unpaid'" class=" mt-6 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-lg

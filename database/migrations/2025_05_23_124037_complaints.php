@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('tenant_id')->constrained();
             $table->string('title');
             $table->text('description');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->enum('status', ['pending', 'resolved', 'closed'])->default('pending'); // pending, resolved, closed
             $table->timestamps();
         });

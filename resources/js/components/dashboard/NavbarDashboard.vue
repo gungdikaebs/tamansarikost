@@ -15,7 +15,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 shadow-lg">
+    <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 shadow-md">
         <div class="px-4 py-3 lg:px-8 flex items-center justify-between">
             <!-- Left: Logo & Sidebar Toggle -->
             <div class="flex items-center gap-3">
@@ -64,7 +64,7 @@ const props = defineProps({
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded transition">Dashboard</a>
                         </li>
                         <li>
-                            <a href="/settings"
+                            <a href="/dashboard/settings"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded transition">Settings</a>
                         </li>
                         <li>

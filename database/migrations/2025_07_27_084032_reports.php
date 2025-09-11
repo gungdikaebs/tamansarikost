@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('payment_id')->nullable()->constrained('payments')->onDelete('cascade');
             $table->decimal('amount', 15, 2);
             $table->enum('type', ['income', 'outcome']);
             $table->text('description')->nullable();

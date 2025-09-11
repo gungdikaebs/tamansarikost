@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\RoomTenantController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Penghuni\AnnouncementPenghuniController;
 use App\Http\Controllers\Penghuni\ComplaintPenghuniController;
 use App\Http\Controllers\Penghuni\RegistrationController;
@@ -38,6 +39,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 // === Dashboard ===
 Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
 
     // Admin Routes
     Route::middleware('role:admin')->group(function () {
@@ -63,6 +65,8 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         // Announcements Management
         Route::resource('announcements', AnnouncementController::class)->except(['show']);
         Route::get('announcements/{announcement}', [AnnouncementController::class, 'show'])->name('announcements.show');
+        // Reports Management
+        Route::resource('reports', ReportController::class)->except(['show']);
     });
 
     // Penghuni Routes
@@ -85,6 +89,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         // Complaint
         Route::get('complaint', [ComplaintPenghuniController::class, 'index'])->name('penghuni.complaint');
         Route::get('complaint/create', [ComplaintPenghuniController::class, 'create'])->name('penghuni.complaint.create');
+        Route::post('complaint', [ComplaintPenghuniController::class, 'store'])->name('penghuni.complaint.store');
         Route::get('complaint/detail/{id}', [ComplaintPenghuniController::class, 'show'])->name('penghuni.complaint.show');
     });
 });

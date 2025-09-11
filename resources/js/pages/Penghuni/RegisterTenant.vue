@@ -95,8 +95,24 @@ function submit() {
 
                 <div>
                     <label for="ktp_photo" class="block mb-2 font-semibold text-gray-700">Foto KTP</label>
-                    <input id="ktp_photo" name="ktp_photo" type="file" @change="handleFileUpload" accept="image/*"
-                        :class="['border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition', form.errors.ktp_photo ? 'border-red-600' : 'border-gray-300']" />
+                    <div class="flex flex-col items-center">
+                        <label for="ktp_photo" class="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 bg-blue-50 hover:bg-blue-100 transition
+                            text-blue-700 font-semibold
+                            w-full
+                            mb-2
+                            "
+                            :class="form.errors.ktp_photo ? 'border-red-600 bg-red-50 text-red-700' : 'border-blue-300'">
+                            <svg class="h-10 w-10 mb-2 text-blue-400" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M7 16V4a1 1 0 011-1h8a1 1 0 011 1v12m-5 4v-4m0 0l-2 2m2-2l2 2" />
+                            </svg>
+                            <span v-if="!form.ktp_photo">Klik untuk upload foto KTP</span>
+                            <span v-else class="truncate">{{ form.ktp_photo.name }}</span>
+                            <input id="ktp_photo" name="ktp_photo" type="file" @change="handleFileUpload"
+                                accept="image/*" class="hidden" />
+                        </label>
+                    </div>
                     <div v-if="form.errors.ktp_photo" class="text-red-600 mt-1 text-sm">{{ form.errors.ktp_photo }}
                     </div>
                     <div v-if="ktpPreview" class="mt-3 flex justify-center">

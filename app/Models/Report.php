@@ -12,15 +12,9 @@ class Report extends Model
     use HasFactory;
 
     protected $fillable = [
-        'payment_id',
         'amount',
         'type',
         'description',
         'date',
     ];
-
-    public function payment()
-    {
-        return $this->belongsTo(Payment::class);
-    }
 }
