@@ -1,5 +1,5 @@
 <script setup>
-import { usePage } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 
 const page = usePage();
@@ -11,6 +11,10 @@ function excerpt(html, length = 120) {
 </script>
 
 <template>
+
+    <Head>
+        <title>Pengumuman</title>
+    </Head>
     <div>
         <DashboardLayouts :auth="page.props.auth" :errors="page.props.errors">
             <div class="max-w-5xl mx-auto py-8 px-4">

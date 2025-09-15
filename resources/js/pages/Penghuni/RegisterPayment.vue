@@ -118,9 +118,23 @@ function submit() {
 
                 <div>
                     <label class="block mb-2 font-semibold text-gray-700" for="payment_photo">Bukti Pembayaran</label>
-                    <input id="payment_photo" name="payment_photo" type="file" @change="handleFileUpload"
-                        accept="image/*"
-                        :class="['border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition', form.errors.payment_photo ? 'border-red-600' : 'border-gray-300']" />
+                    <div class="flex flex-col items-center">
+                        <label for="payment_photo"
+                            class="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 w-full transition hover:border-blue-400 bg-gray-100">
+                            <svg class="h-10 w-10 text-blue-400 mb-2" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M7 16V4a1 1 0 011-1h8a1 1 0 011 1v12m-5 4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
+                            </svg>
+                            <span class="text-blue-700 font-semibold mb-1" v-if="!form.payment_photo">Upload Bukti
+                                Pembayaran</span>
+                            <span v-else class="text-gray-500 text-sm">{{ form.payment_photo.name }}</span>
+                            <span class="text-gray-500 text-sm">Klik untuk memilih gambar (jpg, png, jpeg)</span>
+
+                            <input id="payment_photo" name="payment_photo" type="file" @change="handleFileUpload"
+                                accept="image/*" class="hidden" />
+                        </label>
+                    </div>
                     <div v-if="form.errors.payment_photo" class="text-red-600 mt-1 text-sm">{{ form.errors.payment_photo
                         }}</div>
                     <div v-if="paymentPreview" class="mt-3 flex justify-center">

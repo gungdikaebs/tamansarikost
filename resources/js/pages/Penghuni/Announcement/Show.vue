@@ -1,11 +1,16 @@
 <script setup>
-import { usePage } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 
 const page = usePage();
 </script>
 
 <template>
+
+    <Head>
+        <title>Detail Pengumuman</title>
+    </Head>
+
     <DashboardLayouts :auth="page.props.auth">
         <div class="bg-white shadow-2xl rounded-2xl p-10 border border-indigo-200 relative overflow-hidden">
             <!-- Decorative background shapes -->

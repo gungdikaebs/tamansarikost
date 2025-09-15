@@ -20,7 +20,7 @@
     {{-- favicon --}}
 
 
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
+    <title inertia>{{ config('app.name', 'Taman Sari Kost') }}</title>
     @vite('resources/js/app.js') {{-- Or mix() if using Laravel Mix --}}
     @inertiaHead
 </head>

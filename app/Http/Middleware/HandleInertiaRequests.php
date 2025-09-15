@@ -44,6 +44,7 @@ class HandleInertiaRequests extends Middleware
                     'username' => $request->user()->username,
                     'role' => $request->user()->role,
                     'phone' => $request->user()->phone,
+                    'profile_picture' => $request->user()->profile_picture ? asset('storage/' . $request->user()->profile_picture) : null,
                 ] : null,
                 'flash' => [
                     'success' => $request->session()->get('success'),

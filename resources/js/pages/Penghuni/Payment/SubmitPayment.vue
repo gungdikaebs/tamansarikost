@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import Swal from 'sweetalert2';
-import { usePage, useForm, router } from '@inertiajs/vue3';
+import { usePage, useForm, router, Head } from '@inertiajs/vue3';
 import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 const page = usePage();
 
@@ -51,11 +51,26 @@ function submitForm() {
     });
 }
 
+const previewImg = ref(null);
+function handleImageChange(e) {
+    const file = e.target.files[0];
+    form.payment_photo = file;
+    if (file) {
+        previewImg.value = URL.createObjectURL(file);
+    } else {
+        previewImg.value = null;
+    }
+}
+
 </script>
 
 
 
 <template>
+
+    <Head>
+        <title>Form Pembayaran</title>
+    </Head>
     <DashboardLayouts :auth="page.props.auth">
         <div class=" mx-auto bg-gradient-to-br from-blue-50 to-white p-8 rounded-xl shadow-lg space-y-8">
             <div class="flex items-center space-x-3">
@@ -116,8 +131,31 @@ function submitForm() {
                 </div>
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Foto Bukti Pembayaran</label>
-                    <input type="file" @change="e => form.payment_photo = e.target.files[0]"
-                        class="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" />
+                    <div class="flex items-center space-x-4">
+                        <div>
+                            <div class="flex items-center space-x-4">
+                                <label for="paymentPhoto"
+                                    class="cursor-pointer flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-lg border border-blue-200 font-semibold shadow hover:bg-blue-100 transition">
+                                    <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.172 7l-6.586 6.586a2 2 0 002.828 2.828L18 9.828V7h-2.828z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M7 17a4 4 0 01-4-4V7a4 4 0 014-4h10a4 4 0 014 4v6a4 4 0 01-4 4H7z" />
+                                    </svg>
+                                    Pilih Foto Bukti
+                                </label>
+                                <input id="paymentPhoto" type="file" accept="image/*" @change="handleImageChange"
+                                    class="hidden" />
+                                <span class="text-xs text-gray-500 mt-1 block">Format: JPG, PNG. Maksimal 2MB.</span>
+                            </div>
+                            <span class="text-xs text-gray-500 mt-1 block">Format: JPG, PNG. Maksimal 2MB.</span>
+                        </div>
+                        <div v-if="previewImg"
+                            class="w-24 h-24 rounded-lg overflow-hidden border border-blue-200 shadow">
+                            <img :src="previewImg" alt="Preview" class="object-cover w-full h-full" />
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" :disabled="form.processing"
                     class="w-full bg-gradient-to-r from-blue-600 to-blue-400 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-500 transition shadow">

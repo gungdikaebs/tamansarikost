@@ -95,19 +95,19 @@ function submit() {
             class="max-w-4xl w-full mx-auto bg-white/90 rounded-2xl shadow-2xl flex overflow-hidden border-2 border-blue-200/40 animate-fade-in">
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 md:p-16 flex flex-col justify-center gap-6">
-                <div class="mb-2 flex items-center gap-2">
-                    <img src="https://img.icons8.com/color/48/000000/guest-house.png" alt="Logo"
-                        class="w-10 h-10 rounded-full shadow" />
+                <div class="mb-2 flex flex-col items-center justify-center gap-2">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo"
+                        class="w-16 h-16 mb-2 drop-shadow-lg" />
                     <h1>
                         <a href="/register"
-                            class="text-3xl font-extrabold text-indigo-900 tracking-wide drop-shadow">Taman Sari
+                            class="text-3xl font-extrabold text-indigo-900 tracking-wide drop-shadow ">Taman
+                            Sari
                             Kost</a>
                     </h1>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold text-blue-700 mb-1">Register</h2>
                     <p class="text-gray-500">Gabung bersama kami di Taman Sari Kost!</p>
+
                 </div>
+
                 <form @submit.prevent="submit" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-3">
                         <div>
