@@ -23,7 +23,7 @@ class User extends Authenticatable
         'phone',
         'role',
         'password',
-        'profile_photo'
+        'profile_picture',
     ];
 
     public function tenant()

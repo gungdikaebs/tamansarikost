@@ -1,24 +1,28 @@
 <?php
 
-use App\Http\Controllers\Admin\AnnouncementController;
-use App\Http\Controllers\Admin\ComplaintController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\PenghuniController;
+use App\Http\Controllers\Dashboard\SettingController;
 
+use App\Http\Controllers\Admin\AnnouncementController;
+use App\Http\Controllers\Admin\ComplaintController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\RoomTenantController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ReportController;
+
 use App\Http\Controllers\Penghuni\AnnouncementPenghuniController;
 use App\Http\Controllers\Penghuni\ComplaintPenghuniController;
 use App\Http\Controllers\Penghuni\RegistrationController;
 use App\Http\Controllers\Penghuni\PaymentPenghuniController;
+
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 
@@ -35,11 +39,16 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/forgot-password', [ResetPasswordController::class, 'forgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
 
 // === Dashboard ===
 Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
+    Route::get('/settings', [SettingController::class, 'index'])->name('dashboard.settings');
+    Route::put('/settings/user', [SettingController::class, 'updateUser'])->name('dashboard.settings.user.update');
+    Route::put('/settings/tenant', [SettingController::class, 'updateTenant'])->name('dashboard.settings.tenant.update');
 
     // Admin Routes
     Route::middleware('role:admin')->group(function () {

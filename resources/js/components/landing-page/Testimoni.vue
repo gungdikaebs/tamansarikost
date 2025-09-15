@@ -55,7 +55,7 @@ const testimonials = [
                     <p class="text-sm text-gray-600 mb-4">{{ testimonial.text }}</p>
                     <div class="flex justify-center space-x-1">
                         <span v-for="n in 5" :key="n" class="text-xl"
-                            :class="n <= testimonial.rating ? 'text-pink-500' : 'text-gray-300'">
+                            :class="n <= testimonial.rating ? 'text-yellow-500' : 'text-gray-300'">
                             ★
                         </span>
                     </div>

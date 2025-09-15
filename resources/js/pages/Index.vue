@@ -7,8 +7,13 @@ import Testimoni from '../components/landing-page/Testimoni.vue';
 import ContactUs from '../components/landing-page/ContactUs.vue';
 import Footer from '../components/landing-page/Footer.vue';
 
+
 </script>
 <template>
+
+    <Head>
+        <title>Taman Sari Kost</title>
+    </Head>
     <div class="bg-[#EBF0FF] smooth-scroll transition-all duration-300 ease-in-out">
         <Navbar />
         <Hero />

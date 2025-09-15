@@ -1,7 +1,6 @@
 <template>
-    <div class="md:bg-gradient-to-tr from-[#3967f4] via-[#6b8ced] to-[#EFF3FF] bg-[#557EF8] py-20" id="hero">
+    <div class="md:bg-gradient-to-tr from-[#3967f4] via-[#4f7ffb] via-60% to-[#EDF3FF]  bg-[#557EF8] py-20" id="hero">
         <div class="max-w-screen-xl mx-auto px-6  grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-
             <!-- Left Content -->
             <div>
                 <h1 class="text-4xl md:text-5xl font-bold text-[#0A1B59] leading-tight">
@@ -20,7 +19,6 @@
                 <!-- CTA Button -->
                 <div class="mt-6 ">
                     <a href="/register">
-
                         <button type="button"
                             class="flex items-center px-6 py-3 bg-[#0A1B59] text-white font-semibold rounded-full hover:bg-[#091749] transition hover:scale-105 cursor-pointer">
                             Book Now
@@ -61,7 +59,7 @@
                 <div class="absolute -top-8 -left-8 w-40 h-40 bg-lime-100 rounded-full z-0"></div>
 
                 <!-- Image with border and rounded corners -->
-                <div class="relative z-10 rounded-[32px] border border-[#0A1B59] overflow-hidden">
+                <div class="relative z-10 rounded-[32px] border border-[#ffffff] overflow-hidden">
                     <img :src="Bangunan" alt=" Hero Image" class="w-full h-auto object-cover rounded-[32px] p-5" />
                 </div>
             </div>

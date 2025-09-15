@@ -11,6 +11,7 @@ const props = defineProps({
         type: Object,
         required: true
     }
+
 });
 </script>
 
@@ -30,7 +31,7 @@ const props = defineProps({
                 <a href="/dashboard/" class="flex items-center gap-2 group">
                     <img src="https://i.pinimg.com/736x/25/3c/15/253c15575735e8d0cbe1ce77a6dac3f4.jpg" alt="Logo"
                         width="48" height="48" class="rounded-full object-cover group-hover:scale-105 transition" />
-                    <span class="text-xl md:text-2xl text-gray-600 font-bold tracking-tight transition">
+                    <span class="text-xl lg:text-2xl text-gray-600 font-bold tracking-tight transition">
                         TamanSariKost
                     </span>
                 </a>
@@ -40,9 +41,9 @@ const props = defineProps({
                 <button type="button"
                     class="flex items-center gap-2 bg-gray-100 hover:bg-blue-50 rounded-full px-3 py-1 transition focus:ring-2 focus:ring-blue-200"
                     aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                    <img v-if="props.auth && props.auth.user && props.auth.user.photo"
-                        class="w-9 h-9 rounded-full border-2 border-blue-300" :src="`storage/${props.auth.user.photo}`"
-                        alt="user photo" />
+                    <img v-if="props.auth && props.auth.user.profile_picture"
+                        class="w-9 h-9 rounded-full border-2 border-blue-300"
+                        :src="`${props.auth.user.profile_picture}`" alt="user photo" />
                     <img v-else class="w-9 h-9 rounded-full border-2 border-blue-300"
                         :src="`https://ui-avatars.com/api/?name=${props.auth.user.username}`"
                         alt="default user photo" />

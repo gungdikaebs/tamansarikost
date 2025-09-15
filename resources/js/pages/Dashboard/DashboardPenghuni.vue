@@ -39,28 +39,28 @@ function dateStr(date) {
 <template>
     <div>
         <DashboardLayouts :auth="props.auth">
-            <div v-if="props.tenant" class="bg-white rounded-lg md:p-4">
+            <div v-if="props.tenant" class="bg-white rounded-lg lg:p-4">
                 <div
-                    class="mb-8 bg-gradient-to-r from-blue-100 via-white to-green-100 rounded-xl shadow-lg p-6 flex flex-col md:flex-row items-center md:items-start gap-6">
-                    <div class="flex-shrink-0 bg-blue-500 rounded-full p-2 shadow-md m-auto">
+                    class="mb-8 bg-gradient-to-r from-blue-100 via-white to-green-100 rounded-xl shadow-lg p-6 flex flex-col lg:flex-row items-center lg:items-start gap-6">
+                    <div class="flex-shrink-0 bg-blue-500 rounded-full p-2 shadow-lg m-auto">
                         <i class="bx bx-user-circle text-white text-4xl"></i>
                     </div>
                     <div class="flex-1">
-                        <h1 class="text-3xl font-extrabold text-blue-700 mb-2 text-center md:text-left">
+                        <h1 class="text-3xl font-extrabold text-blue-700 mb-2 text-center lg:text-left">
                             Selamat Datang, <span class="text-green-600">{{ props.auth.user.username }}</span>
                         </h1>
-                        <p class="text-lg text-gray-700 tracking-wide text-center md:text-left mb-2">
+                        <p class="text-lg text-gray-700 tracking-wide text-center lg:text-left mb-2">
                             Selamat datang di <span class="font-semibold text-blue-600">Taman Sari Kost</span>!
                         </p>
                     </div>
                 </div>
 
-                <div class="flex flex-col md:flex-row gap-4 relative">
+                <div class="flex flex-col lg:flex-row gap-4 relative">
                     <!-- Card History Payment (Left on desktop, Bottom on mobile) -->
                     <div
-                        class="order-2 md:order-1 w-full md:flex-1 p-4 bg-gradient-to-br from-blue-50 via-white to-green-50 rounded-xl shadow-lg mt-5 md:overflow-auto">
-                        <div class="flex items-center justify-between mb-4 px-2 md:px-5">
-                            <h2 class="text-xl md:text-2xl font-extrabold text-gray-600 flex items-center gap-2">
+                        class="order-2 lg:order-1 w-full lg:flex-1 p-4 bg-gradient-to-br from-blue-50 via-white to-green-50 rounded-xl shadow-lg mt-5 lg:overflow-auto">
+                        <div class="flex items-center justify-between mb-4 px-2 lg:px-5">
+                            <h2 class="text-xl lg:text-2xl font-extrabold text-gray-600 flex items-center gap-2">
                                 <i class="bx bx-credit-card text-2xl bg-green-600 text-white rounded-full p-2"></i>
                                 Riwayat Pembayaran
                             </h2>
@@ -70,9 +70,9 @@ function dateStr(date) {
                                 <i class="bx bx-chevron-right"></i>
                             </a>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                             <div v-for="(pay, idx) in paymentHistory" :key="pay.id"
-                                class="bg-white rounded-xl shadow-md p-5 flex flex-col justify-between border-t-4"
+                                class="bg-white rounded-xl shadow-lg p-5 flex flex-col justify-between border-t-4"
                                 :class="{
                                     'border-green-500': pay.payment_status === 'confirmed',
                                     'border-gray-400': pay.payment_status === 'pending'
@@ -119,7 +119,7 @@ function dateStr(date) {
 
                     <!-- Info Kamar (Right on desktop, Top on mobile) -->
                     <div
-                        class="order-1 md:order-2 w-full md:w-96 mt-1 bg-gradient-to-br from-blue-50 via-white to-green-50 p-6 rounded-xl shadow-lg md:sticky md:top-24 md:self-start">
+                        class="order-1 lg:order-2 w-full lg:w-96 mt-1 bg-gradient-to-br from-blue-50 via-white to-green-50 p-6 rounded-xl shadow-lg lg:sticky lg:top-24 lg:self-start">
                         <h2 class="text-xl font-extrabold text-blue-900 mb-4 flex items-center gap-2">
                             <i class="bx bx-door-open text-2xl bg-blue-600 text-white rounded-full p-2"></i>
                             Info Kamar Anda
@@ -163,10 +163,10 @@ function dateStr(date) {
             <div v-else>
                 <!-- Tenant Tidak Ada -->
                 <div v-if="props.rooms && props.rooms.length > 0">
-                    <h1 class="text-3xl font-extrabold mb-6 md:px-3 text-center md:text-start text-blue-700">
+                    <h1 class="text-3xl font-extrabold mb-6 lg:px-3 text-center lg:text-start text-blue-700">
                         Pilih Kamar Anda
                     </h1>
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                         <div v-for="room in props.rooms" :key="room.id"
                             class="bg-gradient-to-br from-blue-50 via-white to-green-50 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-5 flex flex-col justify-between border border-blue-100 hover:border-blue-400">
                             <a :href="`/dashboard/register-tenant?room_id=${room.id}`" class="block group">
