@@ -25,11 +25,14 @@
         "@tiptap/starter-kit": "^3.0.8",
         "@tiptap/vue-3": "^3.0.8",
         "@vitejs/plugin-vue": "^5.2.4",
+        "aos": "^2.3.4",
         "baileys": "^6.7.19",
         "boxicons": "^2.1.4",
+        "chart.js": "^4.5.0",
         "flowbite": "^3.1.2",
         "sweetalert2": "^11.6.13",
         "vue": "^3.5.16",
+        "vue-chartjs": "^5.3.2",
         "vue-material-design-icons": "^5.3.1",
         "vue-router": "^4.5.1"
     }

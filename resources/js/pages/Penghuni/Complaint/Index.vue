@@ -1,5 +1,5 @@
 <script setup>
-import { usePage, router } from '@inertiajs/vue3';
+import { usePage, router, Head } from '@inertiajs/vue3';
 import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 const page = usePage();
 
@@ -29,6 +29,10 @@ function truncateWords(text, maxWords) {
 </script>
 
 <template>
+
+    <Head>
+        <title>Daftar Pengaduan</title>
+    </Head>
     <div>
         <DashboardLayouts :auth="page.props.auth">
             <div class="max-w-5xl mx-auto py-8 px-4">
@@ -54,7 +58,8 @@ function truncateWords(text, maxWords) {
                                 'bg-yellow-100 text-yellow-700': complaint.status === 'resolved',
                                 'bg-gray-100 text-gray-700': complaint.status === 'pending'
                             }">
-                                {{ complaint.status }}
+                                {{ complaint.status === 'closed' ? 'Tutup' : complaint.status === 'resolved' ? 'Selesai'
+                                    : 'Menunggu Konfirmasi' }}
                             </span>
                         </div>
                         <div class="p-6 flex flex-col flex-1">

@@ -1,9 +1,44 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import Swal from 'sweetalert2'
 
+
+const { props } = usePage();
+const status = ref(props.status);
 const form = useForm({
     email: ''
 });
+
+
+const errors = ref(props.errors || {});
+
+console.log(errors);
+function submit() {
+    form.post('/forgot-password', {
+        onSuccess: () => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Link Terkirim!',
+                text: 'Silakan cek email Anda untuk reset password.',
+                timer: 3500,
+                showConfirmButton: false
+            });
+        },
+        onError: () => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: 'Terjadi kesalahan. Silakan cek kembali email Anda.',
+                timer: 3500,
+                showConfirmButton: false
+            });
+        }
+    });
+}
+
+
 </script>
 
 <template>
@@ -25,49 +60,37 @@ const form = useForm({
                     </h1>
                 </div>
                 <div class="text-center mb-2">
-                    <h2 class="text-xl font-semibold text-blue-950">Selamat datang kembali 👋</h2>
+                    <h2 class="text-xl font-semibold text-blue-950">Apakah kamu melupakan password? </h2>
                     <p class="text-gray-600">Silakan isi data sesuai dengan formulir di bawah ini.</p>
                 </div>
 
-                <form class="flex flex-col gap-4">
+                <form class="flex flex-col gap-4" @submit.prevent="submit">
                     <div class="flex flex-col gap-3">
                         <div class="flex flex-col">
-                            <label for="username" class="font-medium text-blue-900 mb-1">Username</label>
+                            <label for="email" class="font-medium text-blue-900 mb-1">Email</label>
                             <div class="relative">
                                 <i
-                                    class='bx bx-user absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-950/50'></i>
-                                <input type="text" id="username"
+                                    class='bx bx-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-950/50'></i>
+                                <input type="text" id="email" v-model="form.email" name="email"
                                     class="p-3 pl-10 border-2 border-blue-100 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
-                                    placeholder="Masukkan username" />
+                                    placeholder="Masukkan email" />
                             </div>
-                            <!-- <p v-if="errors.username" class="text-sm text-red-500 mt-1">{{ errors.username }}</p> -->
-                        </div>
-
-                        <div class="flex flex-col">
-                            <label for="password" class="font-medium text-blue-900 mb-1">Password</label>
-                            <div class="relative">
-                                <i
-                                    class='bx bx-lock-alt absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-950/50'></i>
-                                <input id=""
-                                    class="p-3 pl-10 pr-10 border-2 border-blue-100 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
-                                    placeholder="Masukkan password" />
-
-                            </div>
-                            <!-- <p v-if="errors.password" class="text-sm text-red-500 mt-1">{{ errors.password }}</p> -->
+                            <div v-if="status">{{ status }}</div>
+                            <p v-if="errors.email" class="text-sm text-red-500 mt-1">{{ errors.email }}</p>
                         </div>
                     </div>
-
                     <button type="submit"
                         class="bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-bold p-3 rounded-lg w-full hover:from-blue-600 hover:to-indigo-600 transition duration-200 shadow-md">
-                        Login
+                        Send Reset Link
                     </button>
                 </form>
 
-                <div class="flex justify-between mt-6 text-sm">
-                    <a href="/register" class="flex items-center font-bold text-blue-900 ">
-                        <i class='bx bx-user text-xl pr-2'></i> Register
+                <div class="flex  justify-between mt-6 text-sm">
+                    <span class="text-gray-600">Jika sudah memiliki akun</span>
+                    <a href="/login" class="flex  font-bold text-blue-900 ">
+                        <i class='bx bx-user text-xl pr-2'></i> Login
                     </a>
-                    <a href="/forgot-password" class="text-blue-500 hover:underline">Forgot Password?</a>
+
                 </div>
             </div>
 
