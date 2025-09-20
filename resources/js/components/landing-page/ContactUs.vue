@@ -28,47 +28,49 @@ const sendMessageToWhatsapp = () => {
                 <div class="flex-1">
                     <div class="flex flex-col gap-2">
                         <div>
-                            <h3 class="text-2xl font-bold text-[#414141]">Contact Information</h3>
+                            <h3 class="text-2xl font-bold text-[#152B6B]">Contact Information</h3>
                             <p class="text-[#787878] mt-3">
                                 Jika ada pertanyaan atau ingin melakukan reservasi, silahkan hubungi kami melalui
                                 kontak dibawah ini.
                             </p>
                         </div>
                         <div>
-                            <div class="flex flex-row items-start gap-2 mt-8 ">
-                                <a href="https://maps.app.goo.gl/9C6DEwp5xeVRB7GW7" target="_blank">
+                            <a href="https://maps.app.goo.gl/9C6DEwp5xeVRB7GW7" target="_blank">
+                                <div class="flex flex-row items-start gap-2 mt-8 ">
                                     <i
-                                        class='bx bx-map text-2xl text-[#787878] bg-white p-3 rounded-xl hover:bg-[#0A1B59] hover:text-white transition-all duration-500'></i>
-                                </a>
-                                <div class="flex flex-col">
-                                    <p class="font-bold text-[#414141]">Address</p>
-                                    <p class="text-[#787878]">Jl. Glogor Carik Gg. Ratna Sari II No.6, Pemogan, Denpasar
-                                        Selatan, Kota Denpasar, Bali 80221</p>
-                                    <iframe
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3943.9579740651734!2d115.19150311732177!3d-8.695541028488428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd241d16b4f29c1%3A0x56daf61a550cde43!2sTaman%20Sari%20Kost!5e0!3m2!1sid!2sid!4v1747232680170!5m2!1sid!2sid"
-                                        width="500" height="200" style="border:0;" allowfullscreen="true" loading="lazy"
-                                        referrerpolicy="no-referrer-when-downgrade"
-                                        class="duration-300 hover:scale-105 rounded-xl my-5 hidden md:block">
-                                    </iframe>
+                                        class='bx bx-map text-2xl text-[#152B6B] bg-white p-3 rounded-xl hover:bg-[#0A1B59] hover:text-white transition-all duration-500'></i>
+                                    <div class="flex flex-col">
+                                        <p class="font-bold text-[#152B6B]">Address</p>
+                                        <p class="text-[#787878]">Jl. Glogor Carik Gg. Ratna Sari II No.6, Pemogan,
+                                            Denpasar
+                                            Selatan, Kota Denpasar, Bali 80221</p>
+                                        <iframe
+                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3943.9579740651734!2d115.19150311732177!3d-8.695541028488428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd241d16b4f29c1%3A0x56daf61a550cde43!2sTaman%20Sari%20Kost!5e0!3m2!1sid!2sid!4v1747232680170!5m2!1sid!2sid"
+                                            width="500" height="200" style="border:0;" allowfullscreen="true"
+                                            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                                            class="duration-300 hover:scale-105 rounded-xl my-5 hidden md:block">
+                                        </iframe>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex flex-row items-start gap-2 mt-8 ">
-                                <a href="https://wa.me/6281237397984" target="_blank">
+                            </a>
+                            <a href="https://wa.me/6281237397984" target="_blank">
+                                <div class="flex flex-row items-start gap-2 mt-8 ">
+
                                     <i
-                                        class='bx bx-phone text-2xl text-[#787878] bg-white p-3 rounded-xl hover:bg-[#0A1B59] hover:text-white transition-all duration-500'></i>
-                                </a>
-                                <div class="flex flex-col">
-                                    <p class="font-bold text-[#414141]">Phone</p>
-                                    <p class="text-[#787878]">+62 812 3739 7984</p>
+                                        class='bx bx-phone text-2xl text-[#152B6B] bg-white p-3 rounded-xl hover:bg-[#0A1B59] hover:text-white transition-all duration-500'></i>
+                                    <div class="flex flex-col">
+                                        <p class="font-bold text-[#152B6B]">Phone</p>
+                                        <p class="text-[#787878]">+62 812 3739 7984</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="flex-1">
                     <div class="bg-white/60 rounded-2xl shadow-xl p-10 border border-[#dbeafe]">
                         <div class="flex flex-col gap-2 mb-6">
-                            <h3 class="text-2xl font-bold text-[#414141]">Send Us Message</h3>
+                            <h3 class="text-2xl font-bold text-[#152B6B]">Send Us Message</h3>
                             <p class="text-[#414141]/90">Silahkan tinggalkan pesan jika ingin bertanya, jika pertanyaan
                                 anda belum menemukan jawaban pada halaman FAQ.</p>
                         </div>

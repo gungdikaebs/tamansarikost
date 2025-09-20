@@ -1,10 +1,11 @@
 <script setup>
-import BigCard from '../../components/dashboard/BigCard.vue';
 import DashboardLayouts from '../../components/layouts/DashboardLayouts.vue';
-import SmallCard from '../../components/dashboard/SmallCard.vue';
 import { usePage } from '@inertiajs/vue3';
-
+import SmallCard from '../../components/dashboard/SmallCard.vue';
+import ChartReport from '../../components/dashboard/ChartReport.vue';
 const { props } = usePage()
+
+console.log(props.chart);
 
 </script>
 <template>
@@ -18,8 +19,9 @@ const { props } = usePage()
                 <SmallCard :icon="`bx bx-message`" :data="props.complaints.length" title="Complaint Pending"
                     link="/dashboard/complaints" />
             </div>
-            <div class="grid ">
-            </div>
+            <ChartReport :chart="props.chart" /> <!-- Panggil komponen chart -->
+
+
         </DashboardLayouts>
     </div>
 </template>

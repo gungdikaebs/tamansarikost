@@ -1,5 +1,5 @@
 <script setup>
-import { usePage } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import DashboardLayouts from '../../../components/layouts/DashboardLayouts.vue';
 
 const { props } = usePage();
@@ -24,6 +24,10 @@ const statusInfo = {
 </script>
 
 <template>
+
+    <Head>
+        <title>Detail Komplain</title>
+    </Head>
     <div>
         <DashboardLayouts :auth="props.auth">
             <div
