@@ -29,8 +29,8 @@ const props = defineProps({
                     </svg>
                 </button>
                 <a href="/dashboard/" class="flex items-center gap-2 group">
-                    <img src="https://i.pinimg.com/736x/25/3c/15/253c15575735e8d0cbe1ce77a6dac3f4.jpg" alt="Logo"
-                        width="48" height="48" class="rounded-full object-cover group-hover:scale-105 transition" />
+                    <img src="../../../assets/Images/Logo_Utama.svg" alt="Logo" width="48" height="48"
+                        class="rounded-full object-cover group-hover:scale-105 transition" />
                     <span class="text-xl lg:text-2xl text-gray-600 font-bold tracking-tight transition">
                         TamanSariKost
                     </span>

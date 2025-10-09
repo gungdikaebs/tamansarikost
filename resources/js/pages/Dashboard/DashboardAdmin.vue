@@ -5,7 +5,6 @@ import SmallCard from '../../components/dashboard/SmallCard.vue';
 import ChartReport from '../../components/dashboard/ChartReport.vue';
 const { props } = usePage()
 
-console.log(props.chart);
 
 </script>
 <template>

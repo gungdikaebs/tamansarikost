@@ -30,8 +30,16 @@ const statusInfo = {
     </Head>
     <div>
         <DashboardLayouts :auth="props.auth">
+            <a href="/dashboard/complaint/"
+                class="flex items-center gap-2 text-indigo-600 hover:text-indigo-800 font-semibold transition group mb-6">
+                <span
+                    class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-indigo-100 group-hover:bg-indigo-200 transition">
+                    <i class="bx bx-arrow-back text-2xl"></i>
+                </span>
+                <span class="text-base sm:text-lg group-hover:underline">Kembali ke Daftar Pengaduan</span>
+            </a>
             <div
-                class="bg-gradient-to-br from-white via-gray-50 to-gray-100 rounded-2xl shadow-xl p-10 max-w-2xl mx-auto mt-10 border border-gray-200">
+                class="bg-gradient-to-br from-white via-gray-50 to-gray-100 rounded-xl shadow-md p-10 max-w-2xl mx-auto mt-10 border border-gray-200">
                 <div class="flex items-center gap-4 mb-6">
                     <div class="bg-red-100 p-3 rounded-full">
                         <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" stroke-width="2"

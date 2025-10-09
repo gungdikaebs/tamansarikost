@@ -96,8 +96,7 @@ function submit() {
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 md:p-16 flex flex-col justify-center gap-6">
                 <div class="mb-2 flex flex-col items-center justify-center gap-2">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo"
-                        class="w-16 h-16 mb-2 drop-shadow-lg" />
+                    <img src="../../../assets/Images/Logo_Utama.svg" alt="Logo" class="w-20 h-20 mb-2 drop-shadow-lg" />
                     <h1>
                         <a href="/register"
                             class="text-3xl font-extrabold text-indigo-900 tracking-wide drop-shadow ">Taman

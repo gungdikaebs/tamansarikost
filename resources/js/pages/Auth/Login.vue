@@ -52,8 +52,7 @@ watch(() => [form.value.username, form.value.password], () => {
             class="max-w-4xl w-full mx-auto bg-white rounded-3xl shadow-2xl flex overflow-hidden animate-fade-in border border-blue-100/40">
             <div class="flex-1 p-10 md:p-20 flex flex-col gap-6 justify-center">
                 <div class="flex flex-col items-center mb-4">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo"
-                        class="w-16 h-16 mb-2 drop-shadow-lg" />
+                    <img src="../../../assets/Images/Logo_Utama.svg" alt="Logo" class="w-20 h-20 mb-2 drop-shadow-lg" />
                     <h1>
                         <a href="/login" class="text-3xl font-extrabold text-blue-900 tracking-wide drop-shadow">Taman
                             Sari Kost</a>
